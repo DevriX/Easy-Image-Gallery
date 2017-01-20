@@ -1,8 +1,8 @@
 === Easy Image Gallery ===
-Contributors: sumobi, nofearinc
-Tags: image gallery, image, galleries, simple, easy, sumobi
+Contributors: nofearinc, devrix
+Tags: image gallery, image, galleries, simple, easy, devrix
 Requires at least: 3.5
-Tested up to: 4.7
+Tested up to: 4.7.1
 Stable tag: 1.1.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -26,7 +26,6 @@ Features:
 1. Add multiple images to the gallery at once
 1. Uses the thumbnail size specified in Settings -> Media
 1. Custom webfont icon for hover effect
-1. Support for fancyBox and prettyPhoto (developers can easily add their preferred lightbox via hooks and filters, or [download this free plugin](http://sumobi.com/shop/easy-image-gallery-extend/ "Extend Easy Image Gallery with additional lightboxes")
 1. Uses the new WP 3.5+ media manager for a familiar and intuitive way to add your images
 1. WordPress 3.6 Ready
 
@@ -64,10 +63,12 @@ If you use the template tag above, you will need remove the default content filt
 **Stay up to date**
 
 *Become a fan on Facebook*
-[http://www.facebook.com/sumobicom](http://www.facebook.com/sumobicom "Facebook")
+[https://www.facebook.com/DevriXLtd](https://www.facebook.com/DevriXLtd "Facebook Devrix")
+[https://www.facebook.com/DevriXShop]
+(https://www.facebook.com/DevriXLtd "Facebook Devrix Shop")
 
-*Follow me on Twitter*
-[http://twitter.com/sumobi_](http://twitter.com/sumobi_ "Twitter")
+*Follow us on Twitter*
+[https://twitter.com/wpdevrix](https://twitter.com/wpdevrix"Twitter")
 
 == Installation ==
 
@@ -108,6 +109,9 @@ In your WordPress admin under Settings -> Media
 
 == Changelog ==
 
+= 1.1.5 =
+* Update Easy Image Gallery author
+
 = 1.1.4 =
 * Tweak: Updated French translations, props fxbenard
 
@@ -122,7 +126,7 @@ In your WordPress admin under Settings -> Media
 * Fix: Missing slash on path to CSS file when plugin's CSS is overridden from a child theme
 
 = 1.1 =
-* Tweak: fancybox 2 has been replaced with fancybox 1, as non GPL software is not allowed on the WP repo (fancyBox 2 is license under Creative Commons). If you'd like to add fancyBox 2 back into the plugin, download and activate this small plugin. http://sumobi.com/shop/easy-image-gallery-extend/ After activation, you'll find an option in the plugin's settings to switch the lightbox to fancyBox 2.
+* Tweak: fancybox 2 has been replaced with fancybox 1, as non GPL software is not allowed on the WP repo (fancyBox 2 is license under Creative Commons).
 
 = 1.0.6 =
 * Fix: Settings link on plugins page

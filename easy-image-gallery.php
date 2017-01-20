@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: Easy Image Gallery
-Plugin URI: http://sumobi.com/shop/easy-image-gallery/
+Plugin URI: http://devrix.com/
 Description: An easy to use image gallery with drag & drop re-ordering
-Version: 1.1.4
-Author: Andrew Munro, Sumobi
-Author URI: http://sumobi.com
+Version: 1.1.5
+Author: DevriX
+Author URI: http://devrix.com/
 Text Domain: easy-image-gallery
 License: GPL-2.0+
 License URI: http://www.opensource.org/licenses/gpl-license.php
