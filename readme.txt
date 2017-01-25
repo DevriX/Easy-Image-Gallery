@@ -1,9 +1,9 @@
 === Easy Image Gallery ===
-Contributors: nofearinc, devrix
+Contributors: devrix, nofearinc
 Tags: image gallery, image, galleries, simple, easy, devrix
 Requires at least: 3.5
 Tested up to: 4.7.1
-Stable tag: 1.1.4
+Stable tag: 1.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -27,7 +27,7 @@ Features:
 1. Uses the thumbnail size specified in Settings -> Media
 1. Custom webfont icon for hover effect
 1. Uses the new WP 3.5+ media manager for a familiar and intuitive way to add your images
-1. WordPress 3.6 Ready
+1. WordPress 4.7 Ready
 
 = Usage =
 
@@ -37,19 +37,19 @@ Galleries are automatically appended to the bottom of your post/page unless you 
 
 Use the following shortcode anywhere in the content area to display the gallery
 
-    [easy_image_gallery]
+	[easy_image_gallery]
 
 = Template Tag Usage =
 
 The following template tag is available to display the gallery
 
-    if( function_exists( 'easy_image_gallery' ) ) {
-	    echo easy_image_gallery();
-    }
+	if( function_exists( 'easy_image_gallery' ) ) {
+		echo easy_image_gallery();
+	}
 
 If you use the template tag above, you will need remove the default content filter:
 
-    remove_filter( 'the_content', 'easy_image_gallery_append_to_content' );
+remove_filter( 'the_content', 'easy_image_gallery_append_to_content' );
 
 = Developer Friendly =
 
@@ -105,9 +105,13 @@ In your WordPress admin under Settings -> Media
 [Read This](http://sumobi.com/different-thumbnail-sizes-for-each-post-type-with-easy-image-gallery/ "Different thumbnail sizes for each post type with Easy Image Gallery")
 
 == Upgrade Notice ==
-
+The plugin ownership was transferred to DevriX. There are no functionality changes. We are going to work on a few version, adding some nice feature in the near feature, stay tuned! :)
 
 == Changelog ==
+
+= 1.2 =
+* Release date - Release date - January 26, 2017.
+* The plugin ownership was transferred to DevriX. We are going to maintain and update the plugin for now on :)
 
 = 1.1.5 =
 * Update Easy Image Gallery author
