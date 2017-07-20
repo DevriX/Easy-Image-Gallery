@@ -166,6 +166,14 @@ add_action( 'wp_footer', 'easy_image_gallery_js', 20 );
 function easy_image_gallery_admin_css() { ?>
 
 	<style>
+        .check_gallery_images, .add_gallery_images{
+            margin-left: 10px;
+        }
+
+        .eig-attachemnt{
+            width: auto !important;
+        }
+
 		.attachment.details .check div {
 			background-position: -60px 0;
 		}
@@ -211,6 +219,5 @@ function easy_image_gallery_admin_css() { ?>
         }
 
     </style>
-
 <?php }
 add_action( 'admin_head', 'easy_image_gallery_admin_css' );

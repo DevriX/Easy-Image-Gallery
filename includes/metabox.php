@@ -34,22 +34,29 @@ function easy_image_gallery_metabox() {
 ?>
 
     <div id="gallery_images_container">
+        <?php
+        $image_gallery = get_post_meta( $post->ID, '_easy_image_gallery', true );
+        $attachments = array_filter( explode( ',', $image_gallery ) );
 
-        <ul class="gallery_images">
-            <?php
-
-    $image_gallery = get_post_meta( $post->ID, '_easy_image_gallery', true );
-    $attachments = array_filter( explode( ',', $image_gallery ) );
-
-    if ( $attachments )
-        foreach ( $attachments as $attachment_id ) {
-            echo '<li class="image attachment details" data-attachment_id="' . $attachment_id . '"><div class="attachment-preview"><div class="thumbnail">
-                            ' . wp_get_attachment_image( $attachment_id, 'thumbnail' ) . '</div>
-                            <a href="#" class="delete check" title="' . __( 'Remove image', 'easy-image-gallery' ) . '"><div class="media-modal-icon"></div></a>
-                           
-                        </div></li>';
+        if ( !$attachments ){
+            $hide_gallery_div = ' style="display: none;"';
+        }else{
+            $hide_gallery_div = null;
         }
-?>
+        ?>
+
+        <ul class="gallery_images"<?php echo $hide_gallery_div;?>>
+            <?php
+            if ( $attachments ){
+                foreach ( $attachments as $attachment_id ) {
+                    echo '<li class="image attachment details eig-attachemnt" data-attachment_id="' . $attachment_id . '"><div class="attachment-preview"><div class="thumbnail">
+                                    ' . wp_get_attachment_image( $attachment_id, 'thumbnail' ) . '</div>
+                                    <a href="#" class="delete check" title="' . __( 'Remove image', 'easy-image-gallery' ) . '"><div class="media-modal-icon"></div></a>
+        
+                                </div></li>';
+                }
+            }
+            ?>
         </ul>
 
 
@@ -72,7 +79,7 @@ function easy_image_gallery_metabox() {
 
 ?>
 
-    <p>
+    <p class="check_gallery_images">
         <label for="easy_image_gallery_link_images">
             <input type="checkbox" id="easy_image_gallery_link_images" value="on" name="easy_image_gallery_link_images"<?php echo $checked; ?> /> <?php _e( 'Link images to larger sizes', 'easy-image-gallery' )?>
         </label>
@@ -131,12 +138,13 @@ function easy_image_gallery_metabox() {
                                 <li class="image attachment details" data-attachment_id="' + attachment.id + '">\
                                     <div class="attachment-preview">\
                                         <div class="thumbnail">\
-                                            <img src="' + attachment.url + '" />\
+                                            <img src="' + attachment.sizes.thumbnail.url + '" width="'+attachment.sizes.thumbnail.width+'" height="'+attachment.sizes.thumbnail.height+'" />\
                                         </div>\
                                        <a href="#" class="delete check" title="<?php _e( 'Remove image', 'easy-image-gallery' ); ?>"><div class="media-modal-icon"></div></a>\
                                     </div>\
                                 </li>');
 
+                             $gallery_images.css('display', 'block');
                         }
 
                     } );
@@ -189,6 +197,10 @@ function easy_image_gallery_metabox() {
                 });
 
                 $image_gallery_ids.val( attachment_ids );
+
+                if ( $('#gallery_images_container ul').children().length === 0 ) {
+                    $('#gallery_images_container ul').css('display', 'none');
+                }
 
                 return false;
             } );
