@@ -11,18 +11,32 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly.
  * Check the POST META
 */
 function easy_image_gallery_get_post_meta(){
+    //CHECK FOR OLD DB
     $old_meta_structure = get_post_meta(get_the_ID(), '_easy_image_gallery', true);
     $new_meta_structure = get_post_meta(get_the_ID(), '_easy_image_gallery_v2', true);
 
     if (isset($new_meta_structure) && $new_meta_structure != null) {
         $gallery_ids = $new_meta_structure;
     } else {
-        $attachments = $old_meta_structure;
+        $get_gallery_attachments = $old_meta_structure;
+        $get_gallery_old_data = explode(",", $get_gallery_attachments);
+
+        $get_open_images = get_post_meta(get_the_ID(), '_easy_image_gallery_link_images');
+        if ( isset($get_open_images) && !empty($get_open_images) ){
+            $get_open_images = $get_open_images;
+        }else{
+            $get_open_images = null;
+        }
+
 
         $gallery_ids = array(array(
             "SHORTCODE" => rand(100, 999),
-            "DATA" => explode(',', $attachments),
+            "DATA" => $get_gallery_old_data,
+            "OPEN_IMAGES" => $get_open_images[0],
         ));
+
+        add_filter( 'the_content', 'easy_image_gallery_append_to_content' );
+        add_action( 'template_redirect', 'easy_image_gallery_template_redirect' );
     }
 
     return $gallery_ids;
@@ -277,6 +291,8 @@ function easy_image_gallery_count_images( $gallery_shortcode ) {
             if ( $gallery['SHORTCODE'] == $gallery_shortcode ){
                 $number = count($gallery['DATA']);
                 return $number;
+            }else{
+                return 999;
             }
         }
     }
@@ -298,6 +314,11 @@ function easy_image_gallery( $gallery_id = null ) {
     if ( isset($galleries) && !empty($galleries) ){
         ob_start();
         foreach ($galleries as $gallery){
+
+            if ($gallery_id == 'old_db'){
+                $gallery_id = $gallery['SHORTCODE'];
+            }
+
             if ( $gallery['SHORTCODE'] == $gallery_id ){
                 $gallery_exist = true;
 
@@ -313,7 +334,7 @@ function easy_image_gallery( $gallery_id = null ) {
                 $classes = array();
 
                 // thumbnail count
-                $classes[] = $has_gallery_images ? 'thumbnails-' . easy_image_gallery_count_images( $gallery['SHORTCODE'] ) : '';
+                $classes[] = $has_gallery_images ? 'thumbnails-' . easy_image_gallery_count_images( $gallery['SHORTCODE'], $gallery ) : '';
 
                 // linked images
                 if ( isset($gallery['OPEN_IMAGES']) && $gallery['OPEN_IMAGES'] == 'on' ){
@@ -368,17 +389,12 @@ function easy_image_gallery( $gallery_id = null ) {
 function easy_image_gallery_append_to_content( $content ) {
 
 	if ( is_singular() && is_main_query() && easy_image_gallery_allowed_post_type() ) {
-		$new_content = easy_image_gallery();
+		$new_content = easy_image_gallery( 'old_db' );
 		$content .= $new_content;
-		//echo 'da';
-        var_dump($content);
 	}
 
-	//return $content;
-
+	return $content;
 }
-//add_filter( 'the_content', 'easy_image_gallery_append_to_content' );
-
 
 /**
  * Remove the_content filter if shortcode is detected on page
@@ -387,8 +403,7 @@ function easy_image_gallery_append_to_content( $content ) {
  */
 function easy_image_gallery_template_redirect() {
 
-    //if ( easy_image_gallery_has_shortcode( 'easy_image_gallery' ) )
-		//remove_filter( 'the_content', 'easy_image_gallery_append_to_content' );
+    if ( easy_image_gallery_has_shortcode( 'easy_image_gallery' ) )
+		remove_filter( 'the_content', 'easy_image_gallery_append_to_content' );
 
 }
-add_action( 'template_redirect', 'easy_image_gallery_template_redirect' );

@@ -61,6 +61,8 @@ function easy_image_gallery_metabox() {
                     </div>
                     <?php
                     //START GALLERIES LOOP
+
+                    //CHECK FOR OLD DB
                     $old_meta_structure = get_post_meta($post->ID, '_easy_image_gallery');
                     $new_meta_structure = get_post_meta($post->ID, '_easy_image_gallery_v2');
 
@@ -68,6 +70,7 @@ function easy_image_gallery_metabox() {
                         $get_galleries = $new_meta_structure;
                     } else {
                         $get_gallery_attachments = $old_meta_structure;
+                        $get_gallery_old_data = explode(",", $get_gallery_attachments[0]);
 
                         $get_open_images = get_post_meta($post->ID, '_easy_image_gallery_link_images');
                         if ( isset($get_open_images) && !empty($get_open_images) ){
@@ -76,11 +79,11 @@ function easy_image_gallery_metabox() {
                             $get_open_images = null;
                         }
 
-                        $get_galleries = array(array(
+                        $get_galleries = array(array(array(
                             "SHORTCODE" => rand(100, 999),
-                            "DATA" => explode(',', $get_gallery_attachments),
-                            "OPEN_IMAGES" => $get_open_images,
-                        ));
+                            "DATA" => $get_gallery_old_data,
+                            "OPEN_IMAGES" => $get_open_images[0],
+                        )));
                     }
 
                     $gallery_count = -1;
