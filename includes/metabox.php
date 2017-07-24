@@ -32,182 +32,222 @@ function easy_image_gallery_metabox() {
 
     global $post;
 ?>
+    <div id="dx-eig-gallery">
+        <div class="repeat">
+            <div class="repeat_container">
+                <div class="buttons">
+                    <span class="button button-primary button-large add">Add new gallery</span>
+                </div>
+                <div class="repeat_body">
+                    <div class="template dx-eig-gallery-row row">
+                        <div class="dx-eig-gallery-row-heading move">
+                            <input type="text" hidden="" class="row_count" data-count="{{row-count-placeholder}}">
+                            <input type="text" hidden="" id="attachment_ids_{{row-count-placeholder}}" name="image_gallery[{{row-count-placeholder}}][DATA]" value="">
+                            <span class="name">Gallery</span>
+                            <a href="#" class="dx-eig-gallery-add-images button" data-count="{{row-count-placeholder}}"><?php _e( 'Add images to the gallery', 'easy-image-gallery' ); ?></a>
+                            <span class="remove">X</span>
+                            <input type="text" class="dx-eig-shortcode" name="image_gallery[{{row-count-placeholder}}][SHORTCODE]" value="" hidden>
+                            <input type="text" class="dx-eig-shortcode-show" readonly="" value="">
+                            <div class="link-image-to-l">
+                                <label for="easy_image_gallery_link_images_{{row-count-placeholder}}">
+                                    <input type="checkbox" id="easy_image_gallery_link_images_{{row-count-placeholder}}" value="on" name="image_gallery[{{row-count-placeholder}}][OPEN_IMAGES]"/> <?php _e( 'Link images to larger sizes', 'easy-image-gallery' )?>
+                                </label>
+                            </div>
+                            <div class="dx-eig-clear"></div>
+                        </div>
+                        <div class="dx-eig-gallery-row-content" id="gallery-{{row-count-placeholder}}">
+                            <p class="no-images-message">Please add images in this gallery</p>
+                        </div>
+                    </div>
+                    <?php
+                    //START GALLERIES LOOP
+                    $old_meta_structure = get_post_meta($post->ID, '_easy_image_gallery');
+                    $new_meta_structure = get_post_meta($post->ID, '_easy_image_gallery_v2');
 
-    <div id="gallery_images_container">
-        <?php
-        $image_gallery = get_post_meta( $post->ID, '_easy_image_gallery', true );
-        $attachments = array_filter( explode( ',', $image_gallery ) );
+                    if (isset($new_meta_structure) && $new_meta_structure != null) {
+                        $get_galleries = $new_meta_structure;
+                    } else {
+                        $get_gallery_attachments = $old_meta_structure;
 
-        if ( !$attachments ){
-            $hide_gallery_div = ' style="display: none;"';
-        }else{
-            $hide_gallery_div = null;
-        }
-        ?>
+                        $get_galleries = array(array(
+                            "SHORTCODE" => rand(100, 999),
+                            "DATA" => explode(',', $get_gallery_attachments),
+                        ));
+                    }
 
-        <ul class="gallery_images"<?php echo $hide_gallery_div;?>>
-            <?php
-            if ( $attachments ){
-                foreach ( $attachments as $attachment_id ) {
-                    echo '<li class="image attachment details eig-attachemnt" data-attachment_id="' . $attachment_id . '"><div class="attachment-preview"><div class="thumbnail">
-                                    ' . wp_get_attachment_image( $attachment_id, 'thumbnail' ) . '</div>
-                                    <a href="#" class="delete check" title="' . __( 'Remove image', 'easy-image-gallery' ) . '"><div class="media-modal-icon"></div></a>
-        
-                                </div></li>';
-                }
-            }
-            ?>
-        </ul>
+                    $gallery_count = -1;
+                    if ( isset($get_galleries) && !empty($get_galleries) ){
+                        foreach ($get_galleries[0] as $gallery){
+                            $gallery_count = $gallery_count + 1;
+                            $get_attachments = $gallery['DATA'];
 
+                            // Convert attachements to string
+                            $attachments_string = '';
+                            $attachemnnts_count = 0;
+                            if ( isset($get_attachments) && $get_attachments != null ){
+                                foreach ( $get_attachments  as $attachment ){
+                                    $attachemnnts_count = $attachemnnts_count + 1;
 
-        <input type="hidden" id="image_gallery" name="image_gallery" value="<?php echo esc_attr( $image_gallery ); ?>" />
-        <?php wp_nonce_field( 'easy_image_gallery', 'easy_image_gallery' ); ?>
-
+                                    if ( $attachemnnts_count == 1 ){
+                                        $attachments_string .= $attachment;
+                                    }else{
+                                        $attachments_string .= ',' . $attachment;
+                                    }
+                                }
+                            }else{
+                                $attachments_string = null;
+                            }
+                            ?>
+                            <div class="dx-eig-gallery-row row">
+                                <div class="dx-eig-gallery-row-heading move">
+                                    <input type="text" hidden="" class="row_count" data-count="<?php echo $gallery_count;?>">
+                                    <input type="text" hidden="" id="attachment_ids_<?php echo $gallery_count;?>" name="image_gallery[<?php echo $gallery_count;?>][DATA]" value="<?php echo $attachments_string; ?>">
+                                    <span class="name">Gallery</span>
+                                    <a href="#" class="dx-eig-gallery-add-images button" data-count="<?php echo $gallery_count;?>"><?php _e( 'Add images to the gallery', 'easy-image-gallery' ); ?></a>
+                                    <span class="remove">X</span>
+                                    <input type="text" class="dx-eig-shortcode" name="image_gallery[<?php echo $gallery_count;?>][SHORTCODE]" value="<?php echo $gallery['SHORTCODE'];?>" hidden>
+                                    <input type="text" class="dx-eig-shortcode-show" readonly="" value='[easy_image_gallery gallery="<?php echo $gallery['SHORTCODE'];?>"]'>
+                                    <div class="link-image-to-l">
+                                        <label for="easy_image_gallery_link_images_<?php echo $gallery_count;?>">
+                                            <?php
+                                                if ( isset($gallery['OPEN_IMAGES']) && $gallery['OPEN_IMAGES'] == 'on' ){
+                                                    $checked = ' checked="checked"';
+                                                }else{
+                                                    $checked = null;
+                                                }
+                                            ?>
+                                            <input type="checkbox" id="easy_image_gallery_link_images_<?php echo $gallery_count;?>" value="on" name="image_gallery[<?php echo $gallery_count;?>][OPEN_IMAGES]"<?php echo $checked;?> /> <?php _e( 'Link images to larger sizes', 'easy-image-gallery' )?>
+                                        </label>
+                                    </div>
+                                    <div class="dx-eig-clear"></div>
+                                </div>
+                                <div class="dx-eig-gallery-row-content" id="gallery-<?php echo $gallery_count;?>">
+                                    <?php
+                                    if ( isset($get_attachments) && $get_attachments != null ){
+                                    ?>
+                                    <p class="no-images-message" style="display: none;">Please add images in this gallery</p>
+                                    <ul class="gallery_images">
+                                        <div class="dx-eig-images">
+                                        <?php
+                                        foreach ($get_attachments as $attachemnt){
+                                            echo '<li class="image attachment details" data-attachment_id="'.$attachemnt.'" data-gallery="'.$gallery_count.'">
+                                                <div class="attachment-preview">
+                                                    <div class="thumbnail">
+                                                        '. wp_get_attachment_image( $attachemnt, 'thumbnail' ) . '
+                                                    </div>
+                                                   <a href="#" class="delete_dx_image check" title="Remove Image"><div class="media-modal-icon"></div></a>
+                                                </div>
+                                            </li>';
+                                        }
+                                        ?>
+                                        </div>
+                                        <div class="dx-eig-clear"></div>
+                                    </ul>
+                                    <?php
+                                    }else{
+                                        echo '<p class="no-images-message">Please add images in this gallery</p>';
+                                    }
+                                    ?>
+                                </div>
+                            </div>
+                            <?php
+                        } // END GALLERIES LOOP
+                    }
+                    ?>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <p class="add_gallery_images hide-if-no-js">
-        <a href="#"><?php _e( 'Add gallery images', 'easy-image-gallery' ); ?></a>
-    </p>
-
-    <?php
-
-    // options don't exist yet, set to checked by default
-    if ( ! get_post_meta( get_the_ID(), '_easy_image_gallery_link_images', true ) )
-        $checked = ' checked="checked"';
-    else
-        $checked = easy_image_gallery_has_linked_images() ? checked( get_post_meta( get_the_ID(), '_easy_image_gallery_link_images', true ), 'on', false ) : '';
-
-?>
-
-    <p class="check_gallery_images">
-        <label for="easy_image_gallery_link_images">
-            <input type="checkbox" id="easy_image_gallery_link_images" value="on" name="easy_image_gallery_link_images"<?php echo $checked; ?> /> <?php _e( 'Link images to larger sizes', 'easy-image-gallery' )?>
-        </label>
-    </p>
-
-
-    <?php
-    /**
-     * Props to WooCommerce for the following JS code
-     */
-?>
     <script type="text/javascript">
-        jQuery(document).ready(function($){
+    jQuery(function() {
+        jQuery('.repeat').each(function() {
+            jQuery(this).repeatable_fields({
+                wrapper: '.repeat_container',
+                container: '.repeat_body'
+            });
+        });
+    });
+    </script>
+    <script type="text/javascript">
+        jQuery(document).on( 'click', '.dx-eig-gallery-add-images', function(e) {
+            var _id = jQuery( this ).attr( 'data-count' );
+            var attachment_ids = null;
+            e.preventDefault();
 
-            // Uploading files
-            var image_gallery_frame;
-            var $image_gallery_ids = $('#image_gallery');
-            var $gallery_images = $('#gallery_images_container ul.gallery_images');
+            var image = wp.media({
+                title: 'Select images for your gallery',
+                multiple: true,
+            }).open();
 
-            jQuery('.add_gallery_images').on( 'click', 'a', function( event ) {
+            image.on( 'select', function() {
+                var selection = image.state().get('selection');
 
-                var $el = $(this);
-                var attachment_ids = $image_gallery_ids.val();
+                selection.map( function( attachment ) {
 
-                event.preventDefault();
+                    attachment = attachment.toJSON();
 
-                // If the media frame already exists, reopen it.
-                if ( image_gallery_frame ) {
-                    image_gallery_frame.open();
-                    return;
-                }
+                    if ( attachment.id ) {
+                        attachment_ids = attachment_ids ? attachment_ids + "," + attachment.id : attachment.id;
 
-                // Create the media frame.
-                image_gallery_frame = wp.media.frames.downloadable_file = wp.media({
-                    // Set the title of the modal.
-                    title: '<?php _e( 'Add Images to Gallery', 'easy-image-gallery' ); ?>',
-                    button: {
-                        text: '<?php _e( 'Add to gallery', 'easy-image-gallery' ); ?>',
-                    },
-                    multiple: true
-                });
+                        var gallery = jQuery('#gallery-'+ _id +'');
 
-                // When an image is selected, run a callback.
-                image_gallery_frame.on( 'select', function() {
-
-                    var selection = image_gallery_frame.state().get('selection');
-
-                    selection.map( function( attachment ) {
-
-                        attachment = attachment.toJSON();
-
-                        if ( attachment.id ) {
-                            attachment_ids = attachment_ids ? attachment_ids + "," + attachment.id : attachment.id;
-
-                             $gallery_images.append('\
-                                <li class="image attachment details" data-attachment_id="' + attachment.id + '">\
-                                    <div class="attachment-preview">\
-                                        <div class="thumbnail">\
-                                            <img src="' + attachment.sizes.thumbnail.url + '" width="'+attachment.sizes.thumbnail.width+'" height="'+attachment.sizes.thumbnail.height+'" />\
-                                        </div>\
-                                       <a href="#" class="delete check" title="<?php _e( 'Remove image', 'easy-image-gallery' ); ?>"><div class="media-modal-icon"></div></a>\
-                                    </div>\
-                                </li>');
-
-                             $gallery_images.css('display', 'block');
+                        if (gallery.find('p.no-images-message') && gallery.find('p.no-images-message').css('display') === 'block'){
+                            gallery.find('p.no-images-message').css('display', 'none');
+                            gallery.append(
+                                '<ul class="gallery_images">'+
+                                    '<div class="dx-eig-images"></div>'+
+                                    '<div class="dx-eig-clear"></div>'+
+                                '</ul>'
+                            );
                         }
 
-                    } );
 
-                    $image_gallery_ids.val( attachment_ids );
-                });
+                        gallery.find('ul.gallery_images .dx-eig-images').append('\
+                        <li class="image attachment details" data-attachment_id="' + attachment.id + '" data-gallery="'+_id+'">\
+                            <div class="attachment-preview">\
+                                <div class="thumbnail">\
+                                    <img src="' + attachment.url + '" />\
+                                </div>\
+                               <a href="#" class="delete_dx_image check" title="<?php _e( 'Remove image', 'easy-image-gallery' ); ?>"><div class="media-modal-icon"></div></a>\
+                            </div>\
+                        </li>');
+                    }
 
-                // Finally, open the modal.
-                image_gallery_frame.open();
+                } );
+
+                jQuery('#attachment_ids_'+ _id +'').attr('value', attachment_ids);
             });
+        });
 
-            // Image ordering
-            $gallery_images.sortable({
-                items: 'li.image',
-                cursor: 'move',
-                scrollSensitivity:40,
-                forcePlaceholderSize: true,
-                forceHelperSize: false,
-                helper: 'clone',
-                opacity: 0.65,
-                placeholder: 'eig-metabox-sortable-placeholder',
-                start:function(event,ui){
-                    ui.item.css('background-color','#f6f6f6');
-                },
-                stop:function(event,ui){
-                    ui.item.removeAttr('style');
-                },
-                update: function(event, ui) {
-                    var attachment_ids = '';
+        jQuery(document).on( 'click', '.delete_dx_image', function(e) {
+            //Get info
+            var info = jQuery(this).parent().parent();
+            var gallery = info.attr('data-gallery');
+            var gallery_selector = jQuery('#gallery-'+gallery+'');
 
-                    $('#gallery_images_container ul li.image').css('cursor','default').each(function() {
-                        var attachment_id = jQuery(this).attr( 'data-attachment_id' );
-                        attachment_ids = attachment_ids + attachment_id + ',';
-                    });
+            //Remove the item
+            info.remove();
 
-                    $image_gallery_ids.val( attachment_ids );
-                }
-            });
+            //Save new items
+            var items = gallery_selector.find('.gallery_images').find('.dx-eig-images').children();
+            var attachments_ids = [];
+            for (i = 0; i < items.length; i++) {
+                var attachment_id = items[i].attributes[1].value;
 
-            // Remove images
-            $('#gallery_images_container').on( 'click', 'a.delete', function() {
+                attachments_ids.push(attachment_id);
+            }
 
-                $(this).closest('li.image').remove();
+            if (attachments_ids.length === 0){
+                gallery_selector.find('p.no-images-message').show();
+            }
 
-                var attachment_ids = '';
+            jQuery('#attachment_ids_'+gallery+'').attr('value', attachments_ids);
 
-                $('#gallery_images_container ul li.image').css('cursor','default').each(function() {
-                    var attachment_id = jQuery(this).attr( 'data-attachment_id' );
-                    attachment_ids = attachment_ids + attachment_id + ',';
-                });
-
-                $image_gallery_ids.val( attachment_ids );
-
-                if ( $('#gallery_images_container ul').children().length === 0 ) {
-                    $('#gallery_images_container ul').css('display', 'none');
-                }
-
-                return false;
-            } );
-
+            return false;
         });
     </script>
-    <?php
+<?php
 }
 
 
@@ -233,26 +273,27 @@ function easy_image_gallery_save_post( $post_id ) {
             return;
     }
 
-    if ( ! isset( $_POST[ 'easy_image_gallery' ] ) || ! wp_verify_nonce( $_POST[ 'easy_image_gallery' ], 'easy_image_gallery' ) )
-        return;
 
-    if ( isset( $_POST[ 'image_gallery' ] ) && !empty( $_POST[ 'image_gallery' ] ) ) {
+    if ( isset($_POST['image_gallery']) && !empty($_POST['image_gallery']) ){
+        $galleries = array();
+        foreach ($_POST['image_gallery'] as $gallery){
+            if ($gallery['DATA'] != null){
+                $convert_to_arr = explode(',', $gallery['DATA']);
+            }else{
+                $convert_to_arr = null;
+            }
 
-        $attachment_ids = sanitize_text_field( $_POST['image_gallery'] );
 
-        // turn comma separated values into array
-        $attachment_ids = explode( ',', $attachment_ids );
+            $gallery['DATA'] = $convert_to_arr;
+            $galleries[] = $gallery;
+        }
 
-        // clean the array
-        $attachment_ids = array_filter( $attachment_ids  );
-
-        // return back to comma separated list with no trailing comma. This is common when deleting the images
-        $attachment_ids =  implode( ',', $attachment_ids );
-
-        update_post_meta( $post_id, '_easy_image_gallery', $attachment_ids );
-    } else {
-        delete_post_meta( $post_id, '_easy_image_gallery' );
+        update_post_meta( $post_id, '_easy_image_gallery_v2', $galleries );
+    }else{
+        delete_post_meta( $post_id, '_easy_image_gallery_v2' );
     }
+
+
 
     // link to larger images
     if ( isset( $_POST[ 'easy_image_gallery_link_images' ] ) )

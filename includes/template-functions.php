@@ -7,7 +7,21 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly.
 
+/**
+ * Check the POST META
+*/
+function easy_image_gallery_get_post_meta(){
+    $old_meta_structure = get_post_meta(get_the_ID(), '_easy_image_gallery', true);
+    $new_meta_structure = get_post_meta(get_the_ID(), '_easy_image_gallery_v2', true);
 
+    if (isset($new_meta_structure) && $new_meta_structure != null) {
+        $gallery_ids = $new_meta_structure;
+    } else {
+        $gallery_ids = $old_meta_structure;
+    }
+
+    return $gallery_ids;
+}
 /**
  * Is gallery
  *
@@ -16,9 +30,10 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly.
  */
 function easy_image_gallery_is_gallery() {
 
-	$attachment_ids = get_post_meta( get_the_ID(), '_easy_image_gallery', true );
+    $gallery_ids = easy_image_gallery_get_post_meta();
 
-	if ( $attachment_ids ) {
+
+	if ( $gallery_ids ) {
 		return true;
 	}
 
@@ -124,22 +139,6 @@ function easy_image_gallery_lightbox_rel() {
 	return $rel;
 }
 
-
-/**
- * Has linked images
- *
- * @since 1.0
- * @return boolean true
- */
-function easy_image_gallery_has_linked_images() {
-
-	$link_images = get_post_meta( get_the_ID(), '_easy_image_gallery_link_images', true );
-
-	if ( 'on' == $link_images )
-		return true;
-}
-
-
 /**
  * Get list of post types for populating the checkboxes on the admin page
  *
@@ -224,16 +223,15 @@ function easy_image_gallery_allowed_post_type() {
  * @since 1.0
  * @return string
  */
-function easy_image_gallery_get_image_ids() {
+function easy_image_gallery_get_galleries() {
 	global $post;
 
 	if( ! isset( $post->ID) )
 		return;
 
-	$attachment_ids = get_post_meta( $post->ID, '_easy_image_gallery', true );
-	$attachment_ids = explode( ',', $attachment_ids );
+    $gallery_ids = easy_image_gallery_get_post_meta();
 
-	return array_filter( $attachment_ids );
+	return $gallery_ids;
 }
 
 
@@ -243,13 +241,18 @@ function easy_image_gallery_get_image_ids() {
  * @since 1.0
  */
 
-function easy_image_gallery_shortcode() {
+function easy_image_gallery_shortcode( $atts ) {
 
 	// return early if the post type is not allowed to have a gallery
-	if ( ! easy_image_gallery_allowed_post_type() )
-		return;
-
-	return easy_image_gallery();
+	if ( ! easy_image_gallery_allowed_post_type() ){
+        return;
+    }else{
+        if ( isset($atts['gallery']) && !empty($atts['gallery']) ){
+            return easy_image_gallery( $atts['gallery'] );
+        }else{
+            return 'Oops.Invalid gallery';
+        }
+    }
 }
 add_shortcode( 'easy_image_gallery', 'easy_image_gallery_shortcode' );
 
@@ -260,14 +263,20 @@ add_shortcode( 'easy_image_gallery', 'easy_image_gallery_shortcode' );
  * @since 1.0
  * @return integer
  */
-function easy_image_gallery_count_images() {
+function easy_image_gallery_count_images( $gallery_shortcode ) {
 
-	$images = get_post_meta( get_the_ID(), '_easy_image_gallery', true );
-	$images = explode( ',', $images );
+	$galleries = easy_image_gallery_get_post_meta();
 
-	$number = count( $images );
+	if ( isset($galleries) && !empty($galleries) ) {
+        foreach ( $galleries as $gallery ){
+            if ( $gallery['SHORTCODE'] == $gallery_shortcode ){
+                $number = count($gallery['DATA']);
+                return $number;
+            }
+        }
+    }
 
-	return $number;
+    return;
 }
 
 
@@ -276,81 +285,74 @@ function easy_image_gallery_count_images() {
  *
  * @since 1.0
  */
-function easy_image_gallery() {
+function easy_image_gallery( $gallery_id = null ) {
 
-	$attachment_ids = easy_image_gallery_get_image_ids();
+	$galleries = easy_image_gallery_get_galleries();
+    global $post;
 
-	global $post;
+    if ( isset($galleries) && !empty($galleries) ){
+        ob_start();
+        foreach ($galleries as $gallery){
+            if ( $gallery['SHORTCODE'] == $gallery_id ){
+                $gallery_exist = true;
 
-	if ( $attachment_ids ) { ?>
+                $has_gallery_images = $gallery['DATA'];
 
+                if ( !$has_gallery_images )
+                    return;
+
+                // clean the array (remove empty values)
+                $has_gallery_images = array_filter( $has_gallery_images );
+
+                // css classes array
+                $classes = array();
+
+                // thumbnail count
+                $classes[] = $has_gallery_images ? 'thumbnails-' . easy_image_gallery_count_images( $gallery['SHORTCODE'] ) : '';
+
+                // linked images
+                if ( isset($gallery['OPEN_IMAGES']) && $gallery['OPEN_IMAGES'] == 'on' ){
+                    $classes[] = 'linked';
+                }
+
+                $classes = implode( ' ', $classes );
+    ?>
+                <ul class="image-gallery <?php echo $classes; ?>">
+                    <?php
+                    foreach ( $has_gallery_images as $attachment_id ) {
+
+                        $classes = array( 'popup' );
+
+                        // get original image
+                        $image_link	= wp_get_attachment_image_src( $attachment_id, apply_filters( 'easy_image_gallery_linked_image_size', 'large' ) );
+                        $image_link	= $image_link[0];
+
+                        $image = wp_get_attachment_image( $attachment_id, apply_filters( 'easy_image_gallery_thumbnail_image_size', 'thumbnail' ), '', array( 'alt' => trim( strip_tags( get_post_meta( $attachment_id, '_wp_attachment_image_alt', true ) ) ) ) );
+
+                        $image_caption = get_post( $attachment_id )->post_excerpt ? esc_attr( get_post( $attachment_id )->post_excerpt ) : '';
+
+                        $image_class = esc_attr( implode( ' ', $classes ) );
+
+                        $lightbox = easy_image_gallery_get_lightbox();
+
+                        $rel = easy_image_gallery_count_images( $gallery['SHORTCODE'] ) > 1 ? 'rel="'. $lightbox .'[group]"' : 'rel="'. $lightbox .'"';
+
+                        if ( isset($gallery['OPEN_IMAGES']) && $gallery['OPEN_IMAGES'] == 'on' )
+                            $html = sprintf( '<li><a %s href="%s" class="%s" title="%s"><i class="icon-view"></i><span class="overlay"></span>%s</a></li>', $rel, $image_link, $image_class, $image_caption, $image );
+                        else
+                            $html = sprintf( '<li>%s</li>', $image );
+
+                        echo apply_filters( 'easy_image_gallery_html', $html, $rel, $image_link, $image_class, $image_caption, $image, $attachment_id, $post->ID );
+                    }
+                    ?>
+                </ul>
     <?php
+            }
+        }
 
-		$has_gallery_images = get_post_meta( get_the_ID(), '_easy_image_gallery', true );
-
-		if ( !$has_gallery_images )
-			return;
-
-		// convert string into array
-		$has_gallery_images = explode( ',', get_post_meta( get_the_ID(), '_easy_image_gallery', true ) );
-
-		// clean the array (remove empty values)
-		$has_gallery_images = array_filter( $has_gallery_images );
-
-		$image = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'feature' );
-		$image_title = esc_attr( get_the_title( get_post_thumbnail_id( $post->ID ) ) );
-
-		// css classes array
-		$classes = array();
-
-		// thumbnail count
-		$classes[] = $has_gallery_images ? 'thumbnails-' . easy_image_gallery_count_images() : '';
-
-		// linked images
-		$classes[] = easy_image_gallery_has_linked_images() ? 'linked' : '';
-
-		$classes = implode( ' ', $classes );
-
-		ob_start();
-?>
-
-    <ul class="image-gallery <?php echo $classes; ?>">
-    <?php
-		foreach ( $attachment_ids as $attachment_id ) {
-
-			$classes = array( 'popup' );
-
-			// get original image
-			$image_link	= wp_get_attachment_image_src( $attachment_id, apply_filters( 'easy_image_gallery_linked_image_size', 'large' ) );
-			$image_link	= $image_link[0];	
-
-			$image = wp_get_attachment_image( $attachment_id, apply_filters( 'easy_image_gallery_thumbnail_image_size', 'thumbnail' ), '', array( 'alt' => trim( strip_tags( get_post_meta( $attachment_id, '_wp_attachment_image_alt', true ) ) ) ) );
-
-			$image_caption = get_post( $attachment_id )->post_excerpt ? esc_attr( get_post( $attachment_id )->post_excerpt ) : '';
-
-			$image_class = esc_attr( implode( ' ', $classes ) );
-
-			$lightbox = easy_image_gallery_get_lightbox();
-
-			$rel = easy_image_gallery_count_images() > 1 ? 'rel="'. $lightbox .'[group]"' : 'rel="'. $lightbox .'"';
-
-			if ( easy_image_gallery_has_linked_images() )
-				$html = sprintf( '<li><a %s href="%s" class="%s" title="%s"><i class="icon-view"></i><span class="overlay"></span>%s</a></li>', $rel, $image_link, $image_class, $image_caption, $image );
-			else
-				$html = sprintf( '<li>%s</li>', $image );
-
-			echo apply_filters( 'easy_image_gallery_html', $html, $rel, $image_link, $image_class, $image_caption, $image, $attachment_id, $post->ID );
-		}
-?>
-    </ul>
-
-    <?php
-		$gallery = ob_get_clean();
-
-		return apply_filters( 'easy_image_gallery', $gallery );
-	?>
-
-    <?php }
+        $eig_gallery = ob_get_clean();
+        return apply_filters( 'easy_image_gallery', $eig_gallery );
+    }
 }
 
 /**
@@ -363,12 +365,14 @@ function easy_image_gallery_append_to_content( $content ) {
 	if ( is_singular() && is_main_query() && easy_image_gallery_allowed_post_type() ) {
 		$new_content = easy_image_gallery();
 		$content .= $new_content;
+		//echo 'da';
+        var_dump($content);
 	}
 
-	return $content;
+	//return $content;
 
 }
-add_filter( 'the_content', 'easy_image_gallery_append_to_content' );
+//add_filter( 'the_content', 'easy_image_gallery_append_to_content' );
 
 
 /**
@@ -378,8 +382,8 @@ add_filter( 'the_content', 'easy_image_gallery_append_to_content' );
  */
 function easy_image_gallery_template_redirect() {
 
-	if ( easy_image_gallery_has_shortcode( 'easy_image_gallery' ) )
-		remove_filter( 'the_content', 'easy_image_gallery_append_to_content' );
+    //if ( easy_image_gallery_has_shortcode( 'easy_image_gallery' ) )
+		//remove_filter( 'the_content', 'easy_image_gallery_append_to_content' );
 
 }
 add_action( 'template_redirect', 'easy_image_gallery_template_redirect' );
