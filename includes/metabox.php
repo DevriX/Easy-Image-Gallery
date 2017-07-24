@@ -69,9 +69,17 @@ function easy_image_gallery_metabox() {
                     } else {
                         $get_gallery_attachments = $old_meta_structure;
 
+                        $get_open_images = get_post_meta($post->ID, '_easy_image_gallery_link_images');
+                        if ( isset($get_open_images) && !empty($get_open_images) ){
+                            $get_open_images = $get_open_images;
+                        }else{
+                            $get_open_images = null;
+                        }
+
                         $get_galleries = array(array(
                             "SHORTCODE" => rand(100, 999),
                             "DATA" => explode(',', $get_gallery_attachments),
+                            "OPEN_IMAGES" => $get_open_images,
                         ));
                     }
 

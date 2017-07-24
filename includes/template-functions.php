@@ -17,7 +17,12 @@ function easy_image_gallery_get_post_meta(){
     if (isset($new_meta_structure) && $new_meta_structure != null) {
         $gallery_ids = $new_meta_structure;
     } else {
-        $gallery_ids = $old_meta_structure;
+        $attachments = $old_meta_structure;
+
+        $gallery_ids = array(array(
+            "SHORTCODE" => rand(100, 999),
+            "DATA" => explode(',', $attachments),
+        ));
     }
 
     return $gallery_ids;
