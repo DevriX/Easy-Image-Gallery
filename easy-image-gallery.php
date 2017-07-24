@@ -28,17 +28,7 @@ if ( ! class_exists( 'Easy_Image_Gallery' ) ) {
 			add_action( 'plugins_loaded', array( $this, 'constants' ));
 			add_action( 'plugins_loaded', array( $this, 'includes' ) );
 			add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'easy_image_gallery_plugin_action_links' );
-
-			$this->plugin_update();
 		}
-
-		/**
-		* Update the plugin DB
-        */
-		public function plugin_update() {
-		    $get_current_meta = null;
-        }
-
 
 		/**
 		 * Internationalization
