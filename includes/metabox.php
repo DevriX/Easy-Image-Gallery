@@ -70,7 +70,11 @@ function easy_image_gallery_metabox() {
                         $get_galleries = $new_meta_structure;
                     } else {
                         $get_gallery_attachments = $old_meta_structure;
-                        $get_gallery_old_data = explode(",", $get_gallery_attachments[0]);
+                        if ( isset($get_gallery_attachments[0]) ){
+                            $get_gallery_old_data = explode(",", $get_gallery_attachments[0]);
+                        }else{
+                            $get_gallery_old_data = null;
+                        }
 
                         $get_open_images = get_post_meta($post->ID, '_easy_image_gallery_link_images');
                         if ( isset($get_open_images) && !empty($get_open_images) ){
