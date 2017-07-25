@@ -304,6 +304,7 @@ function easy_image_gallery_save_post( $post_id ) {
         }
 
         update_post_meta( $post_id, '_easy_image_gallery_v2', $galleries );
+        delete_post_meta( $post_id, '_easy_image_gallery' );
     }else{
         delete_post_meta( $post_id, '_easy_image_gallery_v2' );
     }
