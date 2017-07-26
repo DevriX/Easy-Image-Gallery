@@ -161,7 +161,6 @@ add_action( 'wp_footer', 'easy_image_gallery_js', 20 );
 function easy_image_gallery_admin_scripts() {
     wp_enqueue_script( 'easy_image_gallery_jquery-ui', EASY_IMAGE_GALLERY_URL . 'includes/lib/jquery-ui.min.js' );
     wp_enqueue_script( 'repeatable-fields', EASY_IMAGE_GALLERY_URL . 'includes/lib/repeatable-fields/repeatable-fields.js', array('jquery', 'easy_image_gallery_jquery-ui') );
-    wp_enqueue_script( 'easy_image_gallery_scripts', EASY_IMAGE_GALLERY_URL . 'includes/lib/main.js' );
     wp_enqueue_style( 'easy_image_gallery_admin_css', EASY_IMAGE_GALLERY_URL . 'includes/css/easy-image-gallery-admin.css' );
 }
 
