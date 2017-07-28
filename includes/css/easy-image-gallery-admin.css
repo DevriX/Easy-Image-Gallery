@@ -67,6 +67,7 @@
 #easy_image_gallery .inside #dx-eig-gallery .dx-eig-gallery-row .dx-eig-gallery-row-content .attachment.details {
   width: calc(100% / 8);
   padding: 6px;
+  background: #FFF;
 }
 #easy_image_gallery .inside #dx-eig-gallery .dx-eig-gallery-row .dx-eig-gallery-row-content .attachment.details .check div {
   background-position: -60px 0;
@@ -86,6 +87,7 @@
   box-shadow: none;
 }
 #easy_image_gallery .inside #dx-eig-gallery .dx-eig-gallery-row .dx-eig-gallery-row-content .gallery_images .attachment-preview .thumbnail {
+  cursor: move;
   width: 100%;
 }
 #easy_image_gallery .inside #dx-eig-gallery .dx-eig-gallery-row .dx-eig-gallery-row-content .gallery_images .attachment-preview .thumbnail img {

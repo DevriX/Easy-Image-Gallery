@@ -142,7 +142,7 @@ function easy_image_gallery_metabox() {
                                     ?>
                                     <p class="no-images-message" style="display: none;">Please add images in this gallery</p>
                                     <ul class="gallery_images">
-                                        <div class="dx-eig-images">
+                                        <div class="dx-eig-images sortable">
                                         <?php
                                         foreach ($get_attachments as $attachemnt){
                                             echo '<li class="image attachment details" data-attachment_id="'.$attachemnt.'" data-gallery="'.$gallery_count.'">
@@ -183,6 +183,33 @@ function easy_image_gallery_metabox() {
             });
         });
     });
+
+    jQuery( function() {
+        jQuery(".sortable").sortable({
+            revert       : true,
+            connectWith  : ".sorable",
+            stop         : function(event,ui){
+                var gallery = jQuery(this);
+                var gallery_selector = jQuery(this).parent().parent();
+                var get_gallery_id = gallery_selector.find('.image').attr('data-gallery');
+
+                var items = gallery_selector.find('.gallery_images').find('.dx-eig-images').children();
+                var attachments_ids = [];
+                for (i = 0; i < items.length; i++) {
+                    var attachment_id = items[i].attributes[1].value;
+                    attachments_ids.push(attachment_id);
+                }
+
+
+                if (attachments_ids.length === 0){
+                    gallery.find('p.no-images-message').show();
+                }
+
+                jQuery('#attachment_ids_'+get_gallery_id+'').attr('value', attachments_ids);
+            }
+        });
+        jQuery("#sortable").disableSelection();
+    } );
     </script>
     <script type="text/javascript">
         jQuery(document).on( 'click', '.dx-eig-gallery-add-images', function(e) {
