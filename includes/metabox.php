@@ -244,12 +244,11 @@ function easy_image_gallery_metabox() {
                             );
                         }
 
-
                         gallery.find('ul.gallery_images .dx-eig-images').append('\
                         <li class="image attachment details" data-attachment_id="' + attachment.id + '" data-gallery="'+_id+'">\
                             <div class="attachment-preview">\
                                 <div class="thumbnail">\
-                                    <img src="' + attachment.url + '" />\
+                                    <img src="' + attachment.sizes.thumbnail.url + '" />\
                                 </div>\
                                <a href="#" class="delete_dx_image check" title="<?php _e( 'Remove image', 'easy-image-gallery' ); ?>"><div class="media-modal-icon"></div></a>\
                             </div>\
@@ -258,7 +257,12 @@ function easy_image_gallery_metabox() {
 
                 } );
 
-                jQuery('#attachment_ids_'+ _id +'').attr('value', attachment_ids);
+                var attachments_selector = jQuery('#attachment_ids_'+ _id +'');
+                var current_image_ids = attachments_selector.attr('value');
+                if (current_image_ids.length > 0){
+                    current_image_ids = current_image_ids + ',';
+                }
+                attachments_selector.attr('value',current_image_ids + attachment_ids);
             });
         });
 
