@@ -30,7 +30,6 @@ if ( ! class_exists( 'Easy_Image_Gallery' ) ) {
 			add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'easy_image_gallery_plugin_action_links' );
 		}
 
-
 		/**
 		 * Internationalization
 		 *
