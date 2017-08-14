@@ -236,10 +236,13 @@ function easy_image_gallery_metabox() {
 
                         if (gallery.find('p.no-images-message') && gallery.find('p.no-images-message').css('display') === 'block'){
                             gallery.find('p.no-images-message').css('display', 'none');
+                        }
+
+                        if (gallery.find('ul.gallery_images').length < 1){
                             gallery.append(
                                 '<ul class="gallery_images">'+
-                                    '<div class="dx-eig-images"></div>'+
-                                    '<div class="dx-eig-clear"></div>'+
+                                '<div class="dx-eig-images"></div>'+
+                                '<div class="dx-eig-clear"></div>'+
                                 '</ul>'
                             );
                         }

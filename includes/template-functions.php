@@ -288,8 +288,6 @@ function easy_image_gallery_count_images( $gallery_shortcode ) {
             if ( $gallery['SHORTCODE'] == $gallery_shortcode ){
                 $number = count($gallery['DATA']);
                 return $number;
-            }else{
-                return 999;
             }
         }
     }
