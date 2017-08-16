@@ -34,8 +34,10 @@ function easy_image_gallery_get_post_meta(){
 		"OPEN_IMAGES" => $get_open_images[0],
 		));
 
-		add_filter( 'the_content', 'easy_image_gallery_append_to_content' );
-		add_action( 'template_redirect', 'easy_image_gallery_template_redirect' );
+		if ( !easy_image_gallery_has_shortcode('easy_image_gallery') ){
+			add_filter( 'the_content', 'easy_image_gallery_append_to_content' );
+			add_action( 'template_redirect', 'easy_image_gallery_template_redirect' );
+        }
 	}
 
 	return $gallery_ids;
@@ -266,7 +268,7 @@ function easy_image_gallery_shortcode( $atts ) {
         if ( isset($atts['gallery']) && !empty($atts['gallery']) ){
             return easy_image_gallery( $atts['gallery'] );
         }else{
-            return 'Oops.Invalid gallery';
+	        return easy_image_gallery( 'old_db' );
         }
     }
 }
