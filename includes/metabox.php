@@ -50,7 +50,7 @@ function easy_image_gallery_metabox() {
                             <input type="text" class="dx-eig-shortcode-show" readonly="" value="">
                             <div class="link-image-to-l">
                                 <label for="easy_image_gallery_link_images_{{row-count-placeholder}}">
-                                    <input type="checkbox" id="easy_image_gallery_link_images_{{row-count-placeholder}}" value="on" name="image_gallery[{{row-count-placeholder}}][OPEN_IMAGES]" checked/> <?php _e( 'Link images to larger sizes', 'easy-image-gallery' )?>
+                                    <input type="checkbox" id="easy_image_gallery_link_images_{{row-count-placeholder}}" value="on" name="image_gallery[{{row-count-placeholder}}][OPEN_IMAGES]" checked="checked"/> <?php _e( 'Link images to larger sizes', 'easy-image-gallery' )?>
                                 </label>
                             </div>
                             <div class="dx-eig-clear"></div>
