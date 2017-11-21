@@ -45,6 +45,10 @@
   font-weight: bold;
   cursor: pointer;
 }
+#easy_image_gallery .inside #dx-eig-gallery .dx-eig-gallery-row .dx-eig-gallery-row-heading .remove img {
+  width: 25px;
+  height: 25px;
+}
 #easy_image_gallery .inside #dx-eig-gallery .dx-eig-gallery-row .dx-eig-gallery-row-heading .dx-eig-shortcode-show {
   float: right;
   margin-left: 15px;

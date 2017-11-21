@@ -36,7 +36,7 @@ function easy_image_gallery_metabox() {
         <div class="repeat">
             <div class="repeat_container">
                 <div class="buttons">
-                    <span class="button button-primary button-large add">Add new gallery</span>
+                    <span class="button button-primary button-large add"><?php echo __( 'Add new gallery', 'easy-image-gallery' );?></span>
                 </div>
                 <div class="repeat_body">
                     <div class="template dx-eig-gallery-row row">
@@ -45,7 +45,7 @@ function easy_image_gallery_metabox() {
                             <input type="text" hidden="" id="attachment_ids_{{row-count-placeholder}}" name="image_gallery[{{row-count-placeholder}}][DATA]" value="">
                             <span class="name">Gallery</span>
                             <a href="#" class="dx-eig-gallery-add-images button" data-count="{{row-count-placeholder}}"><?php _e( 'Add images to the gallery', 'easy-image-gallery' ); ?></a>
-                            <span class="remove">X</span>
+                            <span class="remove"><img src="<?php echo EASY_IMAGE_GALLERY_URL . 'includes/fonts/close.png'; ?>"></span>
                             <input type="text" class="dx-eig-shortcode" name="image_gallery[{{row-count-placeholder}}][SHORTCODE]" value="" hidden>
                             <input type="text" class="dx-eig-shortcode-show" readonly="" value="">
                             <div class="link-image-to-l">
@@ -56,7 +56,7 @@ function easy_image_gallery_metabox() {
                             <div class="dx-eig-clear"></div>
                         </div>
                         <div class="dx-eig-gallery-row-content" id="gallery-{{row-count-placeholder}}">
-                            <p class="no-images-message">Please add images in this gallery</p>
+                            <p class="no-images-message"><?php echo __( 'Please add images in this gallery', 'easy-image-gallery' );?></p>
                         </div>
                     </div>
                     <?php
@@ -119,7 +119,7 @@ function easy_image_gallery_metabox() {
                                     <input type="text" hidden="" id="attachment_ids_<?php echo $gallery_count;?>" name="image_gallery[<?php echo $gallery_count;?>][DATA]" value="<?php echo $attachments_string; ?>">
                                     <span class="name">Gallery</span>
                                     <a href="#" class="dx-eig-gallery-add-images button" data-count="<?php echo $gallery_count;?>"><?php _e( 'Add images to the gallery', 'easy-image-gallery' ); ?></a>
-                                    <span class="remove">X</span>
+                                    <span class="remove"><img src="<?php echo EASY_IMAGE_GALLERY_URL . 'includes/fonts/close.png'; ?>"></span>
                                     <input type="text" class="dx-eig-shortcode" name="image_gallery[<?php echo $gallery_count;?>][SHORTCODE]" value="<?php echo $gallery['SHORTCODE'];?>" hidden>
                                     <input type="text" class="dx-eig-shortcode-show" readonly="" value='[easy_image_gallery gallery="<?php echo $gallery['SHORTCODE'];?>"]'>
                                     <div class="link-image-to-l">
@@ -140,7 +140,7 @@ function easy_image_gallery_metabox() {
                                     <?php
                                     if ( isset($get_attachments) && $get_attachments != null ){
                                     ?>
-                                    <p class="no-images-message" style="display: none;">Please add images in this gallery</p>
+                                    <p class="no-images-message" style="display: none;"><?php echo __( 'Please add images in this gallery', 'easy-image-gallery' );?></p>
                                     <ul class="gallery_images">
                                         <div class="dx-eig-images sortable">
                                         <?php
@@ -160,7 +160,7 @@ function easy_image_gallery_metabox() {
                                     </ul>
                                     <?php
                                     }else{
-                                        echo '<p class="no-images-message">Please add images in this gallery</p>';
+                                        echo '<p class="no-images-message">'. __( 'Please add images in this gallery', 'easy-image-gallery' ) .'</p>';
                                     }
                                     ?>
                                 </div>

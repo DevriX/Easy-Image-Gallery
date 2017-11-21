@@ -2,7 +2,7 @@
 Contributors: devrix, nofearinc
 Tags: image gallery, image, galleries, simple, easy, devrix
 Requires at least: 3.5
-Tested up to: 4.8.1
+Tested up to: 4.9
 Stable tag: 1.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -17,6 +17,9 @@ This plugin allows you to easily create an image gallery on any post, page or cu
 
 Features:
 
+1. Added the possibility to add two or more different galleries on one page
+1. Fixed image styles.
+1. Fixed some of PHP errors & bugs.
 1. Drag and drop re-ordering
 1. Add gallery to any post, page or custom post type
 1. If more than one image is added to the gallery, the images become grouped in the lightbox so you can easily view the next one
@@ -27,29 +30,26 @@ Features:
 1. Uses the thumbnail size specified in Settings -> Media
 1. Custom webfont icon for hover effect
 1. Uses the new WP 3.5+ media manager for a familiar and intuitive way to add your images
-1. WordPress 4.7 Ready
 
 = Usage =
 
-Galleries are automatically appended to the bottom of your post/page unless you use the shortcode below. Using the shortcode will give you finer control over placement within the content area. Plugin settings are located under Settings -> Media
+Use the shortcode or the function to show the gallery.
 
 = Shortcode Usage =
 
 Use the following shortcode anywhere in the content area to display the gallery
 
-	[easy_image_gallery]
+	[easy_image_gallery gallery="GALLERY  ID"]  /Note: you can find the gallery shortcode at the top of each gallery./
 
 = Template Tag Usage =
 
 The following template tag is available to display the gallery
 
 	if( function_exists( 'easy_image_gallery' ) ) {
-		echo easy_image_gallery();
+		echo easy_image_gallery( GALLERY ID ); /Note: Same as the shortcodes, you can find the ID of the gallery at the top of each gallery in the shortcode. /
 	}
 
 If you use the template tag above, you will need remove the default content filter:
-
-remove_filter( 'the_content', 'easy_image_gallery_append_to_content' );
 
 = Developer Friendly =
 
@@ -108,6 +108,11 @@ In your WordPress admin under Settings -> Media
 The plugin ownership was transferred to DevriX. There are no functionality changes. We are going to work on a few version, adding some nice feature in the near feature, stay tuned! :)
 
 == Changelog ==
+
+= 1.3 =
+* Release date - Release date - November 21, 2017.
+* Add the possibility to add two different galleries on one page
+* Improved the UI / UX
 
 = 1.2 =
 * Release date - Release date - January 26, 2017.
