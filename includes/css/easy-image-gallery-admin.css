@@ -11,6 +11,14 @@
 #easy_image_gallery .inside #dx-eig-gallery {
   padding: 12px 12px 12px 12px;
 }
+#easy_image_gallery .inside #dx-eig-gallery .alert-db-danger {
+  color: #a94442;
+  background-color: #f2dede;
+  border: 1px solid #ebccd1;
+  border-radius: 4px;
+  margin-top: 10px;
+  padding: 10px;
+}
 #easy_image_gallery .inside #dx-eig-gallery .buttons {
   width: 100%;
   border-bottom: 1px solid #ddd;

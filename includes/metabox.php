@@ -31,6 +31,9 @@ add_action( 'add_meta_boxes', 'easy_image_gallery_add_meta_box' );
 function easy_image_gallery_metabox() {
 
     global $post;
+
+    $old_meta_structure = get_post_meta($post->ID, '_easy_image_gallery');
+    $new_meta_structure = get_post_meta($post->ID, '_easy_image_gallery_v2');
 ?>
     <div id="dx-eig-gallery">
         <div class="repeat">
@@ -39,6 +42,15 @@ function easy_image_gallery_metabox() {
                     <span class="button button-primary button-large add"><?php echo __( 'Add new gallery', 'easy-image-gallery' );?></span>
                 </div>
                 <div class="repeat_body">
+                    <?php
+                    if (!isset($new_meta_structure) || empty($new_meta_structure)) {
+                    ?>
+                    <div class="alert-db-danger">
+                        You are currently using an old version of DB structure for this page. Once you update the page, you will need to use SHORTCODE to display the gallery. Otherwise, you will not be able to see it in the FE part.
+                    </div>
+                    <?php
+                    }
+                    ?>
                     <div class="template dx-eig-gallery-row row">
                         <div class="dx-eig-gallery-row-heading move">
                             <input type="text" hidden="" class="row_count" data-count="{{row-count-placeholder}}">
@@ -63,8 +75,6 @@ function easy_image_gallery_metabox() {
                     //START GALLERIES LOOP
 
                     //CHECK FOR OLD DB
-                    $old_meta_structure = get_post_meta($post->ID, '_easy_image_gallery');
-                    $new_meta_structure = get_post_meta($post->ID, '_easy_image_gallery_v2');
 
                     if (isset($new_meta_structure) && $new_meta_structure != null) {
                         $get_galleries = $new_meta_structure;
