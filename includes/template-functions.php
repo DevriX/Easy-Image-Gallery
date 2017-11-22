@@ -358,7 +358,7 @@ function easy_image_gallery( $gallery_id = null ) {
 
 	                        $lightbox = easy_image_gallery_get_lightbox();
 
-	                        $rel = easy_image_gallery_count_images( $gallery['SHORTCODE'] ) > 1 ? 'rel="'. $lightbox .'[group-'.$gallery_id.']"' : 'rel="'. $lightbox .'"';
+	                        $rel = 'rel="'. $lightbox .'[group-'.$gallery_id.']"';
 
 	                        if ( isset($gallery['OPEN_IMAGES']) && $gallery['OPEN_IMAGES'] == 'on' )
 	                            $html = sprintf( '<li><a %s href="%s" class="%s" title="%s"><i class="icon-view"></i><span class="overlay"></span>%s</a></li>', $rel, $image_link, $image_class, $image_caption, $image );
