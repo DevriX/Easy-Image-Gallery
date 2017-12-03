@@ -185,43 +185,42 @@ function easy_image_gallery_metabox() {
     </div>
 
     <script type="text/javascript">
-    jQuery(function() {
-        jQuery('.repeat').each(function() {
-            jQuery(this).repeatable_fields({
-                wrapper: '.repeat_container',
-                container: '.repeat_body'
+        jQuery(function() {
+            jQuery('.repeat').each(function() {
+                jQuery(this).repeatable_fields({
+                    wrapper: '.repeat_container',
+                    container: '.repeat_body'
+                });
             });
         });
-    });
+        
+        function eig_sortable() {
+            jQuery( function() {
+                jQuery(".sortable").sortable({
+                    revert       : true,
+                    stop         : function(event,ui){
+                        var gallery = jQuery(this);
+                        var gallery_selector = jQuery(this).parent().parent();
+                        var get_gallery_id = gallery_selector.find('.image').attr('data-gallery');
 
-    jQuery( function() {
-        jQuery(".sortable").sortable({
-            revert       : true,
-            connectWith  : ".sorable",
-            stop         : function(event,ui){
-                var gallery = jQuery(this);
-                var gallery_selector = jQuery(this).parent().parent();
-                var get_gallery_id = gallery_selector.find('.image').attr('data-gallery');
-
-                var items = gallery_selector.find('.gallery_images').find('.dx-eig-images').children();
-                var attachments_ids = [];
-                for (i = 0; i < items.length; i++) {
-                    var attachment_id = items[i].attributes[1].value;
-                    attachments_ids.push(attachment_id);
-                }
+                        var items = gallery_selector.find('.gallery_images').find('.dx-eig-images').children();
+                        var attachments_ids = [];
+                        for (i = 0; i < items.length; i++) {
+                            var attachment_id = items[i].attributes[1].value;
+                            attachments_ids.push(attachment_id);
+                        }
 
 
-                if (attachments_ids.length === 0){
-                    gallery.find('p.no-images-message').show();
-                }
+                        if (attachments_ids.length === 0){
+                            gallery.find('p.no-images-message').show();
+                        }
 
-                jQuery('#attachment_ids_'+get_gallery_id+'').attr('value', attachments_ids);
-            }
-        });
-        jQuery("#sortable").disableSelection();
-    } );
-    </script>
-    <script type="text/javascript">
+                        jQuery('#attachment_ids_'+get_gallery_id+'').attr('value', attachments_ids);
+                    }
+                });
+            } );
+        }
+
         jQuery(document).on( 'click', '.dx-eig-gallery-add-images', function(e) {
             var _id = jQuery( this ).attr( 'data-count' );
             var attachment_ids = null;
@@ -250,11 +249,13 @@ function easy_image_gallery_metabox() {
 
                         if (gallery.find('ul.gallery_images').length < 1){
                             gallery.append(
-                                '<ul class="gallery_images">'+
-                                '<div class="dx-eig-images"></div>'+
+                                '<ul class="gallery_images" id="test-1">'+
+                                '<div class="dx-eig-images sortable"></div>'+
                                 '<div class="dx-eig-clear"></div>'+
                                 '</ul>'
                             );
+
+                            eig_sortable();
                         }
 
                         gallery.find('ul.gallery_images .dx-eig-images').append('\
@@ -305,6 +306,8 @@ function easy_image_gallery_metabox() {
 
             return false;
         });
+
+        eig_sortable();
     </script>
 <?php
 }
