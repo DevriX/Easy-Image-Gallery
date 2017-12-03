@@ -249,7 +249,7 @@ function easy_image_gallery_metabox() {
 
                         if (gallery.find('ul.gallery_images').length < 1){
                             gallery.append(
-                                '<ul class="gallery_images" id="test-1">'+
+                                '<ul class="gallery_images">'+
                                 '<div class="dx-eig-images sortable"></div>'+
                                 '<div class="dx-eig-clear"></div>'+
                                 '</ul>'
