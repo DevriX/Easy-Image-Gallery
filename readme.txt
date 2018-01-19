@@ -39,15 +39,19 @@ Use the shortcode or the function to show the gallery.
 
 Use the following shortcode anywhere in the content area to display the gallery
 
-	[easy_image_gallery gallery="GALLERY  ID"]  /Note: you can find the gallery shortcode at the top of each gallery./
+	[easy_image_gallery gallery="XXX"]
+	
+Where "XXX" is the ID of the gallery item.
 
 = Template Tag Usage =
 
 The following template tag is available to display the gallery
 
 	if( function_exists( 'easy_image_gallery' ) ) {
-		echo easy_image_gallery( GALLERY ID ); /Note: Same as the shortcodes, you can find the ID of the gallery at the top of each gallery in the shortcode. /
+		echo easy_image_gallery( "XXX" );
 	}
+	
+Where "XXX" is the ID of the gallery item.
 
 If you use the template tag above, you will need to remove the default content filter:
 
@@ -85,6 +89,14 @@ If you use the template tag above, you will need to remove the default content f
 1. Clicking on an image launches the lightbox. Here it's shown with prettyPhoto
 
 == Frequently Asked Questions ==
+
+= Why my galleries don't show up after an update to Version 1.3 or above? =
+
+In Version 1.3 of the plugin, we've added a major update. Now, you have the ability to add more than one galleries to your posts or pages.
+
+For that reason, we have to introduce Gallery ID as an argument for the shortcode. E.g. you need to use [easy_image_gallery gallery="XXX"], where XXX is the ID of the gallery you want to display.
+
+Each of your galleries in the edit screen of your page or post will generate a new shortcode which you'll be able to use in the page or post editor.
 
 = fancyBox looks different after upgrading to 1.1 =
 
