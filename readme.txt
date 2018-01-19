@@ -2,8 +2,8 @@
 Contributors: devrix, nofearinc
 Tags: image gallery, image, galleries, simple, easy, devrix
 Requires at least: 3.5
-Tested up to: 4.9
-Stable tag: 1.2
+Tested up to: 4.9.2
+Stable tag: 1.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -49,7 +49,7 @@ The following template tag is available to display the gallery
 		echo easy_image_gallery( GALLERY ID ); /Note: Same as the shortcodes, you can find the ID of the gallery at the top of each gallery in the shortcode. /
 	}
 
-If you use the template tag above, you will need remove the default content filter:
+If you use the template tag above, you will need to remove the default content filter:
 
 = Developer Friendly =
 
@@ -64,11 +64,9 @@ If you use the template tag above, you will need remove the default content filt
 
 *Become a fan on Facebook*
 [https://www.facebook.com/DevriXLtd](https://www.facebook.com/DevriXLtd "Facebook Devrix")
-[https://www.facebook.com/DevriXShop]
-(https://www.facebook.com/DevriXLtd "Facebook Devrix Shop")
 
 *Follow us on Twitter*
-[https://twitter.com/wpdevrix](https://twitter.com/wpdevrix"Twitter")
+[https://twitter.com/wpdevrix](https://twitter.com/wpdevrix)
 
 == Installation ==
 
@@ -110,8 +108,8 @@ The plugin ownership was transferred to DevriX. There are no functionality chang
 == Changelog ==
 
 = 1.3 =
-* Release date - Release date - November 21, 2017.
-* Add the possibility to add two different galleries on one page
+* Release date - Release date - January 19, 2018.
+* Add the possibility to add two or more different galleries on one page/post.
 * Improved the UI / UX
 
 = 1.2 =
@@ -170,4 +168,4 @@ The plugin ownership was transferred to DevriX. There are no functionality chang
 
 = 1.0 =
 
-* Initial release
+* Initial release				
