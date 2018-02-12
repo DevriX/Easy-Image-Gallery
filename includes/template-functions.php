@@ -373,7 +373,7 @@ function easy_image_gallery_count_images( $gallery_shortcode ) {
  *
  * @since 1.0
  */
-function easy_image_gallery( $gallery_id = null ) {
+function easy_image_gallery( $gallery_id = 'old_db' ) {
 
 	$galleries = easy_image_gallery_get_galleries();
     global $post;
