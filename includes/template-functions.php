@@ -34,10 +34,6 @@ function easy_image_gallery_get_post_meta(){
 		"OPEN_IMAGES" => $get_open_images[0],
 		));
 
-		if ( !easy_image_gallery_has_shortcode('easy_image_gallery') ){
-			add_filter( 'the_content', 'easy_image_gallery_append_to_content' );
-			add_action( 'template_redirect', 'easy_image_gallery_template_redirect' );
-        }
 	}
 
 	return $gallery_ids;
@@ -339,10 +335,10 @@ function easy_image_gallery( $gallery_id = null ) {
                 }
 
                 $classes = implode( ' ', $classes );
-    ?>
-                <ul class="image-gallery <?php echo $classes; ?>">
-                    <?php
                     if ( isset($has_gallery_images) && !empty($has_gallery_images) ) {
+					?>
+	                <ul class="image-gallery <?php echo $classes; ?>">
+	                    <?php
                     	foreach ( $has_gallery_images as $attachment_id ) {
 	                        $classes = array( 'popup' );
 
@@ -367,10 +363,8 @@ function easy_image_gallery( $gallery_id = null ) {
 
 	                        echo apply_filters( 'easy_image_gallery_html', $html, $rel, $image_link, $image_class, $image_caption, $image, $attachment_id, $post->ID );
 	                    }
+	                echo '</ul>';
                     }
-                    ?>
-                </ul>
-    <?php
             }
         }
 
@@ -385,14 +379,15 @@ function easy_image_gallery( $gallery_id = null ) {
  * @since 1.0
  */
 function easy_image_gallery_append_to_content( $content ) {
-
-	if ( is_singular() && is_main_query() && easy_image_gallery_allowed_post_type() ) {
+	// if it is single page and supported post_type and page not have shortcode.
+	if ( is_singular() && is_main_query() && easy_image_gallery_allowed_post_type() && !easy_image_gallery_has_shortcode('easy_image_gallery') ) {
 		$new_content = easy_image_gallery( 'old_db' );
 		$content .= $new_content;
 	}
 
 	return $content;
 }
+add_filter( 'the_content', 'easy_image_gallery_append_to_content' );
 
 /**
  * Remove the_content filter if shortcode is detected on page
@@ -400,8 +395,7 @@ function easy_image_gallery_append_to_content( $content ) {
  * @since 1.0
  */
 function easy_image_gallery_template_redirect() {
-
     if ( easy_image_gallery_has_shortcode( 'easy_image_gallery' ) )
 		remove_filter( 'the_content', 'easy_image_gallery_append_to_content' );
-
 }
+add_action( 'template_redirect', 'easy_image_gallery_template_redirect' );
