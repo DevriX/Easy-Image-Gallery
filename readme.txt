@@ -120,7 +120,7 @@ The plugin ownership was transferred to DevriX. There are no functionality chang
 == Changelog ==
 
 = 1.3.1 =
-* Release date - February 12, 2018.
+* Release date - May 06, 2018.
 * Remove jquery-ui.min.js from the plugin and use the WordPress Core version of the library.
 * Bugfix: add a fallback when the user is using the plugin's function in the code, instead of a shortcoe.
 
