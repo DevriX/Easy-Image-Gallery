@@ -44,11 +44,11 @@ function easy_image_gallery_metabox() {
                 <div class="repeat_body">
                     <?php
                     if ( !empty($old_meta_structure) && empty($new_meta_structure) ) {
-                    ?>
-                    <div class="alert-db-danger">
-                        You are currently using an old version of DB structure for this page. Once you update the page, you will need to use SHORTCODE to display the gallery. Otherwise, you will not be able to see it in the FE part.
-                    </div>
-                    <?php
+                        ?>
+                        <div class="alert-db-danger">
+                            You are currently using an old version of Database structure for this page (or post). Once you update the page (post), you will need to use the <strong>SHORTCODE</strong> in order to display the gallery. Otherwise, you will not be able to see the gallery in the front-end part of the page (post).
+                        </div>
+                        <?php
                     }
                     ?>
                     <div class="template dx-eig-gallery-row row">
