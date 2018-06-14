@@ -37,11 +37,11 @@ function easy_image_gallery_metabox() {
 ?>
     <div id="dx-eig-gallery">
         <div class="repeat">
-            <div class="repeat_container">
+            <div class="eig_repeat_container">
                 <div class="buttons">
-                    <span class="button button-primary button-large add"><?php echo __( 'Add new gallery', 'easy-image-gallery' );?></span>
+                    <span class="button button-primary button-large eig-add"><?php echo __( 'Add new gallery', 'easy-image-gallery' );?></span>
                 </div>
-                <div class="repeat_body">
+                <div class="eig_repeat_body">
                     <?php
                     if ( !empty($old_meta_structure) && empty($new_meta_structure) ) {
                         ?>
@@ -51,13 +51,13 @@ function easy_image_gallery_metabox() {
                         <?php
                     }
                     ?>
-                    <div class="template dx-eig-gallery-row row">
+                    <div class="eig-template dx-eig-gallery-row row">
                         <div class="dx-eig-gallery-row-heading move">
                             <input type="text" hidden="" class="row_count" data-count="{{row-count-placeholder}}">
                             <input type="text" hidden="" id="attachment_ids_{{row-count-placeholder}}" name="image_gallery[{{row-count-placeholder}}][DATA]" value="">
                             <span class="name">Gallery</span>
                             <a href="#" class="dx-eig-gallery-add-images button" data-count="{{row-count-placeholder}}"><?php _e( 'Add images to the gallery', 'easy-image-gallery' ); ?></a>
-                            <span class="remove"><img src="<?php echo EASY_IMAGE_GALLERY_URL . 'includes/fonts/close.png'; ?>"></span>
+                            <span class="eig-remove"><img src="<?php echo EASY_IMAGE_GALLERY_URL . 'includes/fonts/close.png'; ?>"></span>
                             <input type="text" class="dx-eig-shortcode" name="image_gallery[{{row-count-placeholder}}][SHORTCODE]" value="" hidden>
                             <input type="text" class="dx-eig-shortcode-show" readonly="" value="">
                             <div class="link-image-to-l">
@@ -129,7 +129,7 @@ function easy_image_gallery_metabox() {
                                     <input type="text" hidden="" id="attachment_ids_<?php echo $gallery_count;?>" name="image_gallery[<?php echo $gallery_count;?>][DATA]" value="<?php echo $attachments_string; ?>">
                                     <span class="name">Gallery</span>
                                     <a href="#" class="dx-eig-gallery-add-images button" data-count="<?php echo $gallery_count;?>"><?php _e( 'Add images to the gallery', 'easy-image-gallery' ); ?></a>
-                                    <span class="remove"><img src="<?php echo EASY_IMAGE_GALLERY_URL . 'includes/fonts/close.png'; ?>"></span>
+                                    <span class="eig-remove"><img src="<?php echo EASY_IMAGE_GALLERY_URL . 'includes/fonts/close.png'; ?>"></span>
                                     <input type="text" class="dx-eig-shortcode" name="image_gallery[<?php echo $gallery_count;?>][SHORTCODE]" value="<?php echo $gallery['SHORTCODE'];?>" hidden>
                                     <input type="text" class="dx-eig-shortcode-show" readonly="" value='[easy_image_gallery gallery="<?php echo $gallery['SHORTCODE'];?>"]'>
                                     <div class="link-image-to-l">
@@ -188,8 +188,11 @@ function easy_image_gallery_metabox() {
         jQuery(function() {
             jQuery('.repeat').each(function() {
                 jQuery(this).repeatable_fields({
-                    wrapper: '.repeat_container',
-                    container: '.repeat_body'
+                    wrapper: '.eig_repeat_container',
+                    container: '.eig_repeat_body',
+                    template: '.eig-template',
+                    add: '.eig-add',
+                    remove: '.eig-remove',
                 });
             });
         });
