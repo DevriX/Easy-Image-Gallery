@@ -5,13 +5,13 @@
   font-weight: normal;
   font-style: normal;
 }
-.popup {
+.eig-popup {
   display: block;
 }
-.popup .icon-view:before {
+.eig-popup .icon-view:before {
   content: "\e005";
 }
-.popup .icon-view {
+.eig-popup .icon-view {
   font-family: 'easy-image-gallery';
   speak: none;
   font-style: normal;
@@ -36,7 +36,7 @@
   transition: opacity 0.1s linear;
   z-index: 1;
 }
-.popup .overlay {
+.eig-popup .overlay {
   visibility: hidden;
   display: block;
   height: 100%;
@@ -49,11 +49,11 @@
   -o-transition: all 0.1s linear;
   transition: all 0.1s linear;
 }
-.popup:hover .overlay {
+.eig-popup:hover .overlay {
   visibility: visible;
   background: #000;
 }
-.popup:hover .icon-view {
+.eig-popup:hover .icon-view {
   opacity: 0.8;
 }
 .image-gallery {

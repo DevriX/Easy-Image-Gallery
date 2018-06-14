@@ -125,7 +125,7 @@ function easy_image_gallery_js() {
 					<script>
 						jQuery(document).ready(function() {
 
-							jQuery("a.popup").attr('rel', 'fancybox').fancybox({
+							jQuery("a.eig-popup").attr('rel', 'fancybox').fancybox({
 									'transitionIn'	:	'elastic',
 									'transitionOut'	:	'elastic',
 									'speedIn'		:	200, 
