@@ -406,7 +406,7 @@ function easy_image_gallery( $gallery_id = 'old_db' ) {
                 $classes = implode( ' ', $classes );
     			if ( isset($has_gallery_images) && !empty($has_gallery_images) ) {
 					?>
-	                <ul class="image-gallery <?php echo $classes; ?>">
+	                <ul class="easy-image-gallery <?php echo $classes; ?>">
                     <?php
                     	foreach ( $has_gallery_images as $attachment_id ) {
 	                        $classes = array( 'eig-popup' );

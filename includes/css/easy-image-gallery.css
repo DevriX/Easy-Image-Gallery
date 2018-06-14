@@ -56,22 +56,22 @@
 .eig-popup:hover .icon-view {
   opacity: 0.8;
 }
-.image-gallery {
+.easy-image-gallery {
   margin: 0;
   padding: 0;
 }
-.image-gallery li {
+.easy-image-gallery li {
   display: inline-block;
   padding: 0 20px 20px 0;
   margin: 0;
 }
-.image-gallery a {
+.easy-image-gallery a {
   position: relative;
   display: block;
 }
-.image-gallery a img {
+.easy-image-gallery a img {
   display: block;
 }
-.image-gallery ul {
+.easy-image-gallery ul {
   margin-bottom: 0;
 }
