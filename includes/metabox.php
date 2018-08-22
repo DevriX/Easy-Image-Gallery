@@ -58,6 +58,7 @@ function easy_image_gallery_metabox() {
                             <span class="name">Gallery</span>
                             <a href="#" class="dx-eig-gallery-add-images button" data-count="{{row-count-placeholder}}"><?php _e( 'Add images to the gallery', 'easy-image-gallery' ); ?></a>
                             <span class="remove"><img src="<?php echo EASY_IMAGE_GALLERY_URL . 'includes/fonts/close.png'; ?>"></span>
+                            <a href="#" class="button button-primary button-small dx-eig-insert-shortcode">Insert</a>
                             <input type="text" class="dx-eig-shortcode" name="image_gallery[{{row-count-placeholder}}][SHORTCODE]" value="" hidden>
                             <input type="text" class="dx-eig-shortcode-show" readonly="" value="">
                             <div class="link-image-to-l">
@@ -130,6 +131,7 @@ function easy_image_gallery_metabox() {
                                     <span class="name">Gallery</span>
                                     <a href="#" class="dx-eig-gallery-add-images button" data-count="<?php echo $gallery_count;?>"><?php _e( 'Add images to the gallery', 'easy-image-gallery' ); ?></a>
                                     <span class="remove"><img src="<?php echo EASY_IMAGE_GALLERY_URL . 'includes/fonts/close.png'; ?>"></span>
+                                    <a href="#" class="button button-primary button-small dx-eig-insert-shortcode">Insert</a>
                                     <input type="text" class="dx-eig-shortcode" name="image_gallery[<?php echo $gallery_count;?>][SHORTCODE]" value="<?php echo $gallery['SHORTCODE'];?>" hidden>
                                     <input type="text" class="dx-eig-shortcode-show" readonly="" value='[easy_image_gallery gallery="<?php echo $gallery['SHORTCODE'];?>"]'>
                                     <div class="link-image-to-l">
@@ -312,6 +314,13 @@ function easy_image_gallery_metabox() {
             jQuery('#attachment_ids_'+gallery+'').attr('value', attachments_ids);
 
             return false;
+        });
+
+        jQuery(document).on( 'click', '.dx-eig-insert-shortcode', function(e) {
+            var id = $(this).parent().find('.dx-eig-shortcode').val();
+            var shortcode = '[easy_image_gallery gallery="'+ id +'"]';
+            
+            console.log( shortcode );
         });
 
         eig_sortable();
