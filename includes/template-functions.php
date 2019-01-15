@@ -1,3 +1,5 @@
+
+
 <?php
 /**
  * Template functions
@@ -161,6 +163,7 @@ function easy_image_gallery_lightbox() {
 	$lightboxes = array(
 		'fancybox' => __( 'fancyBox', 'easy-image-gallery' ),
 		'prettyphoto' => __( 'prettyPhoto', 'easy-image-gallery' ),
+		'luminous' => __( 'Luminous', 'easy-image-gallery' ),
 	);
 
 	return apply_filters( 'easy_image_gallery_lightbox', $lightboxes );
@@ -195,7 +198,7 @@ endif;
  * @return string
  */
 
-function easy_image_gallery_lightbox_rel() {
+function easy_image_gallery_lightbox_rel( $gallery_id = null ) {
 
 	$lightbox = easy_image_gallery_get_lightbox();
 
@@ -203,7 +206,7 @@ function easy_image_gallery_lightbox_rel() {
 
 	case 'prettyphoto':
 
-		$rel = 'prettyPhoto';
+		$rel = 'prettyPhoto' . '[group-'.$gallery_id.']';
 
 		break;
 
@@ -211,12 +214,19 @@ function easy_image_gallery_lightbox_rel() {
 
 		$rel = 'fancybox';
 
-	default:
+		break;
 
-		$rel = 'prettyPhoto';
+	case 'luminous':
+
+		$rel = 'luminous'  . '[group-'.$gallery_id.']';
 
 		break;
+
+	default:
+
+		$rel = 'prettyPhoto' . '[group-'.$gallery_id.']';
 	}
+
 
 	return $rel;
 }
@@ -423,7 +433,7 @@ function easy_image_gallery( $gallery_id = 'old_db' ) {
 
 	                        $lightbox = easy_image_gallery_get_lightbox();
 
-	                        $rel = 'rel="'. $lightbox .'[group-'.$gallery_id.']"';
+	                        $rel = 'rel="'. easy_image_gallery_lightbox_rel( $gallery_id ) .'"';
 
 	                        if ( isset($gallery['OPEN_IMAGES']) && $gallery['OPEN_IMAGES'] == 'on' )
 	                            $html = sprintf( '<li><a %s href="%s" class="%s" title="%s"><i class="icon-view"></i><span class="overlay"></span>%s</a></li>', $rel, $image_link, $image_class, $image_caption, $image );
@@ -433,6 +443,10 @@ function easy_image_gallery( $gallery_id = 'old_db' ) {
 	                        echo apply_filters( 'easy_image_gallery_html', $html, $rel, $image_link, $image_class, $image_caption, $image, $attachment_id, $post->ID );
 	                    }
                 	echo '</ul>';
+
+                	if ( easy_image_gallery_get_lightbox() === 'luminous' ) {
+                		echo '<script>new LuminousGallery(document.querySelectorAll("a[rel=\'luminous[group-'.$gallery_id.']\']"));</script>';
+                	}
             	}
             }
         }
