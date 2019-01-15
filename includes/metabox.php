@@ -258,11 +258,18 @@ function easy_image_gallery_metabox() {
                             eig_sortable();
                         }
 
+                        attachment_url = '';
+                        if(typeof attachment.sizes.thumbnail !== 'undefined'){
+                            attachment_url = attachment.sizes.thumbnail.url;
+                        }else{
+                            attachment_url = attachment.url;
+                        }
+
                         gallery.find('ul.gallery_images .dx-eig-images').append('\
                         <li class="image attachment details" data-attachment_id="' + attachment.id + '" data-gallery="'+_id+'">\
                             <div class="attachment-preview">\
                                 <div class="thumbnail">\
-                                    <img src="' + attachment.sizes.thumbnail.url + '" />\
+                                    <img src="' + attachment_url + '" />\
                                 </div>\
                                <a href="#" class="delete_dx_image check" title="<?php _e( 'Remove image', 'easy-image-gallery' ); ?>"><div class="media-modal-icon"></div></a>\
                             </div>\
