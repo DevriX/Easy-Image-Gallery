@@ -342,6 +342,10 @@ function easy_image_gallery_save_post( $post_id ) {
             return;
     }
 
+    if( $_POST['action'] === 'inline-save' ){
+        return;
+    }
+
 
     if ( isset($_POST['image_gallery']) && !empty($_POST['image_gallery']) ){
         $galleries = array();

@@ -2,7 +2,7 @@
 Contributors: devrix, nofearinc
 Tags: image gallery, image, galleries, simple, easy, devrix
 Requires at least: 3.5
-Tested up to: 4.9.2
+Tested up to: 5.0.3
 Stable tag: 1.3.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
