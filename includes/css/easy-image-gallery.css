@@ -63,10 +63,9 @@
 .eig-popup:hover .icon-view {
   opacity: 0.8;
 }
-.easy-image-gallery {
+.easy-image-gallery{
   margin: 0;
   padding: 0;
-  text-align: left;
 }
 .easy-image-gallery li {
   display: inline-block;
@@ -89,10 +88,6 @@
   -moz-transition: .3s all;
   -ms-transition: .3s all;
   -o-transition: .3s all;
-}
-.easy-image-gallery ul {
-  margin-bottom: 0;
-
 }
 .lum-lightbox.lum-open {
 	background-color: rgba(0,0,0,.8);
