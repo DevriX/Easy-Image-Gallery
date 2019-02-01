@@ -414,10 +414,10 @@ function easy_image_gallery( $gallery_id = 'old_db' ) {
                 $classes = implode( ' ', $classes );
     			if ( isset($has_gallery_images) && !empty($has_gallery_images) ) {
 					?>
-	                <ul class="image-gallery <?php echo $classes; ?>">
+	                <ul class="easy-image-gallery <?php echo $classes; ?>">
                     <?php
                     	foreach ( $has_gallery_images as $attachment_id ) {
-	                        $classes = array( 'popup' );
+	                        $classes = array( 'eig-popup' );
 
 	                        // get original image
 	                        $image_link	= wp_get_attachment_image_src( $attachment_id, apply_filters( 'easy_image_gallery_linked_image_size', 'large' ) );

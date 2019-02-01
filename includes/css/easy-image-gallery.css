@@ -5,13 +5,13 @@
   font-weight: normal;
   font-style: normal;
 }
-.popup {
+.eig-popup {
   display: block;
 }
-.popup .icon-view:before {
+.eig-popup .icon-view:before {
   content: "\e005";
 }
-.popup .icon-view {
+.eig-popup .icon-view {
   font-family: 'easy-image-gallery';
   speak: none;
   font-style: normal;
@@ -35,7 +35,7 @@
   transition: opacity 0.3s linear;
   z-index: 1;
 }
-.popup .overlay {
+.eig-popup .overlay {
   visibility: hidden;
   display: block;
   height: 0%;
@@ -56,7 +56,7 @@
   -ms-border-top-right-radius: 20px;
   -o-border-top-right-radius: 20px;
 }
-.popup:hover .overlay {
+.eig-popup:hover .overlay {
   visibility: visible;
   background: #000;
   height: 100%;
@@ -84,24 +84,24 @@
 	-ms-border-top-left-radius: 20px;
 	-o-border-top-left-radius: 20px;
 }
-.popup:hover .icon-view {
+.eig-popup:hover .icon-view {
   opacity: 0.8;
 }
-.image-gallery {
+.easy-image-gallery {
   margin: 0;
   padding: 0;
   text-align: center;
 }
-.image-gallery li {
+.easy-image-gallery li {
   display: inline-block;
   padding: 0 20px 20px 0;
   margin: 0;
 }
-.image-gallery a {
+.easy-image-gallery a {
   position: relative;
   display: block;
 }
-.image-gallery a img {
+.easy-image-gallery a img {
   display: block;
   border-top-right-radius: 20px;
   -webkit-border-top-right-radius: 20px;
@@ -114,7 +114,7 @@
   -ms-transition: .3s all;
   -o-transition: .3s all;
 }
-.image-gallery ul {
+.easy-image-gallery ul {
   margin-bottom: 0;
 }
 .lum-lightbox.lum-open {
