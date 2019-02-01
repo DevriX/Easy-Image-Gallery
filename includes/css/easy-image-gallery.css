@@ -50,39 +50,15 @@
   -ms-transition: all 0.3s linear;
   -o-transition: all 0.3s linear;
   transition: all 0.3s linear;
-  border-top-right-radius: 20px;
-  -webkit-border-top-right-radius: 20px;
-  -moz-border-top-right-radius: 20px;
-  -ms-border-top-right-radius: 20px;
-  -o-border-top-right-radius: 20px;
 }
 .eig-popup:hover .overlay {
   visibility: visible;
   background: #000;
   height: 100%;
   width: 100%;
-  border-top-right-radius: 0px;
-  -webkit-border-top-right-radius: 0px;
-  -moz-border-top-right-radius: 0px;
-  -ms-border-top-right-radius: 0px;
-  -o-border-top-right-radius: 0px;
-  border-top-left-radius: 20px;
-  -webkit-border-top-left-radius: 20px;
-  -moz-border-top-left-radius: 20px;
-  -ms-border-top-left-radius:205px;
-  -o-border-top-left-radius: 20px;
 }
 .popup:hover img {
-	border-top-right-radius: 0px;
-	-webkit-border-top-right-radius: 0px;
-	-moz-border-top-right-radius: 0px;
-	-ms-border-top-right-radius: 0px;
-	-o-border-top-right-radius: 0px;
-	border-top-left-radius: 20px;
-	-webkit-border-top-left-radius: 20px;
-	-moz-border-top-left-radius: 20px;
-	-ms-border-top-left-radius: 20px;
-	-o-border-top-left-radius: 20px;
+
 }
 .eig-popup:hover .icon-view {
   opacity: 0.8;
@@ -90,7 +66,7 @@
 .easy-image-gallery {
   margin: 0;
   padding: 0;
-  text-align: center;
+  text-align: left;
 }
 .easy-image-gallery li {
   display: inline-block;
@@ -116,8 +92,18 @@
 }
 .easy-image-gallery ul {
   margin-bottom: 0;
+
 }
 .lum-lightbox.lum-open {
 	background-color: rgba(0,0,0,.8);
 	z-index: 9999;
+}
+#fancybox-title{
+  left: initial !important;
+}
+#fancybox-title-float-wrap td{
+  background: transparent;
+  background: #000;
+  max-width: 50%;
+  white-space: initial !important;
 }
