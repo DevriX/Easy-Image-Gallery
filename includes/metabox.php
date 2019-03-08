@@ -196,7 +196,6 @@ function easy_image_gallery_metabox() {
                 });
             });
         });
-        
         function eig_sortable() {
             jQuery( function() {
                 jQuery(".sortable").sortable({
@@ -345,7 +344,7 @@ function easy_image_gallery_save_post( $post_id ) {
             return;
     }
 
-    if( $_POST['action'] === 'inline-save' ){
+    if( isset( $_POST['action'] ) && $_POST['action'] === 'inline-save' ){
         return;
     }
 
