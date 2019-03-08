@@ -26,7 +26,7 @@ const { Button } = wp.components; //Import Button from wp.components
  * @return {?WPBlock}          The block, if it has been successfully
  *                             registered; otherwise `undefined`.
  */
-var ID = function () {
+let ID = function () {
 	// Math.random should be unique because of its seeding algorithm.
 	// Convert it to base 36 (numbers + letters), and grab the first 9 characters
 	// after the decimal.
@@ -97,11 +97,11 @@ registerBlockType( 'devrix/easy-image-gallery-block', {
 
             )
 		}
-		console.log();
+		let _id = ""
 		if( attributes['id'] != undefined ) {
-			var _id = attributes['id'];
+			_id = attributes['id'];
 		} else {
-			var _id = ID();
+			_id = ID();
 		}
 		setAttributes({id : _id,})
 
@@ -137,7 +137,7 @@ registerBlockType( 'devrix/easy-image-gallery-block', {
 	save({attributes}) {
 		//Destructuring the images array attribute
 		const { images } = attributes;
-		var rel = "prettyphoto[" + attributes['id'] + "]"
+		let rel = "prettyphoto[" + attributes['id'] + "]"
 		// Displays the images
 		const displayImages = (images) => {
 
