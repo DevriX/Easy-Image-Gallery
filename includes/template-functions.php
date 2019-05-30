@@ -432,6 +432,7 @@ function easy_image_gallery( $gallery_id = 'old_db' ) {
 	                        $lightbox = easy_image_gallery_get_lightbox();
 
 	                        $rel = 'rel="'. easy_image_gallery_lightbox_rel( $gallery_id ) .'"';
+								$html = sprintf( '<li><a %s href="%s" class="%s" title="%s" target="_blank"><i class="icon-view"></i><span class="overlay"></span>%s</a></li>', $rel, $image_link, $image_class, $image_caption, $image );
 
 	                        if ( isset($gallery['OPEN_IMAGES']) && $gallery['OPEN_IMAGES'] == 'on' )
 	                            $html = sprintf( '<li><a %s href="%s" class="%s" title="%s"><i class="icon-view"></i><span class="overlay"></span>%s</a></li>', $rel, $image_link, $image_class, $image_caption, $image );
