@@ -24,14 +24,12 @@
   position: absolute;
   left: 50%;
   top: 50%;
-  transform: translate(-50%,-50%);
+  -webkit-transform: translate(-50%,-50%);
+          transform: translate(-50%,-50%);
   color: #fff;
   opacity: 0;
   visibility: visible;
   -webkit-transition: opacity 0.3s linear;
-  -moz-transition: opacity 0.3s linear;
-  -ms-transition: opacity 0.3s linear;
-  -o-transition: opacity 0.3s linear;
   transition: opacity 0.3s linear;
   z-index: 1;
 }
@@ -43,12 +41,10 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%,-50%);
+  -webkit-transform: translate(-50%,-50%);
+          transform: translate(-50%,-50%);
   opacity: 0.4;
   -webkit-transition: all 0.3s linear;
-  -moz-transition: all 0.3s linear;
-  -ms-transition: all 0.3s linear;
-  -o-transition: all 0.3s linear;
   transition: all 0.3s linear;
 }
 .eig-popup:hover .overlay {
@@ -90,8 +86,8 @@
   -o-transition: .3s all;
 }
 .lum-lightbox.lum-open {
-	background-color: rgba(0,0,0,.8);
-	z-index: 9999;
+  background-color: rgba(0,0,0,.8);
+  z-index: 9999;
 }
 #fancybox-title{
   left: 20px !important;
