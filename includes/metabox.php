@@ -320,10 +320,20 @@ function easy_image_gallery_metabox() {
         });
 
         jQuery(document).on( 'click', '.dx-eig-insert-shortcode', function(e) {
-            var id = $(this).parent().find('.dx-eig-shortcode').val();
-            var shortcode = '[easy_image_gallery gallery="'+ id +'"]';
-            
-            console.log( shortcode );
+            e.preventDefault();
+
+            if ( typeof tinymce === 'undefined' ) {
+                return;
+            }
+
+            var id = $(this).parent().find('.dx-eig-shortcode').val(),
+                shortcode = '[easy_image_gallery gallery="'+ id +'"]',
+                editor = tinymce.get('content'),
+                content = editor.getContent();
+
+            content += "\n\n" + shortcode;
+
+            editor.setContent( content );
         });
 
         eig_sortable();
