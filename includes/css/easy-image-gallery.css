@@ -94,11 +94,11 @@
 	z-index: 9999;
 }
 #fancybox-title{
-  left: initial !important;
+  left: 20px !important;
 }
 #fancybox-title-float-wrap td{
   background: transparent;
   background: #000;
   max-width: 50%;
-  white-space: initial !important;
+  white-space: normal !important;
 }
