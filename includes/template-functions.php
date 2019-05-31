@@ -161,6 +161,7 @@ function easy_image_gallery_lightbox() {
 	$lightboxes = array(
 		'fancybox' => __( 'fancyBox', 'easy-image-gallery' ),
 		'prettyphoto' => __( 'prettyPhoto', 'easy-image-gallery' ),
+		'luminous' => __( 'Luminous', 'easy-image-gallery' ),
 	);
 
 	return apply_filters( 'easy_image_gallery_lightbox', $lightboxes );
@@ -195,7 +196,7 @@ endif;
  * @return string
  */
 
-function easy_image_gallery_lightbox_rel() {
+function easy_image_gallery_lightbox_rel( $gallery_id = null ) {
 
 	$lightbox = easy_image_gallery_get_lightbox();
 
@@ -203,7 +204,7 @@ function easy_image_gallery_lightbox_rel() {
 
 	case 'prettyphoto':
 
-		$rel = 'prettyPhoto';
+		$rel = 'prettyPhoto' . '[group-'.$gallery_id.']';
 
 		break;
 
@@ -211,12 +212,19 @@ function easy_image_gallery_lightbox_rel() {
 
 		$rel = 'fancybox';
 
-	default:
+		break;
 
-		$rel = 'prettyPhoto';
+	case 'luminous':
+
+		$rel = 'luminous'  . '[group-'.$gallery_id.']';
 
 		break;
+
+	default:
+
+		$rel = 'prettyPhoto' . '[group-'.$gallery_id.']';
 	}
+
 
 	return $rel;
 }
@@ -406,10 +414,10 @@ function easy_image_gallery( $gallery_id = 'old_db' ) {
                 $classes = implode( ' ', $classes );
     			if ( isset($has_gallery_images) && !empty($has_gallery_images) ) {
 					?>
-	                <ul class="image-gallery <?php echo $classes; ?>">
+	                <ul class="easy-image-gallery <?php echo $classes; ?>">
                     <?php
                     	foreach ( $has_gallery_images as $attachment_id ) {
-	                        $classes = array( 'popup' );
+	                        $classes = array( 'eig-popup' );
 
 	                        // get original image
 	                        $image_link	= wp_get_attachment_image_src( $attachment_id, apply_filters( 'easy_image_gallery_linked_image_size', 'large' ) );
@@ -423,7 +431,7 @@ function easy_image_gallery( $gallery_id = 'old_db' ) {
 
 	                        $lightbox = easy_image_gallery_get_lightbox();
 
-	                        $rel = 'rel="'. $lightbox .'[group-'.$gallery_id.']"';
+	                        $rel = 'rel="'. easy_image_gallery_lightbox_rel( $gallery_id ) .'"';
 
 	                        if ( isset($gallery['OPEN_IMAGES']) && $gallery['OPEN_IMAGES'] == 'on' )
 	                            $html = sprintf( '<li><a %s href="%s" class="%s" title="%s"><i class="icon-view"></i><span class="overlay"></span>%s</a></li>', $rel, $image_link, $image_class, $image_caption, $image );
@@ -433,6 +441,10 @@ function easy_image_gallery( $gallery_id = 'old_db' ) {
 	                        echo apply_filters( 'easy_image_gallery_html', $html, $rel, $image_link, $image_class, $image_caption, $image, $attachment_id, $post->ID );
 	                    }
                 	echo '</ul>';
+
+                	if ( easy_image_gallery_get_lightbox() === 'luminous' ) {
+                		echo '<script>new LuminousGallery(document.querySelectorAll("a[rel=\'luminous[group-'.$gallery_id.']\']"));</script>';
+                	}
             	}
             }
         }
