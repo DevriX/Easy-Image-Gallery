@@ -322,18 +322,24 @@ function easy_image_gallery_metabox() {
         jQuery(document).on( 'click', '.dx-eig-insert-shortcode', function(e) {
             e.preventDefault();
 
-            if ( typeof tinymce === 'undefined' ) {
-                return;
-            }
-
             var id = $(this).parent().find('.dx-eig-shortcode').val(),
-                shortcode = '[easy_image_gallery gallery="'+ id +'"]',
-                editor = tinymce.get('content'),
-                content = editor.getContent();
+                shortcode = '[easy_image_gallery gallery="'+ id +'"]';
 
-            content += "\n\n" + shortcode;
+            // Gutenberg
+            if ( typeof wp.blocks !== 'undefined' ) {
+                var block = wp.blocks.createBlock( 'core/shortcode' );
+                block.attributes.text = shortcode;
+                wp.data.dispatch( 'core/editor' ).insertBlocks( block );
 
-            editor.setContent( content );
+            // Classic Editor
+            } else if ( typeof tinymce !== 'undefined' ) {
+                var editor = tinymce.get('content'),
+                    content = editor.getContent();
+
+                content += "\n\n" + shortcode;
+
+                editor.setContent( content );
+            }
         });
 
         eig_sortable();
