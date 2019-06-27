@@ -18,12 +18,12 @@ function easy_image_gallery_scripts() {
 
 	// JS
 	wp_register_script( 'pretty-photo', EASY_IMAGE_GALLERY_URL . 'includes/lib/prettyphoto/jquery.prettyPhoto.js', array( 'jquery' ), EASY_IMAGE_GALLERY_VERSION, true );
-	wp_register_script( 'fancybox', EASY_IMAGE_GALLERY_URL . 'includes/lib/fancybox/jquery.fancybox-1.3.4.pack.js', array( 'jquery' ), EASY_IMAGE_GALLERY_VERSION, true );
+	wp_register_script( 'fancybox', EASY_IMAGE_GALLERY_URL . 'includes/lib/fancybox/jquery.fancybox.min.js', array( 'jquery' ), EASY_IMAGE_GALLERY_VERSION, true );
 	wp_register_script( 'luminous', EASY_IMAGE_GALLERY_URL . 'includes/lib/luminous/dist/Luminous.min.js', array( 'jquery' ), EASY_IMAGE_GALLERY_VERSION, false );
 
 	// CSS
 	wp_register_style( 'pretty-photo', EASY_IMAGE_GALLERY_URL . 'includes/lib/prettyphoto/prettyPhoto.css', '', EASY_IMAGE_GALLERY_VERSION, 'screen' );
-	wp_register_style( 'fancybox', EASY_IMAGE_GALLERY_URL . 'includes/lib/fancybox/jquery.fancybox-1.3.4.css', '', EASY_IMAGE_GALLERY_VERSION, 'screen' );
+	wp_register_style( 'fancybox', EASY_IMAGE_GALLERY_URL . 'includes/lib/fancybox/jquery.fancybox.min.css', '', EASY_IMAGE_GALLERY_VERSION, 'screen' );
 
 	// create a new 'css/easy-image-gallery.css' in your child theme to override CSS file completely
 	if ( file_exists( get_stylesheet_directory() . '/css/easy-image-gallery.css' ) )

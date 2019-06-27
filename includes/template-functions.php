@@ -204,25 +204,25 @@ function easy_image_gallery_lightbox_rel( $gallery_id = null ) {
 
 	case 'prettyphoto':
 
-		$rel = 'prettyPhoto' . '[group-'.$gallery_id.']';
+		$rel = 'rel="prettyPhoto' . '[group-'.$gallery_id.']"';
 
 		break;
 
 	case 'fancybox':
 
-		$rel = 'fancybox';
+		$rel = 'data-fancybox="gallery"';
 
 		break;
 
 	case 'luminous':
 
-		$rel = 'luminous'  . '[group-'.$gallery_id.']';
+		$rel = 'rel="luminous'  . '[group-'.$gallery_id.']"';
 
 		break;
 
 	default:
 
-		$rel = 'prettyPhoto' . '[group-'.$gallery_id.']';
+		$rel = 'rel="prettyPhoto' . '[group-'.$gallery_id.']"';
 	}
 
 
@@ -431,10 +431,10 @@ function easy_image_gallery( $gallery_id = 'old_db' ) {
 
 	                        $lightbox = easy_image_gallery_get_lightbox();
 
-	                        $rel = 'rel="'. easy_image_gallery_lightbox_rel( $gallery_id ) .'"';
+	                        $rel =  easy_image_gallery_lightbox_rel( $gallery_id );
 
 	                        if ( isset($gallery['OPEN_IMAGES']) && $gallery['OPEN_IMAGES'] == 'on' )
-	                            $html = sprintf( '<li><a %s href="%s" class="%s" title="%s"><i class="icon-view"></i><span class="overlay"></span>%s</a></li>', $rel, $image_link, $image_class, $image_caption, $image );
+	                            $html = sprintf( '<li><a %s href="%s" class="%s" title="%s" data-caption="%s"><i class="icon-view"></i><span class="overlay"></span>%s</a></li>', $rel, $image_link, $image_class, $image_caption, $image_caption, $image );
 	                        else
 	                            $html = sprintf( '<li>%s</li>', $image );
 
