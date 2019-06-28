@@ -72,7 +72,7 @@ if ( ! class_exists( 'Easy_Image_Gallery' ) ) {
 			require_once( EASY_IMAGE_GALLERY_INCLUDES . 'scripts.php' );
 			require_once( EASY_IMAGE_GALLERY_INCLUDES . 'metabox.php' );
 			require_once( EASY_IMAGE_GALLERY_INCLUDES . 'admin-page.php' );
-
+			require_once( EASY_IMAGE_GALLERY_INCLUDES . 'gutenberg-block/plugin.php' );
 		}
 
 	}

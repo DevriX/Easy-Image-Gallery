@@ -148,6 +148,30 @@ function easy_image_gallery_has_shortcode( $shortcode = '' ) {
 	// return our final results
 	return $found;
 }
+/**
+ * Check the current post for the existence of a gutenberg block
+ *
+ * @since 1.0
+ * @return boolean
+ */
+function easy_image_gallery_has_block( $block = '' ) {
+	global $post;
+
+	// false because we have to search through the post content first
+	$found = false;
+
+	// if no short code was provided, return false
+	if ( !$block ) {
+		return $found;
+	}
+	if (  is_object( $post ) && stripos( $post->post_content, '<ul class="' . $block ) !== false ) {
+		// we have found the short code
+		$found = true;
+	} 
+
+	// return our final results
+	return $found;
+}
 
 
 /**
@@ -461,7 +485,7 @@ function easy_image_gallery( $gallery_id = 'old_db' ) {
  */
 function easy_image_gallery_append_to_content( $content ) {
 	// if it is single page and supported post_type and page not have shortcode.
-	if ( is_singular() && is_main_query() && easy_image_gallery_allowed_post_type() && !easy_image_gallery_has_shortcode('easy_image_gallery') ) {
+	if ( is_singular() && is_main_query() && easy_image_gallery_allowed_post_type() && !easy_image_gallery_has_shortcode('easy_image_gallery') && ! easy_image_gallery_has_block('wp-block-devrix-easy-image-gallery-block') ) {
 		$new_content = easy_image_gallery( 'old_db' );
 		$content .= $new_content;
 	}
@@ -476,7 +500,7 @@ add_filter( 'the_content', 'easy_image_gallery_append_to_content' );
  * @since 1.0
  */
 function easy_image_gallery_template_redirect() {
-    if ( easy_image_gallery_has_shortcode( 'easy_image_gallery' ) )
+    if ( easy_image_gallery_has_shortcode( 'easy_image_gallery' ) || easy_image_gallery_has_block('wp-block-devrix-easy-image-gallery-block')  )
 		remove_filter( 'the_content', 'easy_image_gallery_append_to_content' );
 }
 add_action( 'template_redirect', 'easy_image_gallery_template_redirect' );
