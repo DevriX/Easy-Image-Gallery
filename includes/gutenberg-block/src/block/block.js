@@ -10,9 +10,31 @@ import './style.scss';
 import './editor.scss';
 
 const { __ } = wp.i18n; // Import __() from wp.i18n
-const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.blocks
-const { MediaUpload } = wp.editor; //Import MediaUpload from wp.editor
-const { Button } = wp.components; //Import Button from wp.components
+
+// Import registerBlockType() from wp.blocks
+const {
+	BlockControls,
+	registerBlockType
+} = wp.blocks;
+
+//Import MediaUpload from wp.editor
+const {
+	MediaUpload,
+	InspectorControls
+} = wp.editor;
+
+ //Import Button from wp.components
+const {
+	PanelBody,
+	PanelRow,
+	Button,
+	FormToggle,
+} = wp.components;
+
+const {
+	Fragment
+} = wp.element;
+
 /**
  * Register: aa Gutenberg Block.
  *
@@ -32,6 +54,7 @@ let ID = function () {
 	// after the decimal.
 	return '_' + Math.random().toString(36).substr(2, 9);
 };
+
 registerBlockType( 'devrix/easy-image-gallery-block', {
 	// Block name. Block names must be string that contains a namespace prefix. Example: my-plugin/my-custom-block.
 	title: 'Easy Image Gallery', // Block title.
@@ -48,6 +71,10 @@ registerBlockType( 'devrix/easy-image-gallery-block', {
 		id : {
 			type: 'string',
 		},
+		link_images : {
+			type: 'boolean',
+			default: false
+		},
 	},
 
 	/**
@@ -58,11 +85,9 @@ registerBlockType( 'devrix/easy-image-gallery-block', {
 	 *
 	 * @link https://wordpress.org/gutenberg/handbook/block-api/block-edit-save/
 	 */
-	edit({ attributes, className, setAttributes }) {
-
+	edit({ attributes, className, setAttributes, isSelected }) {
         //Destructuring the images array attribute
-        const {images = []} = attributes;
-
+        const {images = [], link_images} = attributes;
 
         // This removes an image from the gallery
         const removeImage = (removeImage) => {
@@ -80,6 +105,9 @@ registerBlockType( 'devrix/easy-image-gallery-block', {
 			})
         }
 
+		const toggleLinkImages = () => {
+			setAttributes( { link_images: !link_images } );
+		};
 
         //Displays the images
         const displayImages = (images) => {
@@ -89,8 +117,7 @@ registerBlockType( 'devrix/easy-image-gallery-block', {
                     return (
                     <div className="gallery-item-container">
                             <img className='gallery-item' src={image.url} key={ images.id } />
-                            <div className='remove-item' onClick={() => removeImage(image)}><span class="dashicons dashicons-trash"></span></div>
-                            <div className='caption-text'>{image.caption[0]}</div>
+                            { isSelected && ( <div className='remove-item' onClick={() => removeImage(image)}><span class="dashicons dashicons-trash"></span></div> ) }
                     </div>
                     )
                 })
@@ -107,21 +134,40 @@ registerBlockType( 'devrix/easy-image-gallery-block', {
 
         //JSX to return
         return (
-            <div>
-                <ul className="image-gallery thumbnails-4 linked" data-total-slides={images.length}>{ displayImages(images) }</ul>
-                <br/>
-                <MediaUpload
-                        onSelect={(media) => {setAttributes({images: [...images, ...media]});}}
-                        type="image"
-                        multiple={true}
-                        value={images}
-                        render={({open}) => (
-                            <Button className="select-images-button is-button is-default is-large" onClick={open}>
-                                Add images
-                            </Button>
-                        )}
-                    />
-            </div>
+        	<Fragment>
+        		<InspectorControls>
+					<PanelBody>
+						<PanelRow>
+				            <label
+				                htmlFor="link-images-form-toggle"
+				            >
+				                { __( 'Link images to larger sizes', 'dx-link-images' ) }
+				            </label>
+				            <FormToggle
+				                id="link-images-form-toggle"
+				                label={ __( 'Link images to larger sizes', 'dx-link-images' ) }
+				                checked={ link_images }
+				                onChange={ toggleLinkImages }
+				            />
+						</PanelRow>
+					</PanelBody>
+				</InspectorControls>
+	            <div>
+	                <ul className="image-gallery thumbnails-4 linked" data-total-slides={images.length}>{ displayImages(images) }</ul>
+	                { isSelected && ( <MediaUpload
+	                        onSelect={(media) => {setAttributes({images: [...images, ...media]});}}
+	                        type="image"
+	                        multiple={true}
+	                        value={images}
+	                        render={({open}) => (
+	                            <Button className="select-images-button is-button is-default is-large" onClick={open}>
+	                                Add images
+	                            </Button>
+	                        )}
+	                    /> ) }
+	                
+	            </div>
+	        </Fragment>
 
         );
     },
@@ -136,34 +182,58 @@ registerBlockType( 'devrix/easy-image-gallery-block', {
 	 */
 	save({attributes}) {
 		//Destructuring the images array attribute
-		const { images } = attributes;
-		let rel = "prettyphoto[" + attributes['id'] + "]"
+		const { images, link_images } = attributes;
+		//let rel = "rel=\"prettyphoto[" + attributes['id'] + "]\""
+		let data_fancybox = 'gallery'
+
 		// Displays the images
 		const displayImages = (images) => {
 
 			return (
 
 				images.map( (image,index) => {
+					const imageWidth = image.sizes['thumbnail']['width'];
+					const imageHeight = image.sizes['thumbnail']['height'];
+					const imageThumb = image.sizes['thumbnail']['url'];
+
 					return (
-							<li>
-								<a href={image.url} rel={rel} >
-									<img
-										className='gallery-item'
-										key={images.id}
-										src={image.url}
-										data-slide-no={index}
-										data-caption={image.caption[0]}
-										alt={image.alt}
-									/>
-								</a>
-							</li>
+						<li>
+	                { link_images && (
+	                	<a href={image.url} data-fancybox={data_fancybox} data-caption={image.caption} className='eig-popup' >
+	                	<i className="icon-view"></i><span className="overlay"></span>
+						<img
+							className='gallery-item'
+							key={ images.id }
+							src={ imageThumb }
+							data-slide-no={ index }
+							alt={ image.alt }
+							width={ imageWidth }
+							height={ imageHeight }
+						/>
+						</a>
+						)
+					}
+
+	                { ! link_images && (
+								<img
+									className='gallery-item'
+									key={ images.id }
+									src={ imageThumb }
+									data-slide-no={ index }
+									alt={ image.alt }
+									width={ imageWidth }
+									height={ imageHeight }
+								/> ) }
+							
+						</li>
 					)
 				})
 			)
 		}
+
 		//JSX to return
 		return (
-			<ul className="image-gallery-block thumbnails-4 linked" data-total-slides={images.length}>{ displayImages(images) }</ul>
+			<ul className="easy-image-gallery thumbnails-4 linked" data-total-slides={images.length}>{ displayImages(images) }</ul>
 		);
 	},
 } );
