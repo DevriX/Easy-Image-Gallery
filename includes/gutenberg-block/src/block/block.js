@@ -117,7 +117,7 @@ registerBlockType( 'devrix/easy-image-gallery-block', {
                     return (
                     <div className="gallery-item-container">
                             <img className='gallery-item' src={image.url} key={ images.id } />
-                            { isSelected && ( <div className='remove-item' onClick={() => removeImage(image)}><span class="dashicons dashicons-trash"></span></div> ) }
+                            { isSelected && ( <div className='remove-item'><span class="dashicons dashicons-trash" onClick={() => removeImage(image)}></span></div> ) }
                     </div>
                     )
                 })
@@ -202,7 +202,7 @@ registerBlockType( 'devrix/easy-image-gallery-block', {
 	                	<a href={image.url} data-fancybox={data_fancybox} data-caption={image.caption} className='eig-popup' >
 	                	<i className="icon-view"></i><span className="overlay"></span>
 						<img
-							className='gallery-item'
+							className='attachment-thumbnail size-thumbnail'
 							key={ images.id }
 							src={ imageThumb }
 							data-slide-no={ index }
@@ -216,7 +216,7 @@ registerBlockType( 'devrix/easy-image-gallery-block', {
 
 	                { ! link_images && (
 								<img
-									className='gallery-item'
+									className='attachment-thumbnail size-thumbnail'
 									key={ images.id }
 									src={ imageThumb }
 									data-slide-no={ index }
