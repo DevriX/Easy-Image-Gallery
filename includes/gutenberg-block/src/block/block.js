@@ -233,9 +233,15 @@ registerBlockType( 'devrix/easy-image-gallery-block', {
 			return (
 
 				images.map( (image,index) => {
-					const imageWidth = image.sizes['thumbnail']['width'];
-					const imageHeight = image.sizes['thumbnail']['height'];
-					const imageThumb = image.sizes['thumbnail']['url'];
+					let imgSize = 'thumbnail';
+
+					if(typeof image.sizes['thumbnail'] === 'undefined'){
+						imgSize = 'full';
+					}
+
+					const imageWidth = image.sizes[imgSize]['width'];
+					const imageHeight = image.sizes[imgSize]['height'];
+					const imageThumb = image.sizes[imgSize]['url'];
 
 					const lightbox_attr_data = {
 						'fancybox' : { 'key': 'data-fancybox', 'value': data_fancybox, },
