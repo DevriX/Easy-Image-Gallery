@@ -29,6 +29,7 @@ const {
 	PanelRow,
 	Button,
 	FormToggle,
+	SelectControl
 } = wp.components;
 
 const {
@@ -55,6 +56,13 @@ let ID = function () {
 	return '_' + Math.random().toString(36).substr(2, 9);
 };
 
+let uniqueNumber = function () {
+	// Math.random should be unique because of its seeding algorithm.
+	// Convert it to base 36 (numbers + letters), and grab the first 9 characters
+	// after the decimal.
+	return Math.floor(100 + Math.random() * 900);
+};
+
 registerBlockType( 'devrix/easy-image-gallery-block', {
 	// Block name. Block names must be string that contains a namespace prefix. Example: my-plugin/my-custom-block.
 	title: 'Easy Image Gallery', // Block title.
@@ -65,15 +73,21 @@ registerBlockType( 'devrix/easy-image-gallery-block', {
 		__( 'Easy Image Gallery' ),
 	],
 	attributes: { //Attributes
-        images : { //Images array
-            type: 'array',
+		images : { //Images array
+			type: 'array',
 		},
 		id : {
 			type: 'string',
 		},
+		unique_number : {
+			type: 'number',
+		},
 		link_images : {
 			type: 'boolean',
 			default: false
+		},
+		lightbox_option : {
+			type: 'string',
 		},
 	},
 
@@ -86,11 +100,11 @@ registerBlockType( 'devrix/easy-image-gallery-block', {
 	 * @link https://wordpress.org/gutenberg/handbook/block-api/block-edit-save/
 	 */
 	edit({ attributes, className, setAttributes, isSelected }) {
-        //Destructuring the images array attribute
-        const {images = [], link_images} = attributes;
+		//Destructuring the images array attribute
+		const { images = [], link_images, lightbox_option, unique_number } = attributes;
 
-        // This removes an image from the gallery
-        const removeImage = (removeImage) => {
+		// This removes an image from the gallery
+		const removeImage = (removeImage) => {
 			//filter the images
 			const newImages = images.filter( (image) => {
 				//If the current image is equal to removeImage the image will be returnd
@@ -103,26 +117,35 @@ registerBlockType( 'devrix/easy-image-gallery-block', {
 			setAttributes({
 				images:newImages,
 			})
-        }
+		}
+
+		if( typeof lightbox_option == 'undefined'){
+			setAttributes( { lightbox_option: 'fancybox' } );			
+		}
 
 		const toggleLinkImages = () => {
 			setAttributes( { link_images: !link_images } );
 		};
 
-        //Displays the images
-        const displayImages = (images) => {
-            return (
-                //Loops throug the images
-                images.map( (image) => {
-                    return (
-                    <div className="gallery-item-container">
-                            <img className='gallery-item' src={image.url} key={ images.id } />
-                            { isSelected && ( <div className='remove-item'><span class="dashicons dashicons-trash" onClick={() => removeImage(image)}></span></div> ) }
-                    </div>
-                    )
-                })
+		const setLightbox = (lightbox_option) => {
+			setAttributes( { unique_number: uniqueNumber() } );
+			setAttributes( { lightbox_option: lightbox_option } );
+		};
 
-            )
+		//Displays the images
+		const displayImages = (images) => {
+			return (
+				//Loops throug the images
+				images.map( (image) => {
+					return (
+					<div className="gallery-item-container">
+							<img className='gallery-item' src={image.url} key={ images.id } />
+							{ isSelected && ( <div className='remove-item'><span class="dashicons dashicons-trash" onClick={() => removeImage(image)}></span></div> ) }
+					</div>
+					)
+				})
+
+			)
 		}
 		let _id = ""
 		if( attributes['id'] != undefined ) {
@@ -132,45 +155,58 @@ registerBlockType( 'devrix/easy-image-gallery-block', {
 		}
 		setAttributes({id : _id,})
 
-        //JSX to return
-        return (
-        	<Fragment>
-        		<InspectorControls>
+		//JSX to return
+		return (
+			<Fragment>
+				<InspectorControls>
 					<PanelBody>
 						<PanelRow>
-				            <label
-				                htmlFor="link-images-form-toggle"
-				            >
-				                { __( 'Link images to larger sizes', 'dx-link-images' ) }
-				            </label>
-				            <FormToggle
-				                id="link-images-form-toggle"
-				                label={ __( 'Link images to larger sizes', 'dx-link-images' ) }
-				                checked={ link_images }
-				                onChange={ toggleLinkImages }
-				            />
+							<label
+								htmlFor="link-images-form-toggle"
+							>
+								{ __( 'Link images to larger sizes', 'dx-link-images' ) }
+							</label>
+							<FormToggle
+								id="link-images-form-toggle"
+								label={ __( 'Link images to larger sizes', 'dx-link-images' ) }
+								checked={ link_images }
+								onChange={ toggleLinkImages }
+							/>
+						</PanelRow>
+						<PanelRow>
+							<SelectControl
+								label={ __( 'Lightbox:' ) }
+								value={ lightbox_option }
+								onChange={ setLightbox }
+								onSubmit={ setLightbox }
+								options={ [
+									{ value: 'fancybox', label: 'fancyBox' },
+									{ value: 'pretty-photo', label: 'prettyPhoto' },
+									{ value: 'luminous', label: 'Luminous' },
+								] }
+							/>
 						</PanelRow>
 					</PanelBody>
 				</InspectorControls>
-	            <div>
-	                <ul className="image-gallery thumbnails-4 linked" data-total-slides={images.length}>{ displayImages(images) }</ul>
-	                { isSelected && ( <MediaUpload
-	                        onSelect={(media) => {setAttributes({images: [...images, ...media]});}}
-	                        type="image"
-	                        multiple={true}
-	                        value={images}
-	                        render={({open}) => (
-	                            <Button className="select-images-button is-button is-default is-large" onClick={open}>
-	                                Add images
-	                            </Button>
-	                        )}
-	                    /> ) }
-	                
-	            </div>
-	        </Fragment>
+				<div>
+					<ul className="image-gallery thumbnails-4 linked" data-total-slides={images.length}>{ displayImages(images) }</ul>
+					{ isSelected && ( <MediaUpload
+							onSelect={(media) => {setAttributes({images: [...images, ...media]});}}
+							type="image"
+							multiple={true}
+							value={images}
+							render={({open}) => (
+								<Button className="select-images-button is-button is-default is-large" onClick={open}>
+									Add images
+								</Button>
+							)}
+						/> ) }
+					
+				</div>
+			</Fragment>
 
-        );
-    },
+		);
+	},
 
 	/**
 	 * The save function defines the way in which the different attributes should be combined
@@ -182,9 +218,14 @@ registerBlockType( 'devrix/easy-image-gallery-block', {
 	 */
 	save({attributes}) {
 		//Destructuring the images array attribute
-		const { images, link_images } = attributes;
+		const { images, link_images, lightbox_option, unique_number } = attributes;
+
+		if(typeof images === 'undefined'){
+			return false;
+		}
+
 		//let rel = "rel=\"prettyphoto[" + attributes['id'] + "]\""
-		let data_fancybox = 'gallery'
+		let data_fancybox = 'gallery';
 
 		// Displays the images
 		const displayImages = (images) => {
@@ -192,15 +233,27 @@ registerBlockType( 'devrix/easy-image-gallery-block', {
 			return (
 
 				images.map( (image,index) => {
-					const imageWidth = image.sizes['thumbnail']['width'];
-					const imageHeight = image.sizes['thumbnail']['height'];
-					const imageThumb = image.sizes['thumbnail']['url'];
+					let imgSize = 'thumbnail';
+
+					if(typeof image.sizes['thumbnail'] === 'undefined'){
+						imgSize = 'full';
+					}
+
+					const imageWidth = image.sizes[imgSize]['width'];
+					const imageHeight = image.sizes[imgSize]['height'];
+					const imageThumb = image.sizes[imgSize]['url'];
+
+					const lightbox_attr_data = {
+						'fancybox' : { 'key': 'data-fancybox', 'value': data_fancybox, },
+						'pretty-photo' : { 'key': 'rel', 'value': 'prettyPhoto[group-'+unique_number+']', },
+						'luminous' : { 'key': 'rel', 'value': 'luminous[group-'+unique_number+']', },
+					}
 
 					return (
 						<li>
-	                { link_images && (
-	                	<a href={image.url} data-fancybox={data_fancybox} data-caption={image.caption} className='eig-popup' >
-	                	<i className="icon-view"></i><span className="overlay"></span>
+					{ link_images && (
+						<a href={image.url} {...{[lightbox_attr_data[lightbox_option]['key']]: lightbox_attr_data[lightbox_option]['value']}} data-caption={image.caption} className='eig-popup' >
+						<i className="icon-view"></i><span className="overlay"></span>
 						<img
 							className='attachment-thumbnail size-thumbnail'
 							key={ images.id }
@@ -214,7 +267,7 @@ registerBlockType( 'devrix/easy-image-gallery-block', {
 						)
 					}
 
-	                { ! link_images && (
+					{ ! link_images && (
 								<img
 									className='attachment-thumbnail size-thumbnail'
 									key={ images.id }
@@ -233,7 +286,13 @@ registerBlockType( 'devrix/easy-image-gallery-block', {
 
 		//JSX to return
 		return (
-			<ul className="easy-image-gallery thumbnails-4 linked" data-total-slides={images.length}>{ displayImages(images) }</ul>
+			<ul className="easy-image-gallery thumbnails-4 linked" data-total-slides={images.length}>{ displayImages(images) }
+					{ 'luminous' == lightbox_option && (
+						<script>new LuminousGallery(document.querySelectorAll("a[rel='luminous[group-{unique_number}]']"));</script>
+						)
+					}
+			</ul>
+
 		);
 	},
 } );

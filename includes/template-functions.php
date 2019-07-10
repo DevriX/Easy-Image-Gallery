@@ -58,7 +58,10 @@ function easy_image_gallery_get_post_meta(){
  */
 function easy_image_gallery_is_gallery() {
 	$gallery_ids = easy_image_gallery_get_post_meta();
-	if ( $gallery_ids ) {
+	// Checking if we have EIG (Easy Image Gallery) Gutenberg Blocks in the post content
+	$gutenberg_galleries = easy_image_gallery_if_gutenberg_block();
+
+	if ( ! empty( $gallery_ids ) || ! empty( $gutenberg_galleries ) ) {
 		return true;
 	}
 

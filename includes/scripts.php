@@ -15,7 +15,6 @@ function easy_image_gallery_scripts() {
 	if ( !isset( $post->ID ) )
 		return;
 
-
 	// JS
 	wp_register_script( 'pretty-photo', EASY_IMAGE_GALLERY_URL . 'includes/lib/prettyphoto/jquery.prettyPhoto.js', array( 'jquery' ), EASY_IMAGE_GALLERY_VERSION, true );
 	wp_register_script( 'fancybox', EASY_IMAGE_GALLERY_URL . 'includes/lib/fancybox/jquery.fancybox.min.js', array( 'jquery' ), EASY_IMAGE_GALLERY_VERSION, true );
@@ -40,6 +39,17 @@ function easy_image_gallery_scripts() {
 		wp_enqueue_style( 'easy-image-gallery' );
 
 	$linked_images = true;
+	$gutenberg_galleries = easy_image_gallery_if_gutenberg_block();
+
+	if ( ! empty( $gutenberg_galleries ) ) {
+		foreach( $gutenberg_galleries as $value ) {
+			// CSS
+			wp_enqueue_style( $value );
+
+			// JS
+			wp_enqueue_script( $value );
+		}
+	}
 
 	// only load the JS if gallery images are linked or the featured image is linked
 	if ( $linked_images ) {
@@ -89,7 +99,27 @@ function easy_image_gallery_scripts() {
 }
 add_action( 'wp_enqueue_scripts', 'easy_image_gallery_scripts', 20 );
 
+/**
+ * Checking if we have the Easy Image Gallery Gutenberg block in the post content
+ *
+ * @since 1.4.0
+ */
+function easy_image_gallery_if_gutenberg_block() {
+	global $post;
 
+	$arr_lightboxes = array();
+
+	if ( has_blocks( $post->post_content ) ) {
+		$blocks = parse_blocks( $post->post_content );
+		$arr_attrs = array_column( $blocks, 'attrs' );
+
+		if( in_array( 'devrix/easy-image-gallery-block', array_column( $blocks, 'blockName' ) ) ) {
+			$arr_lightboxes = array_column( $arr_attrs, 'lightbox_option' );
+		}
+	}
+
+	return array_unique( $arr_lightboxes );
+}
 
 
 /**
