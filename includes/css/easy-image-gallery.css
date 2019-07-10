@@ -102,3 +102,7 @@
   max-width: 50%;
   white-space: initial !important;
 }
+
+.admin-bar .fancybox-container {
+  margin-top: 32px;
+}
