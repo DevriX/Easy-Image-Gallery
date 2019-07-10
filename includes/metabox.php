@@ -374,23 +374,23 @@ function easy_image_gallery_save_post( $post_id ) {
     }
 
 
-    if ( isset($_POST['image_gallery']) && !empty($_POST['image_gallery']) ){
+    if ( isset( $_POST['image_gallery'] ) && ! empty( $_POST['image_gallery'] ) ) {
         $galleries = array();
-        foreach ($_POST['image_gallery'] as $gallery){
-            if ($gallery['DATA'] != null){
-                $convert_to_arr = explode(',', $gallery['DATA']);
-            }else{
+
+        foreach ( $_POST['image_gallery'] as $gallery ) {
+            if ( $gallery['DATA'] != null ) {
+                $convert_to_arr = explode( ',', $gallery['DATA'] );
+            } else {
                 $convert_to_arr = null;
             }
 
-
             $gallery['DATA'] = $convert_to_arr;
-            $galleries[] = $gallery;
+            $galleries[]     = $gallery;
         }
 
         update_post_meta( $post_id, '_easy_image_gallery_v2', $galleries );
         delete_post_meta( $post_id, '_easy_image_gallery' );
-    }else{
+    } elseif ( isset( $_POST['action'] ) && 'editpost' == $_POST['action'] ) {
         delete_post_meta( $post_id, '_easy_image_gallery_v2' );
     }
 
