@@ -125,6 +125,7 @@ registerBlockType( 'devrix/easy-image-gallery-block', {
 
 		const toggleLinkImages = () => {
 			setAttributes( { link_images: !link_images } );
+			setAttributes( { unique_number: uniqueNumber() } );
 		};
 
 		const setLightbox = (lightbox_option) => {
@@ -178,7 +179,6 @@ registerBlockType( 'devrix/easy-image-gallery-block', {
 								label={ __( 'Lightbox:' ) }
 								value={ lightbox_option }
 								onChange={ setLightbox }
-								onSubmit={ setLightbox }
 								options={ [
 									{ value: 'fancybox', label: 'fancyBox' },
 									{ value: 'pretty-photo', label: 'prettyPhoto' },
@@ -244,7 +244,7 @@ registerBlockType( 'devrix/easy-image-gallery-block', {
 					const imageThumb = image.sizes[imgSize]['url'];
 
 					const lightbox_attr_data = {
-						'fancybox' : { 'key': 'data-fancybox', 'value': data_fancybox, },
+						'fancybox' : { 'key': 'data-fancybox', 'value': data_fancybox + unique_number, },
 						'pretty-photo' : { 'key': 'rel', 'value': 'prettyPhoto[group-'+unique_number+']', },
 						'luminous' : { 'key': 'rel', 'value': 'luminous[group-'+unique_number+']', },
 					}
@@ -252,7 +252,7 @@ registerBlockType( 'devrix/easy-image-gallery-block', {
 					return (
 						<li>
 					{ link_images && (
-						<a href={image.url} {...{[lightbox_attr_data[lightbox_option]['key']]: lightbox_attr_data[lightbox_option]['value']}} data-caption={image.caption} className='eig-popup' >
+						<a href={image.url} {...{[lightbox_attr_data[lightbox_option]['key']]: lightbox_attr_data[lightbox_option]['value']}} data-caption={image.caption} className='eig-popup' target='_blank'>
 						<i className="icon-view"></i><span className="overlay"></span>
 						<img
 							className='attachment-thumbnail size-thumbnail'

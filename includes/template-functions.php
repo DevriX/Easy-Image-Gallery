@@ -237,7 +237,7 @@ function easy_image_gallery_lightbox_rel( $gallery_id = null ) {
 
 	case 'fancybox':
 
-		$rel = 'data-fancybox="gallery"';
+		$rel = 'data-fancybox="gallery'.$gallery_id.'"';
 
 		break;
 
