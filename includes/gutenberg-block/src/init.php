@@ -17,12 +17,29 @@ if ( ! defined( 'EASY_IMAGE_BLOCK_GALLERY_URL' ) )
 
 
 /**
- * Enqueue Gutenberg block assets for both frontend + backend.
- *
+ * Hiding/Showing EIG Gutenberg Block depending on user choice to hide/show it
+ * on post/pages
  * @uses {wp-editor} for WP editor styles.
- * @since 1.0.0
+ * @since 1.4.0
  */
+function easy_image_gallery_hide( $post_id ) {
+	$post_types = easy_image_gallery_allowed_post_types();
+	$post_type  = get_post_type( $post_id );
+
+	if ( ! array_key_exists( $post_type, $post_types ) ) {
+		return true;
+	}
+
+	return false;
+}
+
 function easy_image_gallery_block_cgb_block_assets() { // phpcs:ignore
+	global $post;
+
+	if ( true === easy_image_gallery_hide( $post->ID) ) {
+		return;
+	}
+
 	// Styles.
 	wp_enqueue_style(
 		'easy_image_gallery_block-cgb-style-css', // Handle.
@@ -59,6 +76,12 @@ add_action( 'enqueue_block_assets', 'easy_image_gallery_block_cgb_block_assets' 
  * @since 1.0.0
  */
 function easy_image_gallery_block_cgb_editor_assets() { // phpcs:ignore
+	global $post;
+
+	if ( true === easy_image_gallery_hide( $post->ID) ) {
+		return;
+	}
+
 	wp_enqueue_script( 'easy_image_gallery_block-script-fe-js' );
 
 	// Scripts.

@@ -72,15 +72,6 @@ if ( ! class_exists( 'Easy_Image_Gallery' ) ) {
 			require_once( EASY_IMAGE_GALLERY_INCLUDES . 'scripts.php' );
 			require_once( EASY_IMAGE_GALLERY_INCLUDES . 'metabox.php' );
 			require_once( EASY_IMAGE_GALLERY_INCLUDES . 'admin-page.php' );
-
-			if ( ! empty( $_GET['post'] ) ) {
-				$post_types = easy_image_gallery_allowed_post_types();
-				$post_type  = get_post_type( $_GET['post'] );
-
-				if ( ! array_key_exists( $post_type, $post_types ) ) {
-					return;
-				}
-			}
 			require_once( EASY_IMAGE_GALLERY_INCLUDES . 'gutenberg-block/plugin.php' );
 		}
 
