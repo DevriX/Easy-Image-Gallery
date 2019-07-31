@@ -252,7 +252,7 @@ registerBlockType( 'devrix/easy-image-gallery-block', {
 					return (
 						<li>
 					{ link_images && (
-						<a href={image.url} {...{[lightbox_attr_data[lightbox_option]['key']]: lightbox_attr_data[lightbox_option]['value']}} data-caption={image.caption} className='eig-popup'>
+						<a href={image.sizes['large'].url} {...{[lightbox_attr_data[lightbox_option]['key']]: lightbox_attr_data[lightbox_option]['value']}} data-caption={image.caption} className='eig-popup'>
 						<i className="icon-view"></i><span className="overlay"></span>
 						<img
 							className='attachment-thumbnail size-thumbnail'
