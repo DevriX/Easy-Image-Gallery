@@ -107,6 +107,10 @@ add_action( 'wp_enqueue_scripts', 'easy_image_gallery_scripts', 20 );
 function easy_image_gallery_if_gutenberg_block() {
 	global $post;
 
+	if ( ! function_exists( 'has_blocks' ) ) {
+		return false;
+	}
+
 	$arr_lightboxes = array();
 
 	if ( has_blocks( $post->post_content ) ) {
