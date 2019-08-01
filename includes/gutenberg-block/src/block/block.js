@@ -234,14 +234,20 @@ registerBlockType( 'devrix/easy-image-gallery-block', {
 
 				images.map( (image,index) => {
 					let imgSize = 'thumbnail';
+					let imgHrefSize  = 'large';
 
 					if(typeof image.sizes['thumbnail'] === 'undefined'){
 						imgSize = 'full';
 					}
 
+					if(typeof image.sizes['large'] === 'undefined'){
+						imgHrefSize = 'full';
+					}
+
 					const imageWidth = image.sizes[imgSize]['width'];
 					const imageHeight = image.sizes[imgSize]['height'];
 					const imageThumb = image.sizes[imgSize]['url'];
+					const imageHrefUrl = image.sizes[imgHrefSize]['url'];
 
 					const lightbox_attr_data = {
 						'fancybox' : { 'key': 'data-fancybox', 'value': data_fancybox + unique_number, },
@@ -252,7 +258,7 @@ registerBlockType( 'devrix/easy-image-gallery-block', {
 					return (
 						<li>
 					{ link_images && (
-						<a href={image.sizes['large'].url} {...{[lightbox_attr_data[lightbox_option]['key']]: lightbox_attr_data[lightbox_option]['value']}} data-caption={image.caption} className='eig-popup'>
+						<a href={imageHrefUrl} {...{[lightbox_attr_data[lightbox_option]['key']]: lightbox_attr_data[lightbox_option]['value']}} data-caption={image.caption} className='eig-popup'>
 						<i className="icon-view"></i><span className="overlay"></span>
 						<img
 							className='attachment-thumbnail size-thumbnail'
