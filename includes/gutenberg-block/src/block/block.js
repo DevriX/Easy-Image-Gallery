@@ -102,10 +102,11 @@ registerBlockType( 'devrix/easy-image-gallery-block', {
 	edit({ attributes, className, setAttributes, isSelected }) {
 		//Destructuring the images array attribute
 		const { images = [], link_images, lightbox_option, unique_number } = attributes;
-
+console.log(window.test);
+console.log(window.images = images);
 		// This removes an image from the gallery
 		const removeImage = (removeImage) => {
-			//filter the images
+			//filter the imagesa
 			const newImages = images.filter( (image) => {
 				//If the current image is equal to removeImage the image will be returnd
 				if(image.id != removeImage.id) {
@@ -189,7 +190,7 @@ registerBlockType( 'devrix/easy-image-gallery-block', {
 					</PanelBody>
 				</InspectorControls>
 				<div>
-					<ul className="image-gallery thumbnails-4 linked" data-total-slides={images.length}>{ displayImages(images) }</ul>
+					<ul id="eig-gallery" className="image-gallery thumbnails-4 linked" data-total-slides={images.length}>{ displayImages(images) }</ul>
 					{ isSelected && ( <MediaUpload
 							onSelect={(media) => {setAttributes({images: [...images, ...media]});}}
 							type="image"
@@ -234,20 +235,20 @@ registerBlockType( 'devrix/easy-image-gallery-block', {
 
 				images.map( (image,index) => {
 					let imgSize = 'thumbnail';
-					let imgHrefSize  = 'large';
+					let imgUrl  = 'large';
 
 					if(typeof image.sizes['thumbnail'] === 'undefined'){
 						imgSize = 'full';
 					}
 
 					if(typeof image.sizes['large'] === 'undefined'){
-						imgHrefSize = 'full';
+						imgUrl = 'full';
 					}
 
 					const imageWidth = image.sizes[imgSize]['width'];
 					const imageHeight = image.sizes[imgSize]['height'];
 					const imageThumb = image.sizes[imgSize]['url'];
-					const imageHrefUrl = image.sizes[imgHrefSize]['url'];
+					const imageHrefUrl = image.sizes[imgSize]['url'];
 
 					const lightbox_attr_data = {
 						'fancybox' : { 'key': 'data-fancybox', 'value': data_fancybox + unique_number, },
@@ -292,7 +293,7 @@ registerBlockType( 'devrix/easy-image-gallery-block', {
 
 		//JSX to return
 		return (
-			<ul className="easy-image-gallery thumbnails-4 linked" data-total-slides={images.length}>{ displayImages(images) }
+			<ul id="eig-gallery" className="easy-image-gallery thumbnails-4 linked" data-total-slides={images.length}>{ displayImages(images) }
 					{ 'luminous' == lightbox_option && (
 						<script>new LuminousGallery(document.querySelectorAll("a[rel='luminous[group-{unique_number}]']"));</script>
 						)
