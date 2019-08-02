@@ -102,8 +102,7 @@ registerBlockType( 'devrix/easy-image-gallery-block', {
 	edit({ attributes, className, setAttributes, isSelected }) {
 		//Destructuring the images array attribute
 		const { images = [], link_images, lightbox_option, unique_number } = attributes;
-console.log(window.test);
-console.log(window.images = images);
+
 		// This removes an image from the gallery
 		const removeImage = (removeImage) => {
 			//filter the imagesa
@@ -235,20 +234,20 @@ console.log(window.images = images);
 
 				images.map( (image,index) => {
 					let imgSize = 'thumbnail';
-					let imgUrl  = 'large';
+					let imgHrefSize  = 'large';
 
 					if(typeof image.sizes['thumbnail'] === 'undefined'){
 						imgSize = 'full';
 					}
 
 					if(typeof image.sizes['large'] === 'undefined'){
-						imgUrl = 'full';
+						imgHrefSize = 'full';
 					}
 
 					const imageWidth = image.sizes[imgSize]['width'];
 					const imageHeight = image.sizes[imgSize]['height'];
 					const imageThumb = image.sizes[imgSize]['url'];
-					const imageHrefUrl = image.sizes[imgSize]['url'];
+					const imageHrefUrl = image.sizes[imgHrefSize]['url'];
 
 					const lightbox_attr_data = {
 						'fancybox' : { 'key': 'data-fancybox', 'value': data_fancybox + unique_number, },

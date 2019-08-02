@@ -60,17 +60,18 @@ function easy_image_gallery_block_cgb_block_assets() { // phpcs:ignore
 	// wp_register_style( 'fancybox', EASY_IMAGE_BLOCK_GALLERY_URL . '../dist/lib/fancybox/jquery.fancybox-1.3.4.css', '', EASY_IMAGE_GALLERY_VERSION, 'screen' );
 	wp_enqueue_script( 'pretty-photo-js' );
 	// wp_enqueue_script( 'fancybox-js' );
-	wp_enqueue_script(
-		'dragula-js' ,
-		plugins_url( '../js/dragula.min.js', dirname( __FILE__ ) ),
-		array( 'wp-editor' )
-	);
-	wp_enqueue_style(
-		'dragula-css', // Handle.
-		plugins_url( '../js/dragula.min.css', dirname( __FILE__ ) ), // Block style CSS.
-		array( 'wp-editor' ) // Dependency to include the CSS after it.
-	);
-
+	if ( is_admin() ) {
+		wp_enqueue_script(
+			'dragula-js' ,
+			plugins_url( '../js/dragula.min.js', dirname( __FILE__ ) ),
+			array( 'wp-editor' )
+		);
+		wp_enqueue_style(
+			'dragula-css', // Handle.
+			plugins_url( '../js/dragula.min.css', dirname( __FILE__ ) ), // Block style CSS.
+			array( 'wp-editor' ) // Dependency to include the CSS after it.
+		);
+	}
 }
 
 // Hook: Frontend assets.
