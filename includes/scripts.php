@@ -56,6 +56,10 @@ function easy_image_gallery_scripts() {
 
 		$lightbox = easy_image_gallery_get_lightbox();
 
+		// Scripts that we need to remove for proper plugin functionality
+		wp_dequeue_script( 'magnific-popup' ); // OceanWP theme
+		wp_dequeue_script( 'oceanwp-lightbox' ); // OceanWP theme
+
 		switch ( $lightbox ) {
 				
 				case 'prettyphoto':
