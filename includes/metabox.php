@@ -406,7 +406,7 @@ function easy_image_gallery_save_post( $post_id ) {
 
 	// link to larger images
 	if ( isset( $_POST['easy_image_gallery_link_images'] ) ) {
-		update_post_meta( $post_id, '_easy_image_gallery_link_images', sanitize_text_field( $_POST['easy_image_gallery_link_images'] ) );
+		update_post_meta( $post_id, '_easy_image_gallery_link_images', $_POST['easy_image_gallery_link_images'] );
 	} else {
 		update_post_meta( $post_id, '_easy_image_gallery_link_images', 'off' );
 	}
