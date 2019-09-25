@@ -108,7 +108,7 @@ In your WordPress admin under Settings -> Media
 
 = How can I add another Lightbox script to the plugin? =
 
-[Read This](http://sumobi.com/how-to-add-any-lightbox-script-to-the-easy-image-gallery-plugin "How to add another lightbox script to Easy Image Gallery") or [download this free plugin](http://sumobi.com/shop/easy-image-gallery-extend/ "Extend Easy Image Gallery with additional lightboxes") to add Colorbox and fancyBox 2
+[Read This](http://sumobi.com/how-to-add-any-lightbox-script-to-the-easy-image-gallery-plugin "How to add another lightbox script to Easy Image Gallery") or [download this free plugin](http://sumobi.com/shop/easy-image-gallery-extend/ "Extend Easy Image Gallery with additional lightboxes") to add Colorbox and fancyBox 3
 
 = How can I use a different thumbnail size for each post type? =
 
@@ -118,6 +118,18 @@ In your WordPress admin under Settings -> Media
 The plugin ownership was transferred to DevriX. There are no functionality changes. We are going to work on a few version, adding some nice feature in the near feature, stay tuned! :)
 
 == Changelog ==
+
+= 1.4.0 =
+* Release date - September 25, 2019
+* Introduced "add to post" button in the gallery metabox for inserting shortcodes;
+* Gutenberg compatibility - adding Easy Image Gallery Gutenberg block;
+* "_blank" target for the image is added when the gallery is without lightbox, thus improving UX;
+* Fancybox upgraded to v.3.5.7;
+* Adding caption to the image for fancybox;
+* Fixing large image size on a href click (PrettyPhoto);
+* Fixing Fatal error on WP version 4.9.8;
+* Fixing a couple of font references where not pointing to the right folder in blocks.style.build.css;
+* Removing OceanWP theme scripts for proper plugin functionality;
 
 = 1.3.1 =
 * Release date - May 07, 2018.
