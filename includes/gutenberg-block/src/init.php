@@ -12,8 +12,9 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-if ( ! defined( 'EASY_IMAGE_BLOCK_GALLERY_URL' ) )
-	define( 'EASY_IMAGE_BLOCK_GALLERY_URL', trailingslashit( plugin_dir_url( __FILE__ ) ) );
+if ( ! defined( 'EASY_IMAGE_BLOCK_GALLERY_URL' ) ) {
+	define( 'EASY_IMAGE_BLOCK_GALLERY_URL', trailingslashit( plugin_dir_url( __DIR__ ) ) );
+}
 
 
 /**
@@ -50,10 +51,13 @@ function easy_image_gallery_block_cgb_block_assets() { // phpcs:ignore
 	wp_enqueue_script(
 		'easy_image_gallery_block-script-fe-js' ,
 		plugins_url( 'dist/blocks.script.js', dirname( __FILE__ ) ),
-		array( 'wp-editor' )
+		array( 'jquery', 'wp-editor' )
 	);
-	wp_register_script( 'pretty-photo-js', EASY_IMAGE_BLOCK_GALLERY_URL . '../dist/lib/prettyphoto/jquery.prettyPhoto.js', array( 'jquery' ), 1, true );
-	wp_register_script( 'fancybox-js', EASY_IMAGE_BLOCK_GALLERY_URL . '../dist/lib/fancybox/jquery.fancybox-1.3.4.pack.js', array( 'jquery' ), 1, true );
+
+	if ( is_admin() ) {
+		wp_register_script( 'pretty-photo-js', EASY_IMAGE_BLOCK_GALLERY_URL . 'dist/lib/prettyphoto/jquery.prettyPhoto.js', array( 'jquery' ), 1, true );
+		wp_register_script( 'fancybox-js', EASY_IMAGE_BLOCK_GALLERY_URL . 'dist/lib/fancybox/jquery.fancybox-1.3.4.pack.js', array( 'jquery' ), 1, true );
+	}
 
 	// CSS
 	// wp_register_style( 'pretty-photo', EASY_IMAGE_BLOCK_GALLERY_URL . '../dist/lib/prettyphoto/prettyPhoto.css', '', EASY_IMAGE_GALLERY_VERSION, 'screen' );
