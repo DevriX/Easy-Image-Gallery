@@ -2,7 +2,7 @@
 Contributors: devrix, nofearinc
 Tags: image gallery, image, galleries, simple, easy, devrix
 Requires at least: 3.5
-Tested up to: 5.2.2
+Tested up to: 5.3.2
 Stable tag: 1.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -122,13 +122,13 @@ The plugin ownership was transferred to DevriX. There are no functionality chang
 == Changelog ==
 
 = 1.4.0 =
-* Release date - September 25, 2019
+* Release date - January 7, 2020
 * Introduced "add to post" button in the gallery metabox for inserting shortcodes;
 * Gutenberg compatibility - adding Easy Image Gallery Gutenberg block;
 * "_blank" target for the image is added when the gallery is without lightbox, thus improving UX;
 * Fancybox upgraded to v.3.5.7;
 * Adding caption to the image for fancybox;
-* Change the classes of the plugin with prefixes
+* Change the classes of the plugin with prefixes;
 * Fixing large image size on a href click (PrettyPhoto);
 * Fixing Fatal error on WP version 4.9.8;
 * Fixing a couple of font references where not pointing to the right folder in blocks.style.build.css;
