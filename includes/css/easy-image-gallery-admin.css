@@ -46,6 +46,11 @@
 #easy_image_gallery .inside #dx-eig-gallery .dx-eig-gallery-row .dx-eig-gallery-row-heading .dx-eig-gallery-add-images {
   float: left;
 }
+#easy_image_gallery .inside #dx-eig-gallery .dx-eig-gallery-row .dx-eig-gallery-row-heading .dx-eig-insert-shortcode {
+  float: right;
+  margin-top: 1px;
+  margin-left: 3px;
+}
 #easy_image_gallery .inside #dx-eig-gallery .dx-eig-gallery-row .dx-eig-gallery-row-heading .remove {
   float: right;
   margin-left: 10px;
@@ -114,4 +119,10 @@
 }
 .dx-eig-clear {
   clear: both;
+}
+.eig-remove {
+  cursor: pointer;
+}
+.dashicons-trash {
+  cursor: pointer;
 }

@@ -102,3 +102,23 @@
   max-width: 50%;
   white-space: initial !important;
 }
+
+@media (min-width: 600px) {
+  .admin-bar .fancybox-container {
+    margin-top: 46px;
+  }
+  .admin-bar .fancybox-caption {
+    bottom: 46px;
+  }
+}
+
+
+@media (min-width: 783px) {
+  .admin-bar .fancybox-container {
+    margin-top: 32px;
+  }  
+
+  .admin-bar .fancybox-caption {
+    bottom: 32px;
+  }
+}

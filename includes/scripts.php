@@ -15,15 +15,14 @@ function easy_image_gallery_scripts() {
 	if ( !isset( $post->ID ) )
 		return;
 
-
 	// JS
 	wp_register_script( 'pretty-photo', EASY_IMAGE_GALLERY_URL . 'includes/lib/prettyphoto/jquery.prettyPhoto.js', array( 'jquery' ), EASY_IMAGE_GALLERY_VERSION, true );
-	wp_register_script( 'fancybox', EASY_IMAGE_GALLERY_URL . 'includes/lib/fancybox/jquery.fancybox-1.3.4.pack.js', array( 'jquery' ), EASY_IMAGE_GALLERY_VERSION, true );
+	wp_register_script( 'fancybox', EASY_IMAGE_GALLERY_URL . 'includes/lib/fancybox/jquery.fancybox.min.js', array( 'jquery' ), EASY_IMAGE_GALLERY_VERSION, true );
 	wp_register_script( 'luminous', EASY_IMAGE_GALLERY_URL . 'includes/lib/luminous/dist/Luminous.min.js', array( 'jquery' ), EASY_IMAGE_GALLERY_VERSION, false );
 
 	// CSS
 	wp_register_style( 'pretty-photo', EASY_IMAGE_GALLERY_URL . 'includes/lib/prettyphoto/prettyPhoto.css', '', EASY_IMAGE_GALLERY_VERSION, 'screen' );
-	wp_register_style( 'fancybox', EASY_IMAGE_GALLERY_URL . 'includes/lib/fancybox/jquery.fancybox-1.3.4.css', '', EASY_IMAGE_GALLERY_VERSION, 'screen' );
+	wp_register_style( 'fancybox', EASY_IMAGE_GALLERY_URL . 'includes/lib/fancybox/jquery.fancybox.min.css', '', EASY_IMAGE_GALLERY_VERSION, 'screen' );
 
 	// create a new 'css/easy-image-gallery.css' in your child theme to override CSS file completely
 	if ( file_exists( get_stylesheet_directory() . '/css/easy-image-gallery.css' ) )
@@ -40,11 +39,26 @@ function easy_image_gallery_scripts() {
 		wp_enqueue_style( 'easy-image-gallery' );
 
 	$linked_images = true;
+	$gutenberg_galleries = easy_image_gallery_if_gutenberg_block();
+
+	if ( ! empty( $gutenberg_galleries ) ) {
+		foreach( $gutenberg_galleries as $value ) {
+			// CSS
+			wp_enqueue_style( $value );
+
+			// JS
+			wp_enqueue_script( $value );
+		}
+	}
 
 	// only load the JS if gallery images are linked or the featured image is linked
 	if ( $linked_images ) {
 
 		$lightbox = easy_image_gallery_get_lightbox();
+
+		// Scripts that we need to remove for proper plugin functionality
+		wp_dequeue_script( 'magnific-popup' ); // OceanWP theme
+		wp_dequeue_script( 'oceanwp-lightbox' ); // OceanWP theme
 
 		switch ( $lightbox ) {
 				
@@ -89,7 +103,31 @@ function easy_image_gallery_scripts() {
 }
 add_action( 'wp_enqueue_scripts', 'easy_image_gallery_scripts', 20 );
 
+/**
+ * Checking if we have the Easy Image Gallery Gutenberg block in the post content
+ *
+ * @since 1.4.0
+ */
+function easy_image_gallery_if_gutenberg_block() {
+	global $post;
 
+	if ( ! function_exists( 'has_blocks' ) ) {
+		return false;
+	}
+
+	$arr_lightboxes = array();
+
+	if ( has_blocks( $post->post_content ) ) {
+		$blocks = parse_blocks( $post->post_content );
+		$arr_attrs = array_column( $blocks, 'attrs' );
+
+		if( in_array( 'devrix/easy-image-gallery-block', array_column( $blocks, 'blockName' ) ) ) {
+			$arr_lightboxes = array_column( $arr_attrs, 'lightbox_option' );
+		}
+	}
+
+	return array_unique( $arr_lightboxes );
+}
 
 
 /**
@@ -133,13 +171,14 @@ function easy_image_gallery_js() {
 					<script>
 						jQuery(document).ready(function() {
 
-							jQuery("a.eig-popup").attr('rel', 'fancybox').fancybox({
-									'transitionIn'	:	'elastic',
-									'transitionOut'	:	'elastic',
-									'speedIn'		:	200, 
-									'speedOut'		:	200, 
-									'overlayShow'	:	false
-								});
+							jQuery("a.eig-popup:not([rel])").attr('rel', 'fancybox').fancybox({
+								'transitionIn'	:	'elastic',
+								'transitionOut'	:	'elastic',
+								'speedIn'		:	200,
+								'speedOut'		:	200,
+								'overlayShow'	:	false
+							});
+
 						});
 					</script>
 
