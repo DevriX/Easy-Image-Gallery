@@ -328,7 +328,7 @@ function easy_image_gallery_metabox() {
 		jQuery(document).on( 'click', '.dx-eig-insert-shortcode', function(e) {
 			e.preventDefault();
 
-			var id = $(this).parent().find('.dx-eig-shortcode').val(),
+			var id = jQuery(this).parent().find('.dx-eig-shortcode').val(),
 				shortcode = '[easy_image_gallery gallery="'+ id +'"]';
 
 			// Gutenberg
