@@ -114,12 +114,18 @@ In your WordPress admin under Settings -> Media
 
 = How can I use a different thumbnail size for each post type? =
 
-[Read This](https://devrix.com/shop/product/easy-image-gallery/ "Different thumbnail sizes for each post type with Easy Image Gallery")
+[Read This](https://devrix.com/resources/plugins/easy-image-gallery/ "Different thumbnail sizes for each post type with Easy Image Gallery")
 
 == Upgrade Notice ==
 The plugin ownership was transferred to DevriX. There are no functionality changes. We are going to work on a few version, adding some nice feature in the near feature, stay tuned! :)
 
 == Changelog ==
+
+= 1.4.1 =
+* Fixing TwentyTwenty single post styles
+* Fixing Add link to larger image by default
+* Fixing prettyPhoto console error
+* Fixing Insert this shordcode function 
 
 = 1.4.0 =
 * Release date - January 7, 2020
