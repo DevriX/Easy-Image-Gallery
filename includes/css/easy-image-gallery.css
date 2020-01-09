@@ -64,7 +64,7 @@
   opacity: 0.8;
 }
 .easy-image-gallery{
-  margin: 0;
+  margin: 0 auto;
   padding: 0;
 }
 .easy-image-gallery li {
@@ -92,6 +92,9 @@
 .lum-lightbox.lum-open {
 	background-color: rgba(0,0,0,.8);
 	z-index: 9999;
+}
+.lum-lightbox-inner img {
+  margin: 0 auto;
 }
 #fancybox-title{
   left: initial !important;
