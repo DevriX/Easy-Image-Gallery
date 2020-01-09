@@ -3,7 +3,7 @@
 Plugin Name: Easy Image Gallery
 Plugin URI: http://devrix.com/
 Description: An easy to use image gallery with drag & drop re-ordering
-Version: 1.3.1
+Version: 1.4
 Author: DevriX
 Author URI: http://devrix.com/
 Text Domain: easy-image-gallery
@@ -72,7 +72,7 @@ if ( ! class_exists( 'Easy_Image_Gallery' ) ) {
 			require_once( EASY_IMAGE_GALLERY_INCLUDES . 'scripts.php' );
 			require_once( EASY_IMAGE_GALLERY_INCLUDES . 'metabox.php' );
 			require_once( EASY_IMAGE_GALLERY_INCLUDES . 'admin-page.php' );
-
+			require_once( EASY_IMAGE_GALLERY_INCLUDES . 'gutenberg-block/plugin.php' );
 		}
 
 	}

@@ -64,7 +64,7 @@
   opacity: 0.8;
 }
 .easy-image-gallery{
-  margin: 0;
+  margin: 0 auto;
   padding: 0;
 }
 .easy-image-gallery li {
@@ -93,6 +93,9 @@
 	background-color: rgba(0,0,0,.8);
 	z-index: 9999;
 }
+.lum-lightbox-inner img {
+  margin: 0 auto;
+}
 #fancybox-title{
   left: initial !important;
 }
@@ -101,4 +104,24 @@
   background: #000;
   max-width: 50%;
   white-space: initial !important;
+}
+
+@media (min-width: 600px) {
+  .admin-bar .fancybox-container {
+    margin-top: 46px;
+  }
+  .admin-bar .fancybox-caption {
+    bottom: 46px;
+  }
+}
+
+
+@media (min-width: 783px) {
+  .admin-bar .fancybox-container {
+    margin-top: 32px;
+  }  
+
+  .admin-bar .fancybox-caption {
+    bottom: 32px;
+  }
 }

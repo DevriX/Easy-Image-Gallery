@@ -58,7 +58,10 @@ function easy_image_gallery_get_post_meta(){
  */
 function easy_image_gallery_is_gallery() {
 	$gallery_ids = easy_image_gallery_get_post_meta();
-	if ( $gallery_ids ) {
+	// Checking if we have EIG (Easy Image Gallery) Gutenberg Blocks in the post content
+	$gutenberg_galleries = easy_image_gallery_if_gutenberg_block();
+
+	if ( ! empty( $gallery_ids ) || ! empty( $gutenberg_galleries ) ) {
 		return true;
 	}
 
@@ -148,6 +151,30 @@ function easy_image_gallery_has_shortcode( $shortcode = '' ) {
 	// return our final results
 	return $found;
 }
+/**
+ * Check the current post for the existence of a gutenberg block
+ *
+ * @since 1.0
+ * @return boolean
+ */
+function easy_image_gallery_has_block( $block = '' ) {
+	global $post;
+
+	// false because we have to search through the post content first
+	$found = false;
+
+	// if no short code was provided, return false
+	if ( !$block ) {
+		return $found;
+	}
+	if (  is_object( $post ) && stripos( $post->post_content, '<ul class="' . $block ) !== false ) {
+		// we have found the short code
+		$found = true;
+	} 
+
+	// return our final results
+	return $found;
+}
 
 
 /**
@@ -204,25 +231,25 @@ function easy_image_gallery_lightbox_rel( $gallery_id = null ) {
 
 	case 'prettyphoto':
 
-		$rel = 'prettyPhoto' . '[group-'.$gallery_id.']';
+		$rel = 'rel="prettyPhoto' . '[group-'.$gallery_id.']"';
 
 		break;
 
 	case 'fancybox':
 
-		$rel = 'fancybox';
+		$rel = 'data-fancybox="gallery'.$gallery_id.'"';
 
 		break;
 
 	case 'luminous':
 
-		$rel = 'luminous'  . '[group-'.$gallery_id.']';
+		$rel = 'rel="luminous'  . '[group-'.$gallery_id.']"';
 
 		break;
 
 	default:
 
-		$rel = 'prettyPhoto' . '[group-'.$gallery_id.']';
+		$rel = 'rel="prettyPhoto' . '[group-'.$gallery_id.']"';
 	}
 
 
@@ -431,10 +458,10 @@ function easy_image_gallery( $gallery_id = 'old_db' ) {
 
 	                        $lightbox = easy_image_gallery_get_lightbox();
 
-	                        $rel = 'rel="'. easy_image_gallery_lightbox_rel( $gallery_id ) .'"';
+	                        $rel =  easy_image_gallery_lightbox_rel( $gallery_id );
 
 	                        if ( isset($gallery['OPEN_IMAGES']) && $gallery['OPEN_IMAGES'] == 'on' )
-	                            $html = sprintf( '<li><a %s href="%s" class="%s" title="%s"><i class="icon-view"></i><span class="overlay"></span>%s</a></li>', $rel, $image_link, $image_class, $image_caption, $image );
+	                            $html = sprintf( '<li><a %s href="%s" class="%s" title="%s" data-caption="%s" target="_blank"><i class="icon-view"></i><span class="overlay"></span>%s</a></li>', $rel, $image_link, $image_class, $image_caption, $image_caption, $image );
 	                        else
 	                            $html = sprintf( '<li>%s</li>', $image );
 
@@ -461,7 +488,7 @@ function easy_image_gallery( $gallery_id = 'old_db' ) {
  */
 function easy_image_gallery_append_to_content( $content ) {
 	// if it is single page and supported post_type and page not have shortcode.
-	if ( is_singular() && is_main_query() && easy_image_gallery_allowed_post_type() && !easy_image_gallery_has_shortcode('easy_image_gallery') ) {
+	if ( is_singular() && is_main_query() && easy_image_gallery_allowed_post_type() && !easy_image_gallery_has_shortcode('easy_image_gallery') && ! easy_image_gallery_has_block('wp-block-devrix-easy-image-gallery-block') ) {
 		$new_content = easy_image_gallery( 'old_db' );
 		$content .= $new_content;
 	}
@@ -476,7 +503,7 @@ add_filter( 'the_content', 'easy_image_gallery_append_to_content' );
  * @since 1.0
  */
 function easy_image_gallery_template_redirect() {
-    if ( easy_image_gallery_has_shortcode( 'easy_image_gallery' ) )
+    if ( easy_image_gallery_has_shortcode( 'easy_image_gallery' ) || easy_image_gallery_has_block('wp-block-devrix-easy-image-gallery-block')  )
 		remove_filter( 'the_content', 'easy_image_gallery_append_to_content' );
 }
 add_action( 'template_redirect', 'easy_image_gallery_template_redirect' );
