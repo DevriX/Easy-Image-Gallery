@@ -104,10 +104,6 @@ For that reason, we have to introduce Gallery ID as an argument for the shortcod
 
 Each of your galleries in the edit screen of your page or post will generate a new shortcode which you'll be able to use in the page or post editor.
 
-= fancyBox looks different after upgrading to 1.1 =
-
-This plugin mistakenly had fancyBox 2 included. Non-GPL software is not allowed on the WordPress repo (fancyBox 2 is licensed under Creative Commons). It has now been replaced with fancyBox 1, which is GPL compatible. If you'd like to add fancyBox 2 back into the plugin, simply [download this free plugin](http://sumobi.com/shop/easy-image-gallery-extend/ "Extend Easy Image Gallery with additional lightboxes")
-
 = Where are the plugin's settings? =
 
 In your WordPress admin under Settings -> Media
