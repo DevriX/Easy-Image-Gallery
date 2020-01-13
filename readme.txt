@@ -150,7 +150,7 @@ The plugin ownership was transferred to DevriX. There are no functionality chang
 * Improved the UI / UX
 
 = 1.2 =
-* Release date - Release date - January 26, 2017.
+* Release date - January 26, 2017.
 * The plugin ownership was transferred to DevriX. We are going to maintain and update the plugin for now on :)
 
 = 1.1.5 =
