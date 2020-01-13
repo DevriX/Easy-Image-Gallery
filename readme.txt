@@ -104,22 +104,24 @@ For that reason, we have to introduce Gallery ID as an argument for the shortcod
 
 Each of your galleries in the edit screen of your page or post will generate a new shortcode which you'll be able to use in the page or post editor.
 
-= fancyBox looks different after upgrading to 1.1 =
-
-This plugin mistakenly had fancyBox 2 included. Non-GPL software is not allowed on the WordPress repo (fancyBox 2 is licensed under Creative Commons). It has now been replaced with fancyBox 1, which is GPL compatible. If you'd like to add fancyBox 2 back into the plugin, simply [download this free plugin](http://sumobi.com/shop/easy-image-gallery-extend/ "Extend Easy Image Gallery with additional lightboxes")
-
 = Where are the plugin's settings? =
 
 In your WordPress admin under Settings -> Media
 
 = How can I use a different thumbnail size for each post type? =
 
-[Read This](https://devrix.com/shop/product/easy-image-gallery/ "Different thumbnail sizes for each post type with Easy Image Gallery")
+[Read This](https://devrix.com/resources/plugins/easy-image-gallery/ "Different thumbnail sizes for each post type with Easy Image Gallery")
 
 == Upgrade Notice ==
 The plugin ownership was transferred to DevriX. There are no functionality changes. We are going to work on a few version, adding some nice feature in the near feature, stay tuned! :)
 
 == Changelog ==
+
+= 1.4.1 =
+* Fixing TwentyTwenty single post styles
+* Fixing Add link to larger image by default
+* Fixing prettyPhoto console error
+* Fixing Insert this shordcode function 
 
 = 1.4.0 =
 * Release date - January 7, 2020
@@ -148,7 +150,7 @@ The plugin ownership was transferred to DevriX. There are no functionality chang
 * Improved the UI / UX
 
 = 1.2 =
-* Release date - Release date - January 26, 2017.
+* Release date - January 26, 2017.
 * The plugin ownership was transferred to DevriX. We are going to maintain and update the plugin for now on :)
 
 = 1.1.5 =
