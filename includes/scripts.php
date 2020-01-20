@@ -137,12 +137,13 @@ function easy_image_gallery_if_gutenberg_block() {
  * @since 1.0
  */
 function easy_image_gallery_js() {
-
+var_dump(easy_image_gallery_allowed_post_type());
+var_dump(easy_image_gallery_is_gallery());
 	if ( ! easy_image_gallery_allowed_post_type() || ! easy_image_gallery_is_gallery() ) {
 		return;
 	}
 
-	// if ( is_singular() ) : ?>
+	 //if ( is_singular() ) : ?>
 
 		<?php
 
@@ -205,7 +206,7 @@ function easy_image_gallery_js() {
 			do_action( 'easy_image_gallery_js', $lightbox );
 		?>
 
-	<?php // endif; ?>
+	<?php  //endif; ?>
 
 	<?php
 }
