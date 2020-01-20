@@ -138,7 +138,7 @@ function easy_image_gallery_if_gutenberg_block() {
  */
 function easy_image_gallery_js() {
 
-	if ( ! easy_image_gallery_allowed_post_type() || ! easy_image_gallery_is_gallery() ) {
+	if ( ! easy_image_gallery_allowed_post_type() ) {
 		return;
 	}
 
@@ -153,14 +153,14 @@ function easy_image_gallery_js() {
 			case 'prettyphoto':
 					ob_start();
 				?>
-					
+
 					<script>
-					  jQuery(document).ready(function() {
-						jQuery("a[rel^='prettyPhoto']").prettyPhoto({
-							social_tools : false,
-							show_title : false
+						jQuery(document).ready(function() {
+							jQuery("a[rel^='prettyPhoto']").prettyPhoto({
+								social_tools : false,
+								show_title : false
+							});
 						});
-					  });
 					</script>
 
 					<?php
