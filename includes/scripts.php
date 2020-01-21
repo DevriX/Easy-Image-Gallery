@@ -137,13 +137,12 @@ function easy_image_gallery_if_gutenberg_block() {
  * @since 1.0
  */
 function easy_image_gallery_js() {
-var_dump(easy_image_gallery_allowed_post_type());
-var_dump(easy_image_gallery_is_gallery());
-	if ( ! easy_image_gallery_allowed_post_type() || ! easy_image_gallery_is_gallery() ) {
+
+	if ( ! easy_image_gallery_allowed_post_type() ) {
 		return;
 	}
 
-	 //if ( is_singular() ) : ?>
+	//if ( is_singular() ) : ?>
 
 		<?php
 
@@ -154,14 +153,14 @@ var_dump(easy_image_gallery_is_gallery());
 			case 'prettyphoto':
 					ob_start();
 				?>
-					
+
 					<script>
-					  jQuery(document).ready(function() {
-						jQuery("a[rel^='prettyPhoto']").prettyPhoto({
-							social_tools : false,
-							show_title : false
+						jQuery(document).ready(function() {
+							jQuery("a[rel^='prettyPhoto']").prettyPhoto({
+								social_tools : false,
+								show_title : false
+							});
 						});
-					  });
 					</script>
 
 					<?php
