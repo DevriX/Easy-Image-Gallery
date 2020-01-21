@@ -142,7 +142,7 @@ function easy_image_gallery_js() {
 		return;
 	}
 
-	// if ( is_singular() ) : ?>
+	//if ( is_singular() ) : ?>
 
 		<?php
 
@@ -205,7 +205,7 @@ function easy_image_gallery_js() {
 			do_action( 'easy_image_gallery_js', $lightbox );
 		?>
 
-	<?php // endif; ?>
+	<?php  //endif; ?>
 
 	<?php
 }
