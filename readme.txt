@@ -3,7 +3,7 @@ Contributors: devrix, nofearinc
 Tags: image gallery, image, galleries, simple, easy, devrix
 Requires at least: 3.5
 Tested up to: 5.3.2
-Stable tag: 1.4
+Stable tag: 1.4.1
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -119,6 +119,7 @@ The plugin ownership was transferred to DevriX. There are no functionality chang
 == Changelog ==
 
 = 1.4.1 =
+* Release date - January 22, 2020
 * Fixing TwentyTwenty single post styles
 * Fixing Add link to larger image by default
 * Fixing prettyPhoto console error
