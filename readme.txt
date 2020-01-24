@@ -90,7 +90,7 @@ If you use the template tag above, you will need to remove the default content f
 
 1. The plugin's simple configuration screen. Any existing custom post types will appear here
 1. The plugin's simple metabox that is added to the publish/edit screens
-You can select multiple images to insert into the gallery
+1. You can select multiple images to insert into the gallery
 1. The plugin's Image Gallery metabox after images have been inserted and the post has been saved
 1. The front-end of the website showing the gallery which has been automatically appended to the content
 1. Clicking on an image launches the lightbox. Here it's shown with prettyPhoto
