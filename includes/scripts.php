@@ -1,6 +1,8 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
 
 /**
  * Scripts
@@ -28,10 +30,11 @@ function easy_image_gallery_scripts() {
 	wp_register_style( 'lightgallery', EASY_IMAGE_GALLERY_URL . 'includes/lib/lightGallery/dist/css/lightgallery.min.css', '', EASY_IMAGE_GALLERY_VERSION, 'screen' );
 
 	// create a new 'css/easy-image-gallery.css' in your child theme to override CSS file completely
-	if ( file_exists( get_stylesheet_directory() . '/css/easy-image-gallery.css' ) )
+	if ( file_exists( get_stylesheet_directory() . '/css/easy-image-gallery.css' ) ) {
 		wp_register_style( 'easy-image-gallery', get_stylesheet_directory_uri() . '/css/easy-image-gallery.css', '', EASY_IMAGE_GALLERY_VERSION, 'screen' );
-	else
+	} else {
 		wp_register_style( 'easy-image-gallery', EASY_IMAGE_GALLERY_URL . 'includes/css/easy-image-gallery.css', '', EASY_IMAGE_GALLERY_VERSION, 'screen' );
+	}
 
 	// Post type is not allowed, return.
 	if ( ! easy_image_gallery_allowed_post_type() ) {
@@ -47,7 +50,7 @@ function easy_image_gallery_scripts() {
 	$gutenberg_galleries = easy_image_gallery_if_gutenberg_block();
 
 	if ( ! empty( $gutenberg_galleries ) ) {
-		foreach( $gutenberg_galleries as $value ) {
+		foreach ( $gutenberg_galleries as $value ) {
 			wp_enqueue_style( $value );
 			wp_enqueue_script( $value );
 		}
@@ -113,10 +116,10 @@ function easy_image_gallery_if_gutenberg_block() {
 	$arr_lightboxes = array();
 
 	if ( has_blocks( $post->post_content ) ) {
-		$blocks = parse_blocks( $post->post_content );
+		$blocks    = parse_blocks( $post->post_content );
 		$arr_attrs = array_column( $blocks, 'attrs' );
 
-		if( in_array( 'devrix/easy-image-gallery-block', array_column( $blocks, 'blockName' ) ) ) {
+		if ( in_array( 'devrix/easy-image-gallery-block', array_column( $blocks, 'blockName' ) ) ) {
 			$arr_lightboxes = array_column( $arr_attrs, 'lightbox_option' );
 		}
 	}
@@ -132,36 +135,42 @@ function easy_image_gallery_if_gutenberg_block() {
  */
 function easy_image_gallery_js() {
 
-	if ( ! easy_image_gallery_allowed_post_type() || ! easy_image_gallery_is_gallery() )
+	if ( ! easy_image_gallery_allowed_post_type() ) {
 		return;
+	}
 
-	if ( is_singular() ) : ?>
+	//if ( is_singular() ) : ?>
 
 		<?php
 
 			$lightbox = easy_image_gallery_get_lightbox();
 
-			switch ( $lightbox ) {
-				
-				case 'prettyphoto': ob_start(); ?>
-					
+		switch ( $lightbox ) {
+
+			case 'prettyphoto':
+					ob_start();
+				?>
+
 					<script>
-					  jQuery(document).ready(function() {
-					    jQuery("a[rel^='prettyPhoto']").prettyPhoto({
-					    	social_tools : false,
-					    	show_title : false
-					    });
-					  });
+						jQuery(document).ready(function() {
+							jQuery("a[rel^='prettyPhoto']").prettyPhoto({
+								social_tools : false,
+								show_title : false
+							});
+						});
 					</script>
 
-					<?php 
-						$js = ob_get_clean();
-						echo apply_filters( 'easy_image_gallery_prettyphoto_js', $js );
+					<?php
+					$js = ob_get_clean();
+					echo apply_filters( 'easy_image_gallery_prettyphoto_js', $js );
 					?>
 
-				<?php break;
-				
-				case 'fancybox': ob_start(); ?>
+				<?php
+				break;
+
+			case 'fancybox':
+					ob_start();
+				?>
 
 					<script>
 						jQuery(document).ready(function() {
@@ -177,32 +186,32 @@ function easy_image_gallery_js() {
 						});
 					</script>
 
-					<?php 
-						$js = ob_get_clean();
-						echo apply_filters( 'easy_image_gallery_fancybox_js', $js );
+					<?php
+					$js = ob_get_clean();
+					echo apply_filters( 'easy_image_gallery_fancybox_js', $js );
 					?>
 
-				<?php break;
+				<?php
+				break;
 
+			default:
+				break;
+		}
 
-				default:
-					
-					break;
-			}
-
-			// allow developers to add/modify JS 
+			// allow developers to add/modify JS
 			do_action( 'easy_image_gallery_js', $lightbox );
 		?>
 
-    <?php endif; ?>
+	<?php  //endif; ?>
 
-<?php }
+	<?php
+}
 add_action( 'wp_footer', 'easy_image_gallery_js', 20 );
 
 
 function easy_image_gallery_admin_scripts() {
-    wp_enqueue_script( 'repeatable-fields', EASY_IMAGE_GALLERY_URL . 'includes/lib/repeatable-fields.js', array('jquery', 'jquery-ui-core') );
-    wp_enqueue_style( 'easy_image_gallery_admin_css', EASY_IMAGE_GALLERY_URL . 'includes/css/easy-image-gallery-admin.css' );
+	wp_enqueue_script( 'repeatable-fields', EASY_IMAGE_GALLERY_URL . 'includes/lib/repeatable-fields.js', array( 'jquery', 'jquery-ui-core' ) );
+	wp_enqueue_style( 'easy_image_gallery_admin_css', EASY_IMAGE_GALLERY_URL . 'includes/css/easy-image-gallery-admin.css' );
 }
 
 add_action( 'admin_head', 'easy_image_gallery_admin_scripts' );
