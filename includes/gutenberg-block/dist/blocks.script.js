@@ -1,7 +1,5 @@
-
-jQuery(document).ready(function() {
-    jQuery("a[rel^='prettyPhoto']").prettyPhoto({
-        social_tools : false,
-        show_title : false
-    });
+jQuery(document).ready(function(){
+	if(jQuery('.lightgallery').length){
+		jQuery('.lightgallery').lightGallery();
+	}
 });
