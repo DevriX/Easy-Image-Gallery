@@ -3,7 +3,7 @@ Contributors: devrix, nofearinc
 Tags: image gallery, image, galleries, simple, easy, devrix
 Requires at least: 3.5
 Tested up to: 5.3.2
-Stable tag: 1.4
+Stable tag: 1.4.1
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -90,7 +90,7 @@ If you use the template tag above, you will need to remove the default content f
 
 1. The plugin's simple configuration screen. Any existing custom post types will appear here
 1. The plugin's simple metabox that is added to the publish/edit screens
-You can select multiple images to insert into the gallery
+1. You can select multiple images to insert into the gallery
 1. The plugin's Image Gallery metabox after images have been inserted and the post has been saved
 1. The front-end of the website showing the gallery which has been automatically appended to the content
 1. Clicking on an image launches the lightbox. Here it's shown with prettyPhoto
@@ -119,6 +119,7 @@ The plugin ownership was transferred to DevriX. There are no functionality chang
 == Changelog ==
 
 = 1.4.1 =
+* Release date - January 22, 2020
 * Fixing TwentyTwenty single post styles
 * Fixing Add link to larger image by default
 * Fixing prettyPhoto console error
