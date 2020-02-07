@@ -186,9 +186,10 @@ function easy_image_gallery_has_block( $block = '' ) {
 function easy_image_gallery_lightbox() {
 
 	$lightboxes = array(
-		'fancybox' => __( 'fancyBox', 'easy-image-gallery' ),
-		'prettyphoto' => __( 'prettyPhoto', 'easy-image-gallery' ),
-		'luminous' => __( 'Luminous', 'easy-image-gallery' ),
+		'fancybox'     => __( 'fancyBox', 'easy-image-gallery' ),
+		'prettyphoto'  => __( 'prettyPhoto', 'easy-image-gallery' ),
+		'luminous'     => __( 'Luminous', 'easy-image-gallery' ),
+		'lightgallery' => __( 'lightGallery', 'easy-image-gallery' ),
 	);
 
 	return apply_filters( 'easy_image_gallery_lightbox', $lightboxes );
@@ -437,18 +438,20 @@ function easy_image_gallery( $gallery_id = 'old_db' ) {
                 if ( isset($gallery['OPEN_IMAGES']) && $gallery['OPEN_IMAGES'] == 'on' ){
                     $classes[] = 'linked';
                 }
-
                 $classes = implode( ' ', $classes );
-    			if ( isset($has_gallery_images) && !empty($has_gallery_images) ) {
+
+				if ( isset( $has_gallery_images ) && ! empty( $has_gallery_images ) ) {
+					$lightbox = easy_image_gallery_get_lightbox();
+					$rel      = easy_image_gallery_lightbox_rel( $gallery_id );
 					?>
-	                <ul class="easy-image-gallery <?php echo $classes; ?>">
+	                <ul class="easy-image-gallery <?php echo $classes; ?> <?php echo $lightbox; ?>">
                     <?php
                     	foreach ( $has_gallery_images as $attachment_id ) {
-	                        $classes = array( 'eig-popup' );
+	                        $classes = array( 'eig-popup', 'col-xs-6 col-sm-4 col-md-3' );
 
-	                        // get original image
-	                        $image_link	= wp_get_attachment_image_src( $attachment_id, apply_filters( 'easy_image_gallery_linked_image_size', 'large' ) );
-	                        $image_link	= $image_link[0];
+	                        // Get original image.
+	                        $image_link = wp_get_attachment_image_src( $attachment_id, apply_filters( 'easy_image_gallery_linked_image_size', 'large' ) );
+	                        $image_link = $image_link[0];
 
 	                        $image = wp_get_attachment_image( $attachment_id, apply_filters( 'easy_image_gallery_thumbnail_image_size', 'thumbnail' ), '', array( 'alt' => trim( strip_tags( get_post_meta( $attachment_id, '_wp_attachment_image_alt', true ) ) ) ) );
 
@@ -456,22 +459,26 @@ function easy_image_gallery( $gallery_id = 'old_db' ) {
 
 	                        $image_class = esc_attr( implode( ' ', $classes ) );
 
-	                        $lightbox = easy_image_gallery_get_lightbox();
+	                        if ( isset($gallery['OPEN_IMAGES']) && $gallery['OPEN_IMAGES'] == 'on' ) {
 
-	                        $rel =  easy_image_gallery_lightbox_rel( $gallery_id );
+								if ( 'lightgallery' === $lightbox ) {
+									$html = sprintf( '<li class="%s" data-responsive="" data-src="%s" data-sub-html="%s" data-pinterest-text="Pin it" data-tweet-text="share on twitter"><a href="">%s</a></li>
+										', $image_class, $image_link, $image_caption, $image );
+								} else {
+									$html = sprintf( '<li><a %s href="%s" class="%s" title="%s" data-caption="%s" target="_blank"><i class="icon-view"></i><span class="overlay"></span>%s</a></li>', $rel, $image_link, $image_class, $image_caption, $image_caption, $image );
+								}
 
-	                        if ( isset($gallery['OPEN_IMAGES']) && $gallery['OPEN_IMAGES'] == 'on' )
-	                            $html = sprintf( '<li><a %s href="%s" class="%s" title="%s" data-caption="%s" target="_blank"><i class="icon-view"></i><span class="overlay"></span>%s</a></li>', $rel, $image_link, $image_class, $image_caption, $image_caption, $image );
-	                        else
+	                        } else {
 	                            $html = sprintf( '<li>%s</li>', $image );
+	                        }
 
 	                        echo apply_filters( 'easy_image_gallery_html', $html, $rel, $image_link, $image_class, $image_caption, $image, $attachment_id, $post->ID );
 	                    }
                 	echo '</ul>';
 
-                	if ( easy_image_gallery_get_lightbox() === 'luminous' ) {
-                		echo '<script>new LuminousGallery(document.querySelectorAll("a[rel=\'luminous[group-'.$gallery_id.']\']"));</script>';
-                	}
+					if ( 'luminous' === easy_image_gallery_get_lightbox() ) {
+						echo '<script>new LuminousGallery(document.querySelectorAll("a[rel=\'luminous[group-'.$gallery_id.']\']"));</script>';
+					}
             	}
             }
         }

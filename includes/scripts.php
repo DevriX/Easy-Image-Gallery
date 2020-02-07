@@ -22,10 +22,12 @@ function easy_image_gallery_scripts() {
 	wp_register_script( 'pretty-photo', EASY_IMAGE_GALLERY_URL . 'includes/lib/prettyphoto/jquery.prettyPhoto.js', array( 'jquery' ), EASY_IMAGE_GALLERY_VERSION, true );
 	wp_register_script( 'fancybox', EASY_IMAGE_GALLERY_URL . 'includes/lib/fancybox/jquery.fancybox.min.js', array( 'jquery' ), EASY_IMAGE_GALLERY_VERSION, true );
 	wp_register_script( 'luminous', EASY_IMAGE_GALLERY_URL . 'includes/lib/luminous/dist/Luminous.min.js', array( 'jquery' ), EASY_IMAGE_GALLERY_VERSION, false );
+	wp_register_script( 'lightgallery', EASY_IMAGE_GALLERY_URL . 'includes/lib/lightGallery/dist/js/lightgallery-all.min.js', array(), EASY_IMAGE_GALLERY_VERSION, false );
 
 	// CSS
 	wp_register_style( 'pretty-photo', EASY_IMAGE_GALLERY_URL . 'includes/lib/prettyphoto/prettyPhoto.css', '', EASY_IMAGE_GALLERY_VERSION, 'screen' );
 	wp_register_style( 'fancybox', EASY_IMAGE_GALLERY_URL . 'includes/lib/fancybox/jquery.fancybox.min.css', '', EASY_IMAGE_GALLERY_VERSION, 'screen' );
+	wp_register_style( 'lightgallery', EASY_IMAGE_GALLERY_URL . 'includes/lib/lightGallery/dist/css/lightgallery.min.css', '', EASY_IMAGE_GALLERY_VERSION, 'screen' );
 
 	// create a new 'css/easy-image-gallery.css' in your child theme to override CSS file completely
 	if ( file_exists( get_stylesheet_directory() . '/css/easy-image-gallery.css' ) ) {
@@ -34,12 +36,12 @@ function easy_image_gallery_scripts() {
 		wp_register_style( 'easy-image-gallery', EASY_IMAGE_GALLERY_URL . 'includes/css/easy-image-gallery.css', '', EASY_IMAGE_GALLERY_VERSION, 'screen' );
 	}
 
-	// post type is not allowed, return
+	// Post type is not allowed, return.
 	if ( ! easy_image_gallery_allowed_post_type() ) {
 		return;
 	}
 
-	// needs to load only when there is a gallery
+	// Needs to load only when there is a gallery.
 	if ( easy_image_gallery_is_gallery() ) {
 		wp_enqueue_style( 'easy-image-gallery' );
 	}
@@ -49,10 +51,7 @@ function easy_image_gallery_scripts() {
 
 	if ( ! empty( $gutenberg_galleries ) ) {
 		foreach ( $gutenberg_galleries as $value ) {
-			// CSS
 			wp_enqueue_style( $value );
-
-			// JS
 			wp_enqueue_script( $value );
 		}
 	}
@@ -67,33 +66,31 @@ function easy_image_gallery_scripts() {
 		wp_dequeue_script( 'oceanwp-lightbox' ); // OceanWP theme
 
 		switch ( $lightbox ) {
-
 			case 'prettyphoto':
-				// CSS
 				wp_enqueue_style( 'pretty-photo' );
-
-				// JS
 				wp_enqueue_script( 'pretty-photo' );
-
-				break;
+			break;
 
 			case 'fancybox':
-				// CSS
 				wp_enqueue_style( 'fancybox' );
-
-				// JS
 				wp_enqueue_script( 'fancybox' );
-
-				break;
+			break;
 
 			case 'luminous':
-				// JS
 				wp_enqueue_script( 'luminous' );
+			break;
 
-				break;
+			case 'lightgallery':
+				wp_enqueue_style( 'lightgallery' );
+				wp_enqueue_script( 'lightgallery' );
+				wp_enqueue_script( 'lg-autoplay' );
+				wp_enqueue_script( 'lg-share' );
+				wp_enqueue_script( 'lg-zoom' );
+				wp_enqueue_script( 'lg-fullscreen' );
+			break;
 
 			default:
-				break;
+			break;
 		}
 
 		// allow developers to load their own scripts here

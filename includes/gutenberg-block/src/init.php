@@ -49,6 +49,12 @@ function easy_image_gallery_block_cgb_block_assets() { // phpcs:ignore
 		// filemtime( plugin_dir_path( __DIR__ ) . 'dist/blocks.style.build.css' ) // Version: File modification time.
 	);
 
+	wp_enqueue_script(
+		'easy_image_gallery_block-script-fe-js' ,
+		plugins_url( 'dist/blocks.script.js', dirname( __FILE__ ) ),
+		array( 'jquery', 'wp-editor' )
+	);
+
 	if ( is_admin() ) {
 		wp_register_script( 'pretty-photo-js', EASY_IMAGE_BLOCK_GALLERY_URL . 'dist/lib/prettyphoto/jquery.prettyPhoto.js', array( 'jquery' ), 1, true );
 		wp_register_script( 'fancybox-js', EASY_IMAGE_BLOCK_GALLERY_URL . 'dist/lib/fancybox/jquery.fancybox-1.3.4.pack.js', array( 'jquery' ), 1, true );

@@ -183,6 +183,7 @@ registerBlockType( 'devrix/easy-image-gallery-block', {
 									{ value: 'fancybox', label: 'fancyBox' },
 									{ value: 'pretty-photo', label: 'prettyPhoto' },
 									{ value: 'luminous', label: 'Luminous' },
+									{ value: 'lightgallery', label: 'lightGallery' },
 								] }
 							/>
 						</PanelRow>
@@ -227,6 +228,13 @@ registerBlockType( 'devrix/easy-image-gallery-block', {
 		//let rel = "rel=\"prettyphoto[" + attributes['id'] + "]\""
 		let data_fancybox = 'gallery';
 
+		const lightbox_attr_data = {
+			'fancybox' : { 'key': 'data-fancybox', 'value': data_fancybox + unique_number, },
+			'pretty-photo' : { 'key': 'rel', 'value': 'prettyPhoto[group-'+unique_number+']', },
+			'luminous' : { 'key': 'rel', 'value': 'luminous[group-'+unique_number+']', },
+			'lightgallery' : { 'key': 'class', 'value': 'lightgallery-'+unique_number, },
+		}
+
 		// Displays the images
 		const displayImages = (images) => {
 
@@ -249,14 +257,8 @@ registerBlockType( 'devrix/easy-image-gallery-block', {
 					const imageThumb = image.sizes[imgSize]['url'];
 					const imageHrefUrl = image.sizes[imgHrefSize]['url'];
 
-					const lightbox_attr_data = {
-						'fancybox' : { 'key': 'data-fancybox', 'value': data_fancybox + unique_number, },
-						'pretty-photo' : { 'key': 'rel', 'value': 'prettyPhoto[group-'+unique_number+']', },
-						'luminous' : { 'key': 'rel', 'value': 'luminous[group-'+unique_number+']', },
-					}
-
 					return (
-						<li>
+						<li data-src={imageHrefUrl}>
 					{ link_images && (
 						<a href={imageHrefUrl} {...{[lightbox_attr_data[lightbox_option]['key']]: lightbox_attr_data[lightbox_option]['value']}} data-caption={image.caption} className='eig-popup'>
 						<i className="icon-view"></i><span className="overlay"></span>
@@ -292,7 +294,7 @@ registerBlockType( 'devrix/easy-image-gallery-block', {
 
 		//JSX to return
 		return (
-			<ul className="easy-image-gallery thumbnails-4 linked" data-total-slides={images.length}>{ displayImages(images) }
+			<ul className={"easy-image-gallery thumbnails-4 linked " + lightbox_option} data-total-slides={images.length}>{ displayImages(images) }
 					{ 'luminous' == lightbox_option && (
 						<script>new LuminousGallery(document.querySelectorAll("a[rel='luminous[group-{unique_number}]']"));</script>
 						)
