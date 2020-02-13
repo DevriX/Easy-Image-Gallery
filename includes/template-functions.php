@@ -492,7 +492,7 @@ function easy_image_gallery( $gallery_id = 'old_db' ) {
 								$html = sprintf( '<li><a %s href="%s" class="%s" title="%s" data-caption="%s" target="_blank"><i class="icon-view"></i><span class="overlay"></span>%s</a></li>', $rel, $image_link, $image_class, $image_caption, $image_caption, $image );
 							}
 						} else {
-							$html = sprintf( '<li>%s</li>', $image );
+							$html = sprintf( '%s', $image );
 						}
 
 						echo apply_filters( 'easy_image_gallery_html', $html, $rel, $image_link, $image_class, $image_caption, $image, $attachment_id, $post->ID );
