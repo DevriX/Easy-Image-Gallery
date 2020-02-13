@@ -11,19 +11,25 @@ if ( ! empty( $_POST ) && check_admin_referer( 'eig_admin_page_save', 'eig_admin
 	$_POST = filter_input_array( INPUT_POST, FILTER_SANITIZE_STRING );
 	update_option( 'easy-image-gallery', $_POST['easy-image-gallery'] );
 }
+
+$arr_grid_views = array();
+
+// Default option when settings have not been saved.
+$defaults['lightbox'] = 'prettyphoto';
+// Post and page defaults.
+$defaults['post_types']['post'] = 'on';
+$defaults['post_types']['page'] = 'on';
+
+$defaults['grid_view'] = 'easy-image-gallery';
+
+$settings = (array) get_option( 'easy-image-gallery', $defaults );
+$lightbox = esc_attr( $settings['lightbox'] );
 ?>
 <div class="wrap">
 	<form action='' method='post'>
 		<h1><?php echo __( 'Easy Image Gallery Settings', 'easy-image-gallery' ); ?></h1>
 		<table class="form-table" role="presentation">
 			<tbody>
-				<?php
-				// Default option when settings have not been saved.
-				$defaults['lightbox'] = 'prettyphoto';
-
-				$settings = (array) get_option( 'easy-image-gallery', $defaults );
-				$lightbox = esc_attr( $settings['lightbox'] );
-				?>
 				<tr>
 					<th scope="row"><?php echo __( 'Lightbox', 'easy-image-gallery' ); ?></th>
 					<td>
@@ -34,13 +40,6 @@ if ( ! empty( $_POST ) && check_admin_referer( 'eig_admin_page_save', 'eig_admin
 						</select>
 					</td>
 				</tr>
-				<?php
-				// Post and page defaults.
-				$defaults['post_types']['post'] = 'on';
-				$defaults['post_types']['page'] = 'on';
-
-				$settings = (array) get_option( 'easy-image-gallery', $defaults );
-				?>
 				<tr>
 					<th scope="row"><?php echo __( 'Post Types', 'easy-image-gallery' ); ?></th>
 					<td>
@@ -57,6 +56,30 @@ if ( ! empty( $_POST ) && check_admin_referer( 'eig_admin_page_save', 'eig_admin
 				</tr>
 			</tbody>
 		</table>
+		<?php
+			$arr_grids_filter = apply_filters( 'add_mosaic_support', $arr_grid_views );
+
+			if ( ! empty( $arr_grids_filter ) ) :
+				?>
+				<h2><?php echo __( 'Easy Image Gallery Grid Views', 'easy-image-gallery' ); ?></h2>
+				<table class="form-table" role="presentation">
+					<tbody>
+						<tr>
+							<th scope="row"><?php echo __( 'Choose Grid View', 'easy-image-gallery' ); ?></th>
+							<td>
+								<select name="easy-image-gallery[grid_view]">
+									<?php foreach ( $arr_grids_filter as $key => $label ) : ?>
+										<option value="<?php echo $key; ?>" <?php selected( $lightbox, $key ); ?>><?php echo $label; ?></option>
+									<?php endforeach; ?>
+								</select>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<?php
+			endif;
+
+		?>
 		<?php wp_nonce_field( 'eig_admin_page_save', 'eig_admin_page' ); ?>
 		<?php submit_button(); ?>
 	</form>
