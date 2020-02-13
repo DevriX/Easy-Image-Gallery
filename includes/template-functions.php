@@ -468,7 +468,7 @@ function easy_image_gallery( $gallery_id = 'old_db' ) {
 					$grid_view = easy_image_gallery_grid_view();
 
 					?>
-					<div class="easy-image-gallery <?php echo $classes; ?> <?php echo $lightbox; ?> <?php echo $grid_view; ?>">
+					<div class="<?php echo $classes; ?> <?php echo $lightbox; ?> <?php echo $grid_view; ?>">
 					<?php
 					foreach ( $has_gallery_images as $attachment_id ) {
 						$classes = array( 'eig-popup', 'col-xs-6 col-sm-4 col-md-3' );
@@ -484,13 +484,7 @@ function easy_image_gallery( $gallery_id = 'old_db' ) {
 						$image_class = esc_attr( implode( ' ', $classes ) );
 
 						if ( isset( $gallery['OPEN_IMAGES'] ) && $gallery['OPEN_IMAGES'] == 'on' ) {
-
-							// $html = sprintf( '<a href="">%s</a>', $image );
-							if ( 'mosaic' === $grid_view || 1==1 ) {
-								$html = sprintf( '<a %s href="%s" class="%s" title="%s" data-caption="%s" target="_blank"><i class="icon-view"></i><span class="overlay"></span>%s</a>', $rel, $image_link, $image_class, $image_caption, $image_caption, $image );
-							} else {
-								$html = sprintf( '<li><a %s href="%s" class="%s" title="%s" data-caption="%s" target="_blank"><i class="icon-view"></i><span class="overlay"></span>%s</a></li>', $rel, $image_link, $image_class, $image_caption, $image_caption, $image );
-							}
+							$html = sprintf( '<a %s href="%s" class="%s" title="%s" data-caption="%s" target="_blank"><i class="icon-view"></i><span class="overlay"></span>%s</a>', $rel, $image_link, $image_class, $image_caption, $image_caption, $image );
 						} else {
 							$html = sprintf( '%s', $image );
 						}

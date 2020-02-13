@@ -12,7 +12,9 @@ if ( ! empty( $_POST ) && check_admin_referer( 'eig_admin_page_save', 'eig_admin
 	update_option( 'easy-image-gallery', $_POST['easy-image-gallery'] );
 }
 
-$arr_grid_views = array();
+$arr_grid_views = array(
+	'easy-image-gallery' => 'Default',
+);
 
 // Default option when settings have not been saved.
 $defaults['lightbox'] = 'prettyphoto';
@@ -57,29 +59,23 @@ $lightbox = esc_attr( $settings['lightbox'] );
 			</tbody>
 		</table>
 		<?php
-			$arr_grids_filter = apply_filters( 'add_mosaic_support', $arr_grid_views );
-
-			if ( ! empty( $arr_grids_filter ) ) :
-				?>
-				<h2><?php echo __( 'Easy Image Gallery Grid Views', 'easy-image-gallery' ); ?></h2>
-				<table class="form-table" role="presentation">
-					<tbody>
-						<tr>
-							<th scope="row"><?php echo __( 'Choose Grid View', 'easy-image-gallery' ); ?></th>
-							<td>
-								<select name="easy-image-gallery[grid_view]">
-									<?php foreach ( $arr_grids_filter as $key => $label ) : ?>
-										<option value="<?php echo $key; ?>" <?php selected( $lightbox, $key ); ?>><?php echo $label; ?></option>
-									<?php endforeach; ?>
-								</select>
-							</td>
-						</tr>
-					</tbody>
-				</table>
-				<?php
-			endif;
-
+		$arr_grids_filter = apply_filters( 'add_more_grids_support', $arr_grid_views );
 		?>
+		<h2><?php echo __( 'Easy Image Gallery Grid Views', 'easy-image-gallery' ); ?></h2>
+		<table class="form-table" role="presentation">
+			<tbody>
+				<tr>
+					<th scope="row"><?php echo __( 'Choose Grid View', 'easy-image-gallery' ); ?></th>
+					<td>
+						<select name="easy-image-gallery[grid_view]">
+							<?php foreach ( $arr_grids_filter as $key => $label ) : ?>
+								<option value="<?php echo $key; ?>" <?php selected( $settings['grid_view'], $key ); ?>><?php echo $label; ?></option>
+							<?php endforeach; ?>
+						</select>
+					</td>
+				</tr>
+			</tbody>
+		</table>
 		<?php wp_nonce_field( 'eig_admin_page_save', 'eig_admin_page' ); ?>
 		<?php submit_button(); ?>
 	</form>
