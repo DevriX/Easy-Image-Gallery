@@ -74,6 +74,11 @@
 }
 .easy-image-gallery a img {
   display: block;
+  -webkit-border-top-right-radius: 20px; 
+  -moz-border-top-right-radius: 20px;
+  -ms-border-top-right-radius: 20px;
+  -o-border-top-right-radius: 20px;
+  border-top-right-radius: 20px;
   transition: .3s all;
   -webkit-transition: .3s all;
   -moz-transition: .3s all;
