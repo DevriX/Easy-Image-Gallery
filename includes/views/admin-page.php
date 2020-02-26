@@ -65,7 +65,7 @@ $lightbox = esc_attr( $settings['lightbox'] );
 		<table class="form-table" role="presentation">
 			<tbody>
 				<tr>
-					<th scope="row"><?php echo __( 'Choose Grid View', 'easy-image-gallery' ); ?></th>
+					<th scope="row"><?php echo __( 'Grid View', 'easy-image-gallery' ); ?></th>
 					<td>
 						<select name="easy-image-gallery[grid_view]">
 							<?php foreach ( $arr_grids_filter as $key => $label ) : ?>

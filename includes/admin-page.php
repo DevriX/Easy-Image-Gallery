@@ -4,16 +4,27 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Add EIG Plugin Options Page
+ * Class EIG_Main_Class
  *
- * @since 1.4.1
+ * This is the bootloader class that load and initialize the plugin's classes/traits.
+ *
+ * @package DX\EIG
  */
-function add_eig_plugin_page() {
-	add_menu_page(
-		__( 'Easy Image Gallery Settings', 'easy-image-gallery' ),
-		__( 'Easy Image Gallery', 'easy-image-gallery' ),
-		'manage_options',
-		EASY_IMAGE_GALLERY_DIR . 'includes/view/admin-page-view.php'
-	);
+class EIG_Main_Class {
+
+	public function __construct() {
+		add_action( 'init', array( $this, 'include_classes' ), 10 );
+	}
+
+	/**
+	 * This function includes all the classes/traits on the plugins_loaded with priority
+	 * 10 in order to be easily overwritten.
+	 */
+	public function include_classes() {
+		require EASY_IMAGE_GALLERY_DIR . 'includes/classes/class-admin-menu.php';
+		require EASY_IMAGE_GALLERY_DIR . 'includes/classes/class-eig-extensions-installer.php';
+	}
+
 }
-add_action( 'admin_menu', 'add_eig_plugin_page' );
+
+new EIG_Main_Class();
