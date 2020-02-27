@@ -121,3 +121,12 @@
     bottom: 32px;
   }
 }
+
+.easy-image-gallery-mosaic-master {
+   float: none !important;
+   margin: 0 auto; 
+}
+
+.easy-image-gallery-mosaic-master a {
+   position: relative;
+}
