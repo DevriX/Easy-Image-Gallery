@@ -38,6 +38,19 @@ class Admin_Menu {
 				'download_link'     => 'https://github.com/vabrashev/easy-image-gallery-masonry/archive/master.zip',
 			),
 		),
+		'easy-image-gallery-album-master' => array(
+			'slug' => 'easy-image-gallery-album-master',
+			'args' => array(
+				'name'              => 'Album Gallery View',
+				'short_description' => 'Album Gallery View Description',
+				'slug'              => 'easy-image-gallery-album-master',
+				'author'            => 'DevriX',
+				'icons'             => array(
+					'1x' => 'https://ps.w.org/easy-image-gallery/assets/icon-128x128.png?rev=2235126',
+				),
+				'download_link'     => 'https://github.com/ivanviyachki/easy-image-gallery-album/archive/master.zip',
+			),
+		),
 	);
 
 	public function __construct() {
