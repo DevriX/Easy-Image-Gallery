@@ -27,7 +27,7 @@ function easy_image_gallery_hide( $post_id ) {
 	$post_types = easy_image_gallery_allowed_post_types();
 	$post_type  = get_post_type( $post_id );
 
-	if ( ! array_key_exists( $post_type, $post_types ) ) {
+	if ( ! array_key_exists( strval( $post_type ), $post_types ) ) {
 		return true;
 	}
 
