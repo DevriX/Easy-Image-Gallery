@@ -575,7 +575,7 @@ if ( ! class_exists( 'EIG_Extensions_Installer' ) ) {
 		* @since 1.0
 		*/
 		public function eig_enqueue_scripts() {
-			wp_register_script( 'eig-plugin-install-js', EASY_IMAGE_GALLERY_URL . 'includes/js/installer.js', array( 'jquery' ), DXRSS_ASSET_VERSION, true );
+			wp_register_script( 'eig-plugin-install-js', EASY_IMAGE_GALLERY_URL . 'includes/js/installer.js', array( 'jquery' ), '', true );
 			wp_localize_script(
 				'eig-plugin-install-js',
 				'eig_plugin_install_params',

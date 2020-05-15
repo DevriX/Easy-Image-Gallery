@@ -138,7 +138,7 @@ function easy_image_gallery_metabox() {
 									<span class="name">Gallery</span>
 									<a href="#" class="dx-eig-gallery-add-images button" data-count="<?php echo $gallery_count; ?>"><?php _e( 'Add images to the gallery', 'easy-image-gallery' ); ?></a>
 									<span class="eig-remove"><img src="<?php echo EASY_IMAGE_GALLERY_URL . 'includes/fonts/close.png'; ?>"></span>
-									<a href="#" class="button button-primary button-small dx-eig-insert-shortcode">Insert this shortcode in the content</a>
+									<a href="#" class="button button-primary button-medium dx-eig-insert-shortcode">Insert this shortcode in the content</a>
 									<input type="text" class="dx-eig-shortcode" name="image_gallery[<?php echo $gallery_count; ?>][SHORTCODE]" value="<?php echo $gallery['SHORTCODE']; ?>" hidden>
 									<input type="text" class="dx-eig-shortcode-show" readonly="" value='[easy_image_gallery gallery="<?php echo $gallery['SHORTCODE']; ?>"]'>
 									<div class="link-image-to-l">
