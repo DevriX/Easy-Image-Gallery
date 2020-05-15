@@ -76,6 +76,11 @@ $lightbox = esc_attr( $settings['lightbox'] );
 				</tr>
 			</tbody>
 		</table>
+		<div class="conteiner">
+			<h2><?php echo __( 'Social Sharing', 'easy-image-gallery' ); ?></h2>
+			<p> Social Sharing functionality is available only when use Lightbox: lightGallery. </p>
+			<p> For suggestions or questions you can write to support or leave a comment. </p>
+		</div>
 		<?php wp_nonce_field( 'eig_admin_page_save', 'eig_admin_page' ); ?>
 		<?php submit_button(); ?>
 	</form>
