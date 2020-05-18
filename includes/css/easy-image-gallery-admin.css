@@ -127,3 +127,13 @@
 .dashicons-trash {
   cursor: pointer;
 }
+
+.left-info, .right-info {
+  display: inline-block;
+}
+
+.right-info {
+  width: 25%;
+  vertical-align: top;
+  margin-left: 50%;
+}
