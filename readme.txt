@@ -38,6 +38,10 @@ Features:
 1. Added Gutenberg Support
 1. Added New Gallery - Luminous
 
+= Credits to =
+
+https://github.com/lelinhtinh/watermark
+
 = Usage =
 
 Use the shortcode or the function to show the gallery.
