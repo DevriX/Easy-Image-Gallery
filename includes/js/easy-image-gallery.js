@@ -4,7 +4,7 @@ jQuery(function() {
         text: site_title,
         textWidth: 100,
         gravity: 'se',
-        opacity: 0.4,
+        opacity: 0.7,
         margin: 12
     });
 });
