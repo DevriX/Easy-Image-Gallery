@@ -37,6 +37,10 @@ function easy_image_gallery_hide( $post_id ) {
 function easy_image_gallery_block_cgb_block_assets() { // phpcs:ignore
 	global $post;
 
+	if( empty( $post->ID ) ){
+		return;
+	}
+
 	if ( true === easy_image_gallery_hide( $post->ID) ) {
 		return;
 	}
