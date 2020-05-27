@@ -493,7 +493,7 @@ function easy_image_gallery( $gallery_id = 'old_db' ) {
 					}
 					echo '</div>';
 
-					echo '<script>jQuery(".easy-image-gallery-mosaic-master").Mosaic();</script>';
+					echo '<script>jQuery(".easy-image-gallery-mosaic-master").Mosaic({maxRowHeight: 320});</script>';
 
 					if ( 'luminous' === easy_image_gallery_get_lightbox() ) {
 						echo '<script>new LuminousGallery(document.querySelectorAll("a[rel=\'luminous[group-' . $gallery_id . ']\']"));</script>';
