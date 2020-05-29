@@ -82,7 +82,7 @@ $lightbox = esc_attr( $settings['lightbox'] );
 		</form>
 	</div>
 
-	<div class="right-info">
+	<div class="info">
 		<h3>Check out more of our premium plugins</h3>
 		<li><a target="_blank" href="https://bg.wordpress.org/plugins/dx-localhost/">DX localhost</a> Display a notice when working on a localhost site on staging environment, based on your settings and adjustments
 		Super helpful whenever you’re cloning a production website with virtual hosts using the same domain name, and are not sure which site are you editing. Visible both in the admin area, and the frontend to all site visitors.
@@ -94,7 +94,7 @@ $lightbox = esc_attr( $settings['lightbox'] );
 
 		<h3>Are you looking for help?</h3>
 		<p>Don't worry, we got you covered:</p>
-		<li><a href="http://wordpress.org/support/plugin/dx-rss-feeds">Plugin support forum on WordPress</a></li>
+		<li><a href="https://wordpress.org/support/plugin/easy-image-gallery/">Plugin support forum on WordPress</a></li>
 		<li><a href="https://devrix.com/contact">Contact Us</a></li>
 		<li><a href="https://devrix.com/articles">Browse our blog for tutorials</a></li>
 		<p><hr/></p>

@@ -128,12 +128,12 @@
   cursor: pointer;
 }
 
-.left-info, .right-info {
+.left-info, .info {
   display: inline-block;
 }
 
-.right-info {
-  width: 25%;
+.info {
+  width: 20%;
   vertical-align: top;
-  margin-left: 50%;
+  float:right
 }
