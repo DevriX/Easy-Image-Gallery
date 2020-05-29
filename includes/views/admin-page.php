@@ -100,7 +100,7 @@ $lightbox = esc_attr( $settings['lightbox'] );
 		<p><hr/></p>
 
 		<p>
-			<li><a href="https://wordpress.org/support/view/plugin-reviews/dx-rss-feeds?rate=5#postform">Give us &#9733;&#9733;&#9733;&#9733;&#9733; rating</a></li>
+			<li><a href="https://wordpress.org/support/plugin/easy-image-gallery/reviews/#new-post" target="_blank">Give us &#9733;&#9733;&#9733;&#9733;&#9733; rating</a></li>
 			<li><a href="http://twitter.com/wpdevrix" target="_blank">Follow on Twitter</a></li>
 		</p>
 	</div>
