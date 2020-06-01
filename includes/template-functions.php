@@ -470,14 +470,33 @@ function easy_image_gallery( $gallery_id = 'old_db' ) {
 					?>
 					<div class="<?php echo $classes; ?> <?php echo $lightbox; ?> <?php echo $grid_view; ?>">
 					<?php
+
+					if ( $grid_view == 'easy-image-gallery-masonry-master') {
+						$counter = 1;
+					}
+
 					foreach ( $has_gallery_images as $attachment_id ) {
+
 						$classes = array( 'eig-popup', 'col-xs-6 col-sm-4 col-md-3' );
 
 						// Get original image.
 						$image_link = wp_get_attachment_image_src( $attachment_id, apply_filters( 'easy_image_gallery_linked_image_size', 'large' ) );
 						$image_link = $image_link[0];
 
-						$image = wp_get_attachment_image( $attachment_id, apply_filters( 'easy_image_gallery_thumbnail_image_size', 'thumbnail' ), '', array( 'alt' => trim( strip_tags( get_post_meta( $attachment_id, '_wp_attachment_image_alt', true ) ) ) ) );
+						if( ! empty( $counter ) ) {
+
+							if ( $counter % 3  == 0 ) {
+								$image = wp_get_attachment_image( $attachment_id, apply_filters( 'easy_image_gallery_thumbnail_image_size', 'thumbnail' ), '', array( 'alt' => trim( strip_tags( get_post_meta( $attachment_id, '_wp_attachment_image_alt', true ) ) ), 'class' => 'column-medium') );
+							} elseif ( $counter % 4 == 0 ) {
+								$image = wp_get_attachment_image( $attachment_id, apply_filters( 'easy_image_gallery_thumbnail_image_size', 'thumbnail' ), '', array( 'alt' => trim( strip_tags( get_post_meta( $attachment_id, '_wp_attachment_image_alt', true ) ) ), 'class' => 'column-large') );
+							} else {
+								$image = wp_get_attachment_image( $attachment_id, apply_filters( 'easy_image_gallery_thumbnail_image_size', 'thumbnail' ), '', array( 'alt' => trim( strip_tags( get_post_meta( $attachment_id, '_wp_attachment_image_alt', true ) ) ), 'class' => 'column-normal') );
+							}
+
+							$counter++;
+						} else {
+							$image = wp_get_attachment_image( $attachment_id, apply_filters( 'easy_image_gallery_thumbnail_image_size', 'thumbnail' ), '', array( 'alt' => trim( strip_tags( get_post_meta( $attachment_id, '_wp_attachment_image_alt', true ) ) ) ) );
+						}
 
 						$image_caption = get_post( $attachment_id )->post_excerpt ? esc_attr( get_post( $attachment_id )->post_excerpt ) : '';
 
