@@ -3,7 +3,7 @@ Contributors: devrix, nofearinc
 Tags: image gallery, image, galleries, simple, easy, devrix
 Requires at least: 3.5
 Tested up to: 5.3.2
-Stable tag: 1.4.2
+Stable tag: 1.4.3
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -117,6 +117,9 @@ In your WordPress admin under Settings -> Media
 The plugin ownership was transferred to DevriX. There are no functionality changes. We are going to work on a few version, adding some nice feature in the near feature, stay tuned! :)
 
 == Changelog ==
+
+= 1.4.3 =
+* Fix error on 404 pages about Trying to get property ‘ID’ of non-object
 
 = 1.4.2 =
 * Release date - May 14, 2020
