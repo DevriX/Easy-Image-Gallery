@@ -2,24 +2,28 @@
 Contributors: devrix, nofearinc
 Tags: image gallery, image, galleries, simple, easy, devrix
 Requires at least: 3.5
-Tested up to: 5.0.3
-Stable tag: 1.3.1
+Tested up to: 5.3.2
+Stable tag: 1.4.3
+Requires PHP: 5.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Easily create an image gallery on your posts, pages or any custom post type
 
 == Description ==
+This plugin allows you to easily create an image gallery on any post, page or custom post type. 
+Images are can be added and previewed from the metabox. Images can be re-ordered by drag and drop.
 
-There comes a time when you need more flexibility than the standard WP gallery offers, That's when this plugin steps in. This plugin's goal is to make it easy to create a gallery and place it wherever you need. A perfect example would be to create a product gallery for an ecommerce website and then have the flexibility to position it where you wanted to match your theme's design.
+About:  
 
-This plugin allows you to easily create an image gallery on any post, page or custom post type. Images are can be added and previewed from the metabox. Images can be re-ordered by drag and drop.
+There comes a time when you need more flexibility than the standard WP gallery offers, That’s when this plugin steps in.
+This plugin’s goal is to make it easy to create a gallery and place it wherever you need.
+A perfect example would be to create a product gallery for an ecommerce website and then 
+have the flexibility to position it where you wanted to match your theme’s design.
 
 Features:
 
 1. Added the possibility to add two or more different galleries on one page
-1. Fixed image styles.
-1. Fixed some of PHP errors & bugs.
 1. Drag and drop re-ordering
 1. Add gallery to any post, page or custom post type
 1. If more than one image is added to the gallery, the images become grouped in the lightbox so you can easily view the next one
@@ -29,7 +33,10 @@ Features:
 1. Add multiple images to the gallery at once
 1. Uses the thumbnail size specified in Settings -> Media
 1. Custom webfont icon for hover effect
-1. Uses the new WP 3.5+ media manager for a familiar and intuitive way to add your images
+
+= Whats' New =
+1. Added Gutenberg Support
+1. Added New Gallery - Luminous
 
 = Usage =
 
@@ -83,7 +90,7 @@ If you use the template tag above, you will need to remove the default content f
 
 1. The plugin's simple configuration screen. Any existing custom post types will appear here
 1. The plugin's simple metabox that is added to the publish/edit screens
-1. WordPress 3.5's new media manager is launched when you click "Add gallery images". You can select multiple images to insert into the gallery
+1. You can select multiple images to insert into the gallery
 1. The plugin's Image Gallery metabox after images have been inserted and the post has been saved
 1. The front-end of the website showing the gallery which has been automatically appended to the content
 1. Clicking on an image launches the lightbox. Here it's shown with prettyPhoto
@@ -98,26 +105,48 @@ For that reason, we have to introduce Gallery ID as an argument for the shortcod
 
 Each of your galleries in the edit screen of your page or post will generate a new shortcode which you'll be able to use in the page or post editor.
 
-= fancyBox looks different after upgrading to 1.1 =
-
-This plugin mistakenly had fancyBox 2 included. Non-GPL software is not allowed on the WordPress repo (fancyBox 2 is licensed under Creative Commons). It has now been replaced with fancyBox 1, which is GPL compatible. If you'd like to add fancyBox 2 back into the plugin, simply [download this free plugin](http://sumobi.com/shop/easy-image-gallery-extend/ "Extend Easy Image Gallery with additional lightboxes")
-
 = Where are the plugin's settings? =
 
 In your WordPress admin under Settings -> Media
 
-= How can I add another Lightbox script to the plugin? =
-
-[Read This](http://sumobi.com/how-to-add-any-lightbox-script-to-the-easy-image-gallery-plugin "How to add another lightbox script to Easy Image Gallery") or [download this free plugin](http://sumobi.com/shop/easy-image-gallery-extend/ "Extend Easy Image Gallery with additional lightboxes") to add Colorbox and fancyBox 2
-
 = How can I use a different thumbnail size for each post type? =
 
-[Read This](http://sumobi.com/different-thumbnail-sizes-for-each-post-type-with-easy-image-gallery/ "Different thumbnail sizes for each post type with Easy Image Gallery")
+[Read This](https://devrix.com/resources/plugins/easy-image-gallery/ "Different thumbnail sizes for each post type with Easy Image Gallery")
 
 == Upgrade Notice ==
 The plugin ownership was transferred to DevriX. There are no functionality changes. We are going to work on a few version, adding some nice feature in the near feature, stay tuned! :)
 
 == Changelog ==
+
+= 1.4.3 =
+* Fix error on 404 pages about Trying to get property ‘ID’ of non-object
+
+= 1.4.2 =
+* Release date - May 14, 2020
+* Fixed PHP warning about array_key_exists()
+
+= 1.4.1 =
+* Release date - January 22, 2020
+* Fixing TwentyTwenty single post styles
+* Fixing Add link to larger image by default
+* Fixing prettyPhoto console error
+* Fixing Insert this shordcode function 
+
+= 1.4.0 =
+* Release date - January 7, 2020
+* Introduced "add to post" button in the gallery metabox for inserting shortcodes;
+* Gutenberg compatibility - adding Easy Image Gallery Gutenberg block;
+* "_blank" target for the image is added when the gallery is without lightbox, thus improving UX;
+* Fancybox upgraded to v.3.5.7;
+* Adding caption to the image for fancybox;
+* Change the classes of the plugin with prefixes;
+* Fixing large image size on a href click (PrettyPhoto);
+* Fixing Fatal error on WP version 4.9.8;
+* Fixing a couple of font references where not pointing to the right folder in blocks.style.build.css;
+* Fixing gallery delete when edit the post with quick edit;
+* Fixing gallery delete when the post is in the trash;
+* Removing OceanWP theme scripts for proper plugin functionality;
+* Added new gallery - Luminous
 
 = 1.3.1 =
 * Release date - May 07, 2018.
@@ -130,7 +159,7 @@ The plugin ownership was transferred to DevriX. There are no functionality chang
 * Improved the UI / UX
 
 = 1.2 =
-* Release date - Release date - January 26, 2017.
+* Release date - January 26, 2017.
 * The plugin ownership was transferred to DevriX. We are going to maintain and update the plugin for now on :)
 
 = 1.1.5 =

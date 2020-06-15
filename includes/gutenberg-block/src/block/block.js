@@ -105,7 +105,7 @@ registerBlockType( 'devrix/easy-image-gallery-block', {
 
 		// This removes an image from the gallery
 		const removeImage = (removeImage) => {
-			//filter the imagesa
+			//filter the images
 			const newImages = images.filter( (image) => {
 				//If the current image is equal to removeImage the image will be returnd
 				if(image.id != removeImage.id) {

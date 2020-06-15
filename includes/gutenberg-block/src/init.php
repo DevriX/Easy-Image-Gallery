@@ -12,8 +12,10 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-if ( ! defined( 'EASY_IMAGE_BLOCK_GALLERY_URL' ) )
-	define( 'EASY_IMAGE_BLOCK_GALLERY_URL', trailingslashit( plugin_dir_url( __FILE__ ) ) );
+
+if ( ! defined( 'EASY_IMAGE_BLOCK_GALLERY_URL' ) ) {
+	define( 'EASY_IMAGE_BLOCK_GALLERY_URL', trailingslashit( plugin_dir_url( __DIR__ ) ) );
+}
 
 
 /**
@@ -26,7 +28,7 @@ function easy_image_gallery_hide( $post_id ) {
 	$post_types = easy_image_gallery_allowed_post_types();
 	$post_type  = get_post_type( $post_id );
 
-	if ( ! array_key_exists( $post_type, $post_types ) ) {
+	if ( ! array_key_exists( strval( $post_type ), $post_types ) ) {
 		return true;
 	}
 
@@ -35,6 +37,10 @@ function easy_image_gallery_hide( $post_id ) {
 
 function easy_image_gallery_block_cgb_block_assets() { // phpcs:ignore
 	global $post;
+
+	if( empty( $post->ID ) ){
+		return;
+	}
 
 	if ( true === easy_image_gallery_hide( $post->ID) ) {
 		return;
@@ -47,19 +53,23 @@ function easy_image_gallery_block_cgb_block_assets() { // phpcs:ignore
 		array( 'wp-editor' ) // Dependency to include the CSS after it.
 		// filemtime( plugin_dir_path( __DIR__ ) . 'dist/blocks.style.build.css' ) // Version: File modification time.
 	);
-	wp_enqueue_script(
-		'easy_image_gallery_block-script-fe-js' ,
-		plugins_url( 'dist/blocks.script.js', dirname( __FILE__ ) ),
-		array( 'wp-editor' )
-	);
-	wp_register_script( 'pretty-photo-js', EASY_IMAGE_BLOCK_GALLERY_URL . '../dist/lib/prettyphoto/jquery.prettyPhoto.js', array( 'jquery' ), 1, true );
-	wp_register_script( 'fancybox-js', EASY_IMAGE_BLOCK_GALLERY_URL . '../dist/lib/fancybox/jquery.fancybox-1.3.4.pack.js', array( 'jquery' ), 1, true );
+
+	if ( is_admin() ) {
+		wp_enqueue_script(
+			'easy_image_gallery_block-script-fe-js' ,
+			plugins_url( 'dist/blocks.script.js', dirname( __FILE__ ) ),
+			array( 'wp-editor' )
+		);
+		wp_register_script( 'pretty-photo-js', EASY_IMAGE_BLOCK_GALLERY_URL . 'dist/lib/prettyphoto/jquery.prettyPhoto.js', array( 'jquery' ), 1, true );
+		wp_register_script( 'fancybox-js', EASY_IMAGE_BLOCK_GALLERY_URL . 'dist/lib/fancybox/jquery.fancybox-1.3.4.pack.js', array( 'jquery' ), 1, true );
+	}
 
 	// CSS
 	// wp_register_style( 'pretty-photo', EASY_IMAGE_BLOCK_GALLERY_URL . '../dist/lib/prettyphoto/prettyPhoto.css', '', EASY_IMAGE_GALLERY_VERSION, 'screen' );
 	// wp_register_style( 'fancybox', EASY_IMAGE_BLOCK_GALLERY_URL . '../dist/lib/fancybox/jquery.fancybox-1.3.4.css', '', EASY_IMAGE_GALLERY_VERSION, 'screen' );
 	wp_enqueue_script( 'pretty-photo-js' );
 	// wp_enqueue_script( 'fancybox-js' );
+
 	if ( is_admin() ) {
 		wp_enqueue_script(
 			'dragula-js' ,
