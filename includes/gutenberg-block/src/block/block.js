@@ -141,7 +141,7 @@ registerBlockType( 'devrix/easy-image-gallery-block', {
 					return (
 					<div className="gallery-item-container">
 							<img className='gallery-item' src={image.url} key={ images.id } />
-							{ isSelected && ( <div className='remove-item'><span class="dashicons dashicons-trash" onClick={() => removeImage(image)}></span></div> ) }
+							{ isSelected && ( <div className='remove-item'><span class="dashicons dashicons-no" onClick={() => removeImage(image)}></span></div> ) }
 					</div>
 					)
 				})

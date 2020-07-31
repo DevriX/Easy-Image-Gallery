@@ -25,11 +25,14 @@ img.gallery-item {
 }
 .gallery-item-container {
   display: inline-block; 
-  flex: 0 0 33.33%;
+  flex-basis: 150px;
+  margin-right: 1rem;
+  margin-bottom: 1rem;
+  position: relative;
 }
 @media (max-width: 600px) {
   .gallery-item-container {
-    flex: 0 0 50%;
+    flex-basis: calc(100% / 2);
   }
 }
 @media (max-width: 400px) {
@@ -38,5 +41,24 @@ img.gallery-item {
   }
   .gallery-item-container {
     flex: 0 0 100%;
+  }
+}
+
+.remove-item {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 22px;
+  height: 22px;
+  color: #5f5f5f;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: .2s ease;
+  cursor: pointer;
+
+  &:hover {
+    color: #333;
   }
 }
