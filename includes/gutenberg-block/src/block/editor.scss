@@ -26,6 +26,12 @@ img.gallery-item {
   display: inline-block; 
   flex: 0 0 33.33%;
 }
+
+.components-sortable {
+  display: flex;
+  width: 100%;
+}
+
 @media (max-width: 600px) {
   .gallery-item-container {
     flex: 0 0 50%;
