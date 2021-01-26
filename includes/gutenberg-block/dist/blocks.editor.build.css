@@ -30,15 +30,11 @@ img.gallery-item {
   width: 150px;
   height: 150px; }
 
-.gallery-item-container {
-  display: inline-block;
-  -ms-flex: 0 0 33.33%;
-      flex: 0 0 33.33%; }
-
-.components-sortable {
-  display: -ms-flexbox;
-  display: flex;
-  width: 100%; }
+.sortable-list {
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(10em, 1fr));
+  grid-gap: 1em; }
 
 @media (max-width: 600px) {
   .gallery-item-container {

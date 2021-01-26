@@ -5,43 +5,39 @@
  * which makes it higher in priority.
  */
 
-.wp-block-cgb-block-easy-image-gallery-block  {
-  background: $green;
-  border: 0.2rem solid $black;
-  color: $black;
-  margin: 0 auto;
-  max-width: 740px;
-  padding: 2rem;
+.wp-block-cgb-block-easy-image-gallery-block {
+	background: $green;
+	border: 0.2rem solid $black;
+	color: $black;
+	margin: 0 auto;
+	max-width: 740px;
+	padding: 2rem;
 }
 .image-gallery {
-  display: flex;
-  flex-wrap: wrap;  
+	display: flex;
+	flex-wrap: wrap;
 }
 img.gallery-item {
-  object-fit: cover;
-  width: 150px;
-  height: 150px; 
+	object-fit: cover;
+	width: 150px;
+	height: 150px;
 }
-.gallery-item-container {
-  display: inline-block; 
-  flex: 0 0 33.33%;
+.sortable-list {
+	overflow: hidden;
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(10em, 1fr));
+	grid-gap: 1em;
 }
-
-.components-sortable {
-  display: flex;
-  width: 100%;
-}
-
 @media (max-width: 600px) {
-  .gallery-item-container {
-    flex: 0 0 50%;
-  }
+	.gallery-item-container {
+		flex: 0 0 50%;
+	}
 }
 @media (max-width: 400px) {
-  .image-gallery {
-    justify-content: center;
-  }
-  .gallery-item-container {
-    flex: 0 0 100%;
-  }
+	.image-gallery {
+		justify-content: center;
+	}
+	.gallery-item-container {
+		flex: 0 0 100%;
+	}
 }

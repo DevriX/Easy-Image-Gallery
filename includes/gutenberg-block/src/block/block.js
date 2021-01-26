@@ -105,12 +105,8 @@ registerBlockType("devrix/easy-image-gallery-block", {
 		// This removes an image from the gallery
 		const removeImage = (removeImage) => {
 			//filter the images
-			const newImages = images.filter((image) => {
-				//If the current image is equal to removeImage the image will be returnd
-				if (image.id != removeImage.id) {
-					return image;
-				}
-			});
+			images.splice(removeImage, 1);
+			const newImages = [...images];
 
 			//Saves the new state
 			setAttributes({
@@ -132,14 +128,14 @@ registerBlockType("devrix/easy-image-gallery-block", {
 			setAttributes({ lightbox_option: lightbox_option });
 		};
 
-		const SortableItem = SortableElement(({ value }) => (
+		const SortableItem = SortableElement(({ image }) => (
 			<div className="gallery-item-container">
 				<img className="gallery-item" src={image.url} key={image.id} />
 				{isSelected && (
 					<div className="remove-item">
 						<span
 							class="dashicons dashicons-trash"
-							onClick={() => removeImage(image)}
+							onClick={() => removeImage(image.index)}
 						></span>
 					</div>
 				)}
@@ -148,21 +144,43 @@ registerBlockType("devrix/easy-image-gallery-block", {
 
 		const SortableList = SortableContainer(({ images }) => {
 			return (
-				<ul>
-					{images.map((image, index) => (
-						<SortableItem
-							key={`item-${image.id}`}
-							index={index}
-							url={image.url}
-						/>
-					))}
+				<ul className="sortable-list">
+					{images.map((image, index) => {
+						image.index = index;
+						return (
+							<SortableItem
+								key={`item-${image.id}`}
+								index={index}
+								url={image.url}
+								image={image}
+							/>
+						);
+					})}
 				</ul>
 			);
 		});
 
+		const onSortEnd = ({ oldIndex, newIndex }) => {
+			setAttributes({ images: arrayMove(images, oldIndex, newIndex) });
+		};
+
+		const shouldCancelStart = (e) => {
+			const classList = Array.from(e.target.classList);
+			if (classList.includes("dashicons-trash")) {
+				return true;
+			}
+		};
+
 		//Displays the images
 		const displayImages = (images) => {
-			console.log(images);
+			return (
+				<SortableList
+					images={images}
+					onSortEnd={onSortEnd}
+					shouldCancelStart={shouldCancelStart}
+					axis="xy"
+				/>
+			);
 		};
 		let _id = "";
 		if (attributes["id"] != undefined) {
@@ -203,12 +221,8 @@ registerBlockType("devrix/easy-image-gallery-block", {
 					</PanelBody>
 				</InspectorControls>
 				<div>
-					<ul
-						className="image-gallery thumbnails-4 linked"
-						data-total-slides={images.length}
-					>
-						{displayImages(images)}
-					</ul>
+					{displayImages(images)}
+
 					{isSelected && (
 						<MediaUpload
 							onSelect={(media) => {
