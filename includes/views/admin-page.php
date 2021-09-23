@@ -33,6 +33,10 @@ $lightbox = esc_attr( $settings['lightbox'] );
 			<h1><?php echo __( 'Easy Image Gallery Settings', 'easy-image-gallery' ); ?></h1>
 			<table class="form-table" role="presentation">
 				<tbody>
+				<div class="dx-plugin-disclaimer">
+					<h2><?php echo __( 'Add gallery to any post, page or custom post type', 'easy-image-gallery' ); ?></h2>
+					<p><strong><?php echo __( 'Disclaimer:', 'easy-image-gallery' ) ?></strong> <?php echo __( 'Each generated gallery shortcode can <strong> only be used on the specific page', 'easy-image-gallery');?> </strong> <?php echo __('it has been generated for. ', 'easy-image-gallery');?></p>
+				</div>
 					<tr>
 						<th scope="row"><?php echo __( 'Lightbox', 'easy-image-gallery' ); ?></th>
 						<td>
