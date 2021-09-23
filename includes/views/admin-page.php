@@ -74,7 +74,9 @@ $lightbox = esc_attr( $settings['lightbox'] );
 						<td>
 							<select name="easy-image-gallery[grid_view]">
 								<?php foreach ( $arr_grids_filter as $key => $label ) : ?>
+									<?php if ( isset( $grid_view ) ):?>
 									<option value="<?php echo $key; ?>" <?php selected( $settings['grid_view'], $key ); ?>><?php echo $label; ?></option>
+									<?php endif ?>
 								<?php endforeach; ?>
 							</select>
 						</td>
