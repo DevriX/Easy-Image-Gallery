@@ -24,6 +24,7 @@ function easy_image_gallery_scripts() {
 	wp_register_script( 'luminous', EASY_IMAGE_GALLERY_URL . 'includes/lib/luminous/dist/Luminous.min.js', array( 'jquery' ), EASY_IMAGE_GALLERY_VERSION, false );
 	wp_register_script( 'lightgallery', EASY_IMAGE_GALLERY_URL . 'includes/lib/lightGallery/dist/js/lightgallery-all.min.js', array(), EASY_IMAGE_GALLERY_VERSION, false );
 
+
 	// CSS
 	wp_register_style( 'pretty-photo', EASY_IMAGE_GALLERY_URL . 'includes/lib/prettyphoto/prettyPhoto.css', '', EASY_IMAGE_GALLERY_VERSION, 'screen' );
 	wp_register_style( 'fancybox', EASY_IMAGE_GALLERY_URL . 'includes/lib/fancybox/jquery.fancybox.min.css', '', EASY_IMAGE_GALLERY_VERSION, 'screen' );
@@ -212,6 +213,15 @@ add_action( 'wp_footer', 'easy_image_gallery_js', 20 );
 function easy_image_gallery_admin_scripts() {
 	wp_enqueue_script( 'repeatable-fields', EASY_IMAGE_GALLERY_URL . 'includes/lib/repeatable-fields.js', array( 'jquery', 'jquery-ui-core' ) );
 	wp_enqueue_style( 'easy_image_gallery_admin_css', EASY_IMAGE_GALLERY_URL . 'includes/css/easy-image-gallery-admin.css' );
+	
 }
 
 add_action( 'admin_head', 'easy_image_gallery_admin_scripts' );
+
+add_action( 'wp_enqueue_scripts', 'easy_image_gallery_twentytwentyonefix_script' );
+
+/** Script loading. */
+function easy_image_gallery_twentytwentyonefix_script() {
+
+	wp_enqueue_script( 'twenty-twentyone-style-specific', EASY_IMAGE_GALLERY_URL . 'twenty-twentyone-style-specific.js', array( 'jquery', 'jquery-ui-core' ) );
+}
