@@ -247,6 +247,10 @@ function easy_image_gallery_lightbox_rel( $gallery_id = null ) {
 			$rel = 'rel="luminous' . '[group-' . $gallery_id . ']"';
 
 			break;
+			case 'lightgallery':
+				$rel = 'rel="lightGallery' . '[group-' . $gallery_id . ']"';
+	
+				break;
 
 		default:
 			$rel = 'rel="prettyPhoto' . '[group-' . $gallery_id . ']"';
@@ -466,14 +470,15 @@ function easy_image_gallery( $gallery_id = 'old_db' ) {
 					$lightbox  = easy_image_gallery_get_lightbox();
 					$rel       = easy_image_gallery_lightbox_rel( $gallery_id );
 					$grid_view = easy_image_gallery_grid_view();
-
+					// echo $gallery_id;
+					// echo $rel;
+					// echo $grid_view;
+					// echo $lightbox;
+					// echo $classes;
 					?>
 					<div class="easy-image-gallery <?php echo $classes; ?> <?php echo $lightbox; ?> <?php echo $grid_view; ?>">
+					
 					<?php
-
-					if ( $grid_view == 'easy-image-gallery-masonry-master') {
-						$counter = 1;
-					}
 
 					foreach ( $has_gallery_images as $attachment_id ) {
 
@@ -482,29 +487,15 @@ function easy_image_gallery( $gallery_id = 'old_db' ) {
 						// Get original image.
 						$image_link = wp_get_attachment_image_src( $attachment_id, apply_filters( 'easy_image_gallery_linked_image_size', 'large' ) );
 						$image_link = $image_link[0];
-
-						if( ! empty( $counter ) ) {
-
-							if ( $counter % 3  == 0 ) {
-								$image = wp_get_attachment_image( $attachment_id, apply_filters( 'easy_image_gallery_thumbnail_image_size', 'thumbnail' ), '', array( 'alt' => trim( strip_tags( get_post_meta( $attachment_id, '_wp_attachment_image_alt', true ) ) ), 'class' => 'column-medium') );
-							} elseif ( $counter % 4 == 0 ) {
-								$image = wp_get_attachment_image( $attachment_id, apply_filters( 'easy_image_gallery_thumbnail_image_size', 'thumbnail' ), '', array( 'alt' => trim( strip_tags( get_post_meta( $attachment_id, '_wp_attachment_image_alt', true ) ) ), 'class' => 'column-large') );
-							} else {
-								$image = wp_get_attachment_image( $attachment_id, apply_filters( 'easy_image_gallery_thumbnail_image_size', 'thumbnail' ), '', array( 'alt' => trim( strip_tags( get_post_meta( $attachment_id, '_wp_attachment_image_alt', true ) ) ), 'class' => 'column-normal') );
-							}
-
-							$counter++;
-						} else {
-							$image = wp_get_attachment_image( $attachment_id, apply_filters( 'easy_image_gallery_thumbnail_image_size', 'thumbnail' ), '', array( 'alt' => trim( strip_tags( get_post_meta( $attachment_id, '_wp_attachment_image_alt', true ) ) ) ) );
-						}
-
+						$image = wp_get_attachment_image( $attachment_id, apply_filters( 'easy_image_gallery_thumbnail_image_size', 'thumbnail' ), '', array( 'alt' => trim( strip_tags( get_post_meta( $attachment_id, '_wp_attachment_image_alt', true ) ) ) ) );
 						$image_caption = get_post( $attachment_id )->post_excerpt ? esc_attr( get_post( $attachment_id )->post_excerpt ) : '';
 
 						$image_class = esc_attr( implode( ' ', $classes ) );
-
+						
 						if ( isset( $gallery['OPEN_IMAGES'] ) && $gallery['OPEN_IMAGES'] == 'on' ) {
 							$html = sprintf( '<a %s href="%s" class="%s" title="%s" data-caption="%s" target="_blank"><i class="icon-view"></i><span class="overlay"></span>%s</a>', $rel, $image_link, $image_class, $image_caption, $image_caption, $image );
 						} else {
+							
 							$html = sprintf( '%s', $image );
 						}
 
