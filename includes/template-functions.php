@@ -512,7 +512,6 @@ function easy_image_gallery( $gallery_id = 'old_db' ) {
 					}
 					echo '</div>';
 
-					echo '<script>jQuery(".easy-image-gallery-mosaic-master").Mosaic({maxRowHeight: 320});</script>';
 
 					if ( 'luminous' === easy_image_gallery_get_lightbox() ) {
 						echo '<script>new LuminousGallery(document.querySelectorAll("a[rel=\'luminous[group-' . $gallery_id . ']\']"));</script>';
@@ -553,3 +552,11 @@ function easy_image_gallery_template_redirect() {
 	}
 }
 add_action( 'template_redirect', 'easy_image_gallery_template_redirect' );
+
+?>
+<script>
+	window.setTimeout(function (){
+		Array.from(document.querySelectorAll('div.easy-image-gallery img')).forEach(img => img.style = {})
+	}, 1000) 
+
+	</script>

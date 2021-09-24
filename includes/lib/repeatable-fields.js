@@ -7,6 +7,7 @@
 */
 
 (function($) {
+	
 	$.fn.repeatable_fields = function(custom_settings) {
 		var default_settings = {
 			wrapper: '.wrapper',
@@ -117,3 +118,4 @@
 		}
 	}
 })(jQuery);
+
