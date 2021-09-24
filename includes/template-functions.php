@@ -468,7 +468,8 @@ function easy_image_gallery( $gallery_id = 'old_db' ) {
 					$grid_view = easy_image_gallery_grid_view();
 
 					?>
-					<div class="<?php echo $classes; ?> <?php echo $lightbox; ?> <?php echo $grid_view; ?>">
+					<div class="shortcode <?php echo $classes; ?> <?php echo $lightbox; ?> <?php echo $grid_view; ?>">
+					
 					<?php
 
 					if ( $grid_view == 'easy-image-gallery-masonry-master') {

@@ -51,12 +51,19 @@
   -o-transition: all 0.3s linear;
   transition: all 0.3s linear;
 }
-.eig-popup:hover .overlay {
+li .eig-popup:hover .overlay {
   visibility: visible;
   background: #000;
   height: 100%;
   width: 100%;
 }
+.shortcode .eig-popup:hover .overlay {
+	visibility: visible;
+	background: #000;
+	height: 20%;
+	width: 20%;
+  }
+
 .popup:hover img {
 
 }
