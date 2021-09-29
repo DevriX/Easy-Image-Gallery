@@ -3,6 +3,7 @@
  * Template functions
  *
  * @since 1.0
+ * @package DX\EIG
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
