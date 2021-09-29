@@ -52,7 +52,9 @@ class Admin_Menu {
 			),
 		),
 	);
-
+	/**
+	 * Hooking on init
+	 */
 	public function __construct() {
 		add_action( 'admin_menu', array( $this, 'init' ), 20 );
 	}
@@ -80,11 +82,19 @@ class Admin_Menu {
 			array( $this, 'eig_extensions_page' )
 		);
 	}
-
+	/**
+	 * Registering settings page (Admin)
+	 *
+	 * @return void
+	 */
 	public function eig_settings_page() {
 		include_once( EASY_IMAGE_GALLERY_DIR . 'includes/views/admin-page.php' );
 	}
-
+	/**
+	 * Registering extensions page (Admin)
+	 *
+	 * @return void
+	 */
 	public function eig_extensions_page() {
 		include_once( EASY_IMAGE_GALLERY_DIR . 'includes/views/extensions-page.php' );
 	}
