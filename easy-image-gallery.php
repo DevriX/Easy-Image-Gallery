@@ -1,15 +1,17 @@
 <?php
-/*
-Plugin Name: Easy Image Gallery
-Plugin URI: http://devrix.com/
-Description: An easy to use image gallery with drag & drop re-ordering
-Version: 1.4.2
-Author: DevriX
-Author URI: http://devrix.com/
-Text Domain: easy-image-gallery
-License: GPL-2.0+
-License URI: http://www.opensource.org/licenses/gpl-license.php
-*/
+/**
+ * Plugin Name: Easy Image Gallery
+ * Plugin URI: http://devrix.com/
+ * Description: An easy to use image gallery with drag & drop re-ordering
+ * Version: 1.4.2
+ * Author: DevriX
+ * Author URI: http://devrix.com/
+ * Text Domain: easy-image-gallery
+ * License: GPL-2.0+
+ * License URI: http://www.opensource.org/licenses/gpl-license.php
+ *
+ * @package DX\EIG
+ */
 
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) {
@@ -24,7 +26,9 @@ if ( ! class_exists( 'Easy_Image_Gallery' ) ) {
 	 * @since 1.0
 	 */
 	class Easy_Image_Gallery {
-
+		/**
+		 * Class initiation for EIG
+		 */
 		public function __construct() {
 			add_action( 'plugins_loaded', array( $this, 'load_textdomain' ) );
 			add_action( 'plugins_loaded', array( $this, 'constants' ) );
