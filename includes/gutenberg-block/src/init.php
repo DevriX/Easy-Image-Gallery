@@ -23,8 +23,8 @@ if ( ! defined( 'EASY_IMAGE_BLOCK_GALLERY_URL' ) ) {
  * @uses {wp-editor} for WP editor styles.
  * @since 1.4.0
  */
-function easy_image_gallery_hide( $post_id ) {
-	$post_types = easy_image_gallery_allowed_post_types();
+function eig_hide( $post_id ) {
+	$post_types = eig_allowed_post_types();
 	$post_type  = get_post_type( $post_id );
 
 	if ( ! array_key_exists( strval( $post_type ), $post_types ) ) {
@@ -34,10 +34,10 @@ function easy_image_gallery_hide( $post_id ) {
 	return false;
 }
 
-function easy_image_gallery_block_cgb_block_assets() { // phpcs:ignore
+function eig_block_cgb_block_assets() { // phpcs:ignore
 	global $post;
 
-	if ( true === easy_image_gallery_hide( $post->ID) ) {
+	if ( true === eig_hide( $post->ID) ) {
 		return;
 	}
 
@@ -69,7 +69,7 @@ function easy_image_gallery_block_cgb_block_assets() { // phpcs:ignore
 }
 
 // Hook: Frontend assets.
-add_action( 'enqueue_block_assets', 'easy_image_gallery_block_cgb_block_assets' );
+add_action( 'enqueue_block_assets', 'eig_block_cgb_block_assets' );
 
 /**
  * Enqueue Gutenberg block assets for backend editor.
@@ -80,14 +80,14 @@ add_action( 'enqueue_block_assets', 'easy_image_gallery_block_cgb_block_assets' 
  * @uses {wp-editor} for WP editor styles.
  * @since 1.0.0
  */
-function easy_image_gallery_block_cgb_editor_assets() { // phpcs:ignore
+function eig_block_cgb_editor_assets() { // phpcs:ignore
 	global $post;
 
-	if ( true === easy_image_gallery_hide( $post->ID) ) {
+	if ( true === eig_hide( $post->ID) ) {
 		return;
 	}
 
-	wp_enqueue_script( 'easy_image_gallery_block-script-fe-js' );
+	wp_enqueue_script( 'eig_block-script-fe-js' );
 
 	// Scripts.
 	wp_enqueue_script(
@@ -107,4 +107,4 @@ function easy_image_gallery_block_cgb_editor_assets() { // phpcs:ignore
 }
 
 // Hook: Editor assets.
-add_action( 'enqueue_block_editor_assets', 'easy_image_gallery_block_cgb_editor_assets' );
+add_action( 'enqueue_block_editor_assets', 'eig_block_cgb_editor_assets' );

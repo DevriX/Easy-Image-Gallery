@@ -10,20 +10,20 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @since 1.0
  */
-function easy_image_gallery_add_meta_box() {
+function eig_add_meta_box() {
 
-	$post_types = easy_image_gallery_allowed_post_types();
+	$post_types = eig_allowed_post_types();
 
 	if ( ! $post_types ) {
 		return;
 	}
 
 	foreach ( $post_types as $post_type => $status ) {
-		add_meta_box( 'easy_image_gallery', apply_filters( 'easy_image_gallery_meta_box_title', __( 'Image Gallery', 'easy-image-gallery' ) ), 'easy_image_gallery_metabox', $post_type, apply_filters( 'easy_image_gallery_meta_box_context', 'normal' ), apply_filters( 'easy_image_gallery_meta_box_priority', 'low' ) );
+		add_meta_box( 'easy_image_gallery', apply_filters( 'easy_image_gallery_meta_box_title', __( 'Image Gallery', 'easy-image-gallery' ) ), 'eig_metabox', $post_type, apply_filters( 'easy_image_gallery_meta_box_context', 'normal' ), apply_filters( 'easy_image_gallery_meta_box_priority', 'low' ) );
 	}
 
 }
-add_action( 'add_meta_boxes', 'easy_image_gallery_add_meta_box' );
+add_action( 'add_meta_boxes', 'eig_add_meta_box' );
 
 
 /**
@@ -31,7 +31,7 @@ add_action( 'add_meta_boxes', 'easy_image_gallery_add_meta_box' );
  *
  * @since 1.0
  */
-function easy_image_gallery_metabox() {
+function eig_metabox() {
 
 	global $post;
 
@@ -361,13 +361,13 @@ function easy_image_gallery_metabox() {
  * @return void
  * @since 1.0
  */
-function easy_image_gallery_save_post( $post_id ) {
+function eig_save_post( $post_id ) {
 
 	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
 		return;
 	}
 
-	$post_types = easy_image_gallery_allowed_post_types();
+	$post_types = eig_allowed_post_types();
 
 	// Check user permissions.
 	if ( isset( $_POST['post_type'] ) && ! array_key_exists( $_POST['post_type'], $post_types ) ) {
@@ -413,6 +413,6 @@ function easy_image_gallery_save_post( $post_id ) {
 		update_post_meta( $post_id, '_easy_image_gallery_link_images', 'off' );
 	}
 
-	do_action( 'easy_image_gallery_save_post', $post_id );
+	do_action( 'eig_save_post', $post_id );
 }
-add_action( 'save_post', 'easy_image_gallery_save_post' );
+add_action( 'save_post', 'eig_save_post' );

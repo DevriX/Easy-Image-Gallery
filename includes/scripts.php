@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @since 1.0
  */
-function easy_image_gallery_scripts() {
+function eig_scripts() {
 
 	global $post;
 
@@ -37,17 +37,17 @@ function easy_image_gallery_scripts() {
 	}
 
 	// Post type is not allowed, return.
-	if ( ! easy_image_gallery_allowed_post_type() ) {
+	if ( ! eig_allowed_post_type() ) {
 		return;
 	}
 
 	// Needs to load only when there is a gallery.
-	if ( easy_image_gallery_is_gallery() ) {
+	if ( eig_is_gallery() ) {
 		wp_enqueue_style( 'easy-image-gallery' );
 	}
 
 	$linked_images       = true;
-	$gutenberg_galleries = easy_image_gallery_if_gutenberg_block();
+	$gutenberg_galleries = eig_if_gutenberg_block();
 
 	if ( ! empty( $gutenberg_galleries ) ) {
 		foreach ( $gutenberg_galleries as $value ) {
@@ -59,7 +59,7 @@ function easy_image_gallery_scripts() {
 	// Only load the JS if gallery images are linked or the featured image is linked.
 	if ( $linked_images ) {
 
-		$lightbox = easy_image_gallery_get_lightbox();
+		$lightbox = eig_get_lightbox();
 
 		// Scripts that we need to remove for proper plugin functionality.
 		wp_dequeue_script( 'magnific-popup' ); // OceanWP theme.
@@ -94,19 +94,19 @@ function easy_image_gallery_scripts() {
 		}
 
 		// Allow developers to load their own scripts here.
-		do_action( 'easy_image_gallery_scripts' );
+		do_action( 'eig_scripts' );
 
 	}
 
 }
-add_action( 'wp_enqueue_scripts', 'easy_image_gallery_scripts', 20 );
+add_action( 'wp_enqueue_scripts', 'eig_scripts', 20 );
 
 /**
  * Checking if we have the Easy Image Gallery Gutenberg block in the post content
  *
  * @since 1.4.0
  */
-function easy_image_gallery_if_gutenberg_block() {
+function eig_if_gutenberg_block() {
 	global $post;
 
 	if ( ! function_exists( 'has_blocks' ) ) {
@@ -133,9 +133,9 @@ function easy_image_gallery_if_gutenberg_block() {
  *
  * @since 1.0
  */
-function easy_image_gallery_js() {
+function eig_js() {
 
-	if ( ! easy_image_gallery_allowed_post_type() ) {
+	if ( ! eig_allowed_post_type() ) {
 		return;
 	}
 
@@ -143,7 +143,7 @@ function easy_image_gallery_js() {
 
 		<?php
 
-			$lightbox = easy_image_gallery_get_lightbox();
+			$lightbox = eig_get_lightbox();
 
 		switch ( $lightbox ) {
 
@@ -199,19 +199,19 @@ function easy_image_gallery_js() {
 		}
 
 			// Allow developers to add/modify JS.
-			do_action( 'easy_image_gallery_js', $lightbox );
+			do_action( 'eig_js', $lightbox );
 		?>
 
 	<?php // endif;. ?>
 
 	<?php
 }
-add_action( 'wp_footer', 'easy_image_gallery_js', 20 );
+add_action( 'wp_footer', 'eig_js', 20 );
 
 
-function easy_image_gallery_admin_scripts() {
+function eig_admin_scripts() {
 	wp_enqueue_script( 'repeatable-fields', EASY_IMAGE_GALLERY_URL . 'includes/lib/repeatable-fields.js', array( 'jquery', 'jquery-ui-core' ) );
 	wp_enqueue_style( 'easy_image_gallery_admin_css', EASY_IMAGE_GALLERY_URL . 'includes/css/easy-image-gallery-admin.css' );
 }
 
-add_action( 'admin_head', 'easy_image_gallery_admin_scripts' );
+add_action( 'admin_head', 'eig_admin_scripts' );
