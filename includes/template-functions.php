@@ -8,14 +8,18 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
-
+/**
+ * Checking db version
+ *
+ * @return mixed
+ */
 function easy_image_gallery_db_version() {
 	$old_meta_structure = get_post_meta( get_the_ID(), '_easy_image_gallery', true );
 	$new_meta_structure = get_post_meta( get_the_ID(), '_easy_image_gallery_v2', true );
 
-	if ( isset( $new_meta_structure ) && $new_meta_structure != null ) {
+	if ( isset( $new_meta_structure ) && null !== $new_meta_structure ) {
 		return 'new';
-	} elseif ( isset( $old_meta_structure ) && $old_meta_structure != null ) {
+	} elseif ( isset( $old_meta_structure ) && null !== $old_meta_structure ) {
 		return 'old';
 	}
 
@@ -27,10 +31,10 @@ function easy_image_gallery_db_version() {
  */
 function easy_image_gallery_get_post_meta() {
 	$db_version = easy_image_gallery_db_version();
-	if ( $db_version == 'new' ) {
+	if ( 'new' === $db_version ) {
 		$gallery_ids = get_post_meta( get_the_ID(), '_easy_image_gallery_v2', true );
 		return $gallery_ids;
-	} elseif ( $db_version == 'old' ) {
+	} elseif ( 'old' === $db_version ) {
 		$get_gallery_attachments = get_post_meta( get_the_ID(), '_easy_image_gallery', true );
 		$get_gallery_old_data    = explode( ',', $get_gallery_attachments );
 
@@ -43,7 +47,7 @@ function easy_image_gallery_get_post_meta() {
 
 		$gallery_ids = array(
 			array(
-				'SHORTCODE'   => rand( 100, 999 ),
+				'SHORTCODE'   => wp_rand( 100, 999 ),
 				'DATA'        => $get_gallery_old_data,
 				'OPEN_IMAGES' => $get_open_images[0],
 			),
@@ -62,7 +66,7 @@ function easy_image_gallery_get_post_meta() {
  */
 function easy_image_gallery_is_gallery() {
 	$gallery_ids = easy_image_gallery_get_post_meta();
-	// Checking if we have EIG (Easy Image Gallery) Gutenberg Blocks in the post content
+	// Checking if we have EIG (Easy Image Gallery) Gutenberg Blocks in the post content.
 	$gutenberg_galleries = easy_image_gallery_if_gutenberg_block();
 
 	if ( ! empty( $gallery_ids ) || ! empty( $gutenberg_galleries ) ) {
@@ -76,24 +80,24 @@ function easy_image_gallery_is_gallery() {
  * Get page images ids
  *
  * @since 1.3
- * @return array
+ * @return array|void
  */
 function easy_image_gallery_get_image_ids( $post_id = null, $all_galleries_images = true, $gallery_id = null ) {
 	global $post;
 
-	if ( $post_id == null ) {
+	if ( null === $post_id ) {
 		$post_id = $post->ID;
 	}
 
-	if ( ! isset( $post_id ) || $post_id == null ) {
+	if ( ! isset( $post_id ) || null === $post_id ) {
 		return;
 	}
 
 	$db_version = easy_image_gallery_db_version();
-	if ( $db_version == 'new' ) {
+	if ( 'new' === $db_version ) {
 
 		$new_db_structure = get_post_meta( get_the_ID(), '_easy_image_gallery_v2', true );
-		if ( $all_galleries_images == true ) {
+		if ( true === $all_galleries_images ) {
 
 			$images_ids = array();
 			if ( isset( $new_db_structure ) && ! empty( $new_db_structure ) ) {
@@ -106,7 +110,7 @@ function easy_image_gallery_get_image_ids( $post_id = null, $all_galleries_image
 
 			return $images_ids;
 
-		} elseif ( $all_galleries_images == false ) {
+		} elseif ( false === $all_galleries_images ) {
 
 			if ( isset( $gallery_id ) && ! empty( $gallery_id ) ) {
 
@@ -119,7 +123,7 @@ function easy_image_gallery_get_image_ids( $post_id = null, $all_galleries_image
 				}
 			}
 		}
-	} elseif ( $db_version == 'old' ) {
+	} elseif ( 'old' === $db_version ) {
 		$old_db_structure = get_post_meta( get_the_ID(), '_easy_image_gallery', true );
 		$attachment_ids   = explode( ',', $old_db_structure );
 
@@ -138,44 +142,45 @@ function easy_image_gallery_get_image_ids( $post_id = null, $all_galleries_image
 function easy_image_gallery_has_shortcode( $shortcode = '' ) {
 	global $post;
 
-	// false because we have to search through the post content first
+	// False because we have to search through the post content first.
 	$found = false;
 
-	// if no short code was provided, return false
+	// If no short code was provided, return false.
 	if ( ! $shortcode ) {
 		return $found;
 	}
 
 	if ( is_object( $post ) && stripos( $post->post_content, '[' . $shortcode ) !== false ) {
-		// we have found the short code
+		// We have found the short code.
 		$found = true;
 	}
 
-	// return our final results
+	// Return our final results.
 	return $found;
 }
 /**
- * Check the current post for the existence of a gutenberg block
+ * Check the current post for the existence of a gutenberg block.
  *
  * @since 1.0
  * @return boolean
+ * @param string $block Gutenberg block.
  */
 function easy_image_gallery_has_block( $block = '' ) {
 	global $post;
 
-	// false because we have to search through the post content first
+	// False because we have to search through the post content first.
 	$found = false;
 
-	// if no short code was provided, return false
+	// If no short code was provided, return false.
 	if ( ! $block ) {
 		return $found;
 	}
 	if ( is_object( $post ) && stripos( $post->post_content, '<ul class="' . $block ) !== false ) {
-		// we have found the short code
+		// We have found the short code.
 		$found = true;
 	}
 
-	// return our final results
+	// Return our final results.
 	return $found;
 }
 
@@ -207,11 +212,16 @@ function easy_image_gallery_lightbox() {
  */
 
 if ( ! function_exists( 'easy_image_gallery_get_lightbox' ) ) :
+	/**
+	 * Getting the settings for lightbox
+	 *
+	 * @return void
+	 */
 	function easy_image_gallery_get_lightbox() {
 
 		$settings = (array) get_option( 'easy-image-gallery' );
 
-		// set fancybox as default for when the settings page hasn't been saved
+		// Set fancybox as default for when the settings page hasn't been saved.
 		$lightbox = isset( $settings['lightbox'] ) ? esc_attr( $settings['lightbox'] ) : 'prettyphoto';
 
 		return $lightbox;
@@ -223,10 +233,9 @@ endif;
 /**
  * Returns the correct rel attribute for the anchor links
  *
- * @since 1.0
- * @return string
+ * @param null $gallery_id Id of the created gallery.
+ * @return void
  */
-
 function easy_image_gallery_lightbox_rel( $gallery_id = null ) {
 
 	$lightbox = easy_image_gallery_get_lightbox();
@@ -269,7 +278,7 @@ function easy_image_gallery_get_post_types() {
 
 	$post_types = array_map( 'ucfirst', get_post_types( $args ) );
 
-	// remove attachment
+	// Remove attachment.
 	unset( $post_types['attachment'] );
 
 	return apply_filters( 'easy_image_gallery_get_post_types', $post_types );
@@ -288,11 +297,11 @@ function easy_image_gallery_allowed_post_types() {
 	$defaults['post_types']['post'] = 'on';
 	$defaults['post_types']['page'] = 'on';
 
-	// get the allowed post type from the DB
+	// Get the allowed post type from the DB.
 	$settings   = (array) get_option( 'easy-image-gallery', $defaults );
 	$post_types = isset( $settings['post_types'] ) ? $settings['post_types'] : '';
 
-	// post types don't exist, bail
+	// Post types don't exist, bail.
 	if ( ! $post_types ) {
 		return;
 	}
@@ -307,29 +316,29 @@ function easy_image_gallery_allowed_post_types() {
  * For use on the front-end when loading scripts etc
  *
  * @since 1.0
- * @return boolean
+ * @return boolean|void
  */
 function easy_image_gallery_allowed_post_type() {
 
-	// post and page defaults
+	// Post and page defaults.
 	$defaults['post_types']['post'] = 'on';
 	$defaults['post_types']['page'] = 'on';
 
-	// get currently viewed post type
+	// Get currently viewed post type.
 	$post_type = (string) get_post_type();
 
-	// echo $post_type; exit; // download
+	// Echo $post_type; exit; // download.
 
-	// get the allowed post type from the DB
+	// Get the allowed post type from the DB.
 	$settings   = (array) get_option( 'easy-image-gallery', $defaults );
 	$post_types = isset( $settings['post_types'] ) ? $settings['post_types'] : '';
 
-	// post types don't exist, bail
+	// Post types don't exist, bail.
 	if ( ! $post_types ) {
 		return;
 	}
 
-	// check the two against each other
+	// Check the two against each other.
 	if ( array_key_exists( $post_type, $post_types ) ) {
 		return true;
 	}
@@ -340,11 +349,11 @@ function easy_image_gallery_allowed_post_type() {
  * For use on the front-end when loading scripts etc
  *
  * @since 1.0
- * @return boolean
+ * @return boolean|void
  */
 function easy_image_gallery_grid_view() {
 
-	// get the allowed post type from the DB
+	// Get the allowed post type from the DB.
 	$settings  = (array) get_option( 'easy-image-gallery' );
 	$grid_view = isset( $settings['grid_view'] ) ? $settings['grid_view'] : '';
 
@@ -352,7 +361,7 @@ function easy_image_gallery_grid_view() {
 		return;
 	}
 
-	// if ( array_key_exists( $post_type, $post_types ) )
+	// if ( array_key_exists( $post_type, $post_types ) ).
 	return $grid_view;
 }
 
@@ -360,7 +369,7 @@ function easy_image_gallery_grid_view() {
  * Retrieve attachment IDs
  *
  * @since 1.0
- * @return string
+ * @return string|void
  */
 function easy_image_gallery_get_galleries() {
 	global $post;
@@ -376,14 +385,15 @@ function easy_image_gallery_get_galleries() {
 
 
 /**
- * Shortcode
+ * Shortocde
  *
+ * @param array $atts Shortode attributes.
+ * @return void
  * @since 1.0
  */
-
 function easy_image_gallery_shortcode( $atts ) {
 
-	// return early if the post type is not allowed to have a gallery
+	// Return early if the post type is not allowed to have a gallery.
 	if ( ! easy_image_gallery_allowed_post_type() ) {
 		return;
 	} else {
@@ -401,7 +411,8 @@ add_shortcode( 'easy_image_gallery', 'easy_image_gallery_shortcode' );
  * Count number of images in array
  *
  * @since 1.0
- * @return integer
+ * @param array $gallery_shortcode Array containting all images.
+ * @return void|integer
  */
 function easy_image_gallery_count_images( $gallery_shortcode ) {
 
@@ -424,6 +435,8 @@ function easy_image_gallery_count_images( $gallery_shortcode ) {
  * Output gallery
  *
  * @since 1.0
+ * @param string $gallery_id Id of current gallery.
+ * @return void
  */
 function easy_image_gallery( $gallery_id = 'old_db' ) {
 
@@ -434,11 +447,11 @@ function easy_image_gallery( $gallery_id = 'old_db' ) {
 		ob_start();
 		foreach ( $galleries as $gallery ) {
 
-			if ( $gallery_id == 'old_db' ) {
+			if ( 'old_db' === $gallery_id ) {
 				$gallery_id = $gallery['SHORTCODE'];
 			}
 
-			if ( $gallery['SHORTCODE'] == $gallery_id ) {
+			if ( $gallery_id === $gallery['SHORTCODE'] ) {
 				$gallery_exist = true;
 
 				$has_gallery_images = $gallery['DATA'];
@@ -447,16 +460,16 @@ function easy_image_gallery( $gallery_id = 'old_db' ) {
 					return;
 				}
 
-				// clean the array (remove empty values)
+				// Clean the array (remove empty values).
 				$has_gallery_images = array_filter( $has_gallery_images );
 
-				// css classes array
+				// Css classes array.
 				$classes = array();
 
-				// thumbnail count
+				// Thumbnail count.
 				$classes[] = $has_gallery_images ? 'thumbnails-' . easy_image_gallery_count_images( $gallery['SHORTCODE'], $gallery ) : '';
 
-				// linked images
+				// Linked images.
 				if ( isset( $gallery['OPEN_IMAGES'] ) && $gallery['OPEN_IMAGES'] == 'on' ) {
 					$classes[] = 'linked';
 				}
@@ -471,7 +484,7 @@ function easy_image_gallery( $gallery_id = 'old_db' ) {
 					<div class="<?php echo $classes; ?> <?php echo $lightbox; ?> <?php echo $grid_view; ?>">
 					<?php
 
-					if ( $grid_view == 'easy-image-gallery-masonry-master') {
+					if ( 'easy-image-gallery-masonry-master' === $grid_view ) {
 						$counter = 1;
 					}
 
@@ -529,6 +542,7 @@ function easy_image_gallery( $gallery_id = 'old_db' ) {
 /**
  * Append gallery images to page automatically
  *
+ * @param object $content Page content to append gallery to.
  * @since 1.0
  */
 function easy_image_gallery_append_to_content( $content ) {
