@@ -211,7 +211,7 @@ if ( ! function_exists( 'easy_image_gallery_get_lightbox' ) ) :
 
 		$settings = (array) get_option( 'easy-image-gallery' );
 
-		// set fancybox as default for when the settings page hasn't been saved
+		// Set fancybox as default for when the settings page hasn't been saved.
 		$lightbox = isset( $settings['lightbox'] ) ? esc_attr( $settings['lightbox'] ) : 'prettyphoto';
 
 		return $lightbox;
