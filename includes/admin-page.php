@@ -11,7 +11,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @package DX\EIG
  */
 class EIG_Main_Class {
-
+	/**
+	 * Plugin initialization on WP init.
+	 */
 	public function __construct() {
 		add_action( 'init', array( $this, 'include_classes' ), 10 );
 	}
