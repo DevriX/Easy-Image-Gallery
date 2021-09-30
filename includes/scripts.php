@@ -222,4 +222,8 @@ add_action( 'wp_enqueue_scripts', 'eig_likebtn_script' );
 function eig_likebtn_script() {
 
 	wp_enqueue_script( 'eig_like_btn_script', EASY_IMAGE_GALLERY_URL . 'eig_like_btn_script.js', array( 'jquery', 'jquery-ui-core' ) );
+	wp_localize_script( 'eig_like_btn_script', 'ajax_object', array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
 }
+
+
+add_action( 'wp_ajax_eig_tackle_lg_likes', 'eig_tackle_lg_likes' );

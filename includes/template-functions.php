@@ -553,3 +553,22 @@ function easy_image_gallery_template_redirect() {
 	}
 }
 add_action( 'template_redirect', 'easy_image_gallery_template_redirect' );
+
+function eig_tackle_lg_likes() {
+	$previously_liked = get_option('eig_liked_images');
+	// if ( isset($previously_liked ) 
+
+	$lg_liked_photo = $_POST['clickedPhoto'];
+	//$arr[]= [sth => sthelse]
+	if (gettype($previously_liked)!='array') {
+		$liked_images[] = [$lg_liked_photo => 1];
+		update_option('eig_liked_images', $liked_images);
+	 }
+	else {
+		$previously_liked[]=[$lg_liked_photo=>1];
+		update_option('eig_liked_images', $previously_liked);
+	}
+
+
+	wp_send_json_success($previously_liked);
+}
