@@ -9,9 +9,6 @@ jQuery( document ).ready(function() {
 
 	if (Array.from(document.querySelectorAll('.easy-image-gallery.linked.prettyphoto') ).length > 0) {
 		let pretty = Array.from( document.querySelectorAll('.easy-image-gallery.linked.prettyphoto') );
-		let galleriesOnPage = pretty.length;
-		let firstPrettyId = pretty[0].children[0].rel;
-		let count = 0;
 
 		for (let i=0; i<pretty.length; i++) {
 			let singleGallery = pretty[i];
@@ -29,6 +26,21 @@ jQuery( document ).ready(function() {
 			})
 		}
 
+	}
+	if (Array.from(document.querySelectorAll('.easy-image-gallery.linked.fancybox') ).length > 0) {
+		let fancy = Array.from(document.querySelectorAll('.easy-image-gallery.linked.fancybox') );
+		for (let i=0; i<fancy.length; i++) {
+			let singleGallery = fancy[i];
+			let groupNum;
+			Array.from(singleGallery.children).forEach( galItem => {
+				 let [groupName, groupNum] = galItem.dataset.fancybox.split("gallery");
+				 groupNum = Number(groupNum) + i
+				 galItem.dataset.fancybox = `gallery-${groupNum}`;
+				// //console.log(currentRel)
+				console.log(groupNum)
+				console.log(galItem.dataset.fancybox)
+			})
+		}
 	}
 
 });
