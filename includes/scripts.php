@@ -215,3 +215,11 @@ function easy_image_gallery_admin_scripts() {
 }
 
 add_action( 'admin_head', 'easy_image_gallery_admin_scripts' );
+
+add_action( 'wp_enqueue_scripts', 'eig_likebtn_script' );
+
+/** Script loading. */
+function eig_likebtn_script() {
+
+	wp_enqueue_script( 'eig_like_btn_script', EASY_IMAGE_GALLERY_URL . 'eig_like_btn_script.js', array( 'jquery', 'jquery-ui-core' ) );
+}
