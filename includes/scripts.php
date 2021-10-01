@@ -13,24 +13,24 @@ function easy_image_gallery_scripts() {
 
 	global $post;
 
-	// return if post object is not set
+	// return if post object is not set.
 	if ( ! isset( $post->ID ) ) {
 		return;
 	}
 
-	// JS
+	// JS.
 	wp_register_script( 'pretty-photo', EASY_IMAGE_GALLERY_URL . 'includes/lib/prettyphoto/jquery.prettyPhoto.js', array( 'jquery' ), EASY_IMAGE_GALLERY_VERSION, true );
 	wp_register_script( 'fancybox', EASY_IMAGE_GALLERY_URL . 'includes/lib/fancybox/jquery.fancybox.min.js', array( 'jquery' ), EASY_IMAGE_GALLERY_VERSION, true );
 	wp_register_script( 'luminous', EASY_IMAGE_GALLERY_URL . 'includes/lib/luminous/dist/Luminous.min.js', array( 'jquery' ), EASY_IMAGE_GALLERY_VERSION, false );
 	wp_register_script( 'lightgallery', EASY_IMAGE_GALLERY_URL . 'includes/lib/lightGallery/dist/js/lightgallery-all.min.js', array(), EASY_IMAGE_GALLERY_VERSION, false );
 
 
-	// CSS
+	// CSS.
 	wp_register_style( 'pretty-photo', EASY_IMAGE_GALLERY_URL . 'includes/lib/prettyphoto/prettyPhoto.css', '', EASY_IMAGE_GALLERY_VERSION, 'screen' );
 	wp_register_style( 'fancybox', EASY_IMAGE_GALLERY_URL . 'includes/lib/fancybox/jquery.fancybox.min.css', '', EASY_IMAGE_GALLERY_VERSION, 'screen' );
 	wp_register_style( 'lightgallery', EASY_IMAGE_GALLERY_URL . 'includes/lib/lightGallery/dist/css/lightgallery.min.css', '', EASY_IMAGE_GALLERY_VERSION, 'screen' );
 
-	// create a new 'css/easy-image-gallery.css' in your child theme to override CSS file completely
+	// create a new 'css/easy-image-gallery.css' in your child theme to override CSS file completely.
 	if ( file_exists( get_stylesheet_directory() . '/css/easy-image-gallery.css' ) ) {
 		wp_register_style( 'easy-image-gallery', get_stylesheet_directory_uri() . '/css/easy-image-gallery.css', '', EASY_IMAGE_GALLERY_VERSION, 'screen' );
 	} else {
@@ -57,29 +57,29 @@ function easy_image_gallery_scripts() {
 		}
 	}
 
-	// only load the JS if gallery images are linked or the featured image is linked
+	// only load the JS if gallery images are linked or the featured image is linked.
 	if ( $linked_images ) {
 
 		$lightbox = easy_image_gallery_get_lightbox();
 
-		// Scripts that we need to remove for proper plugin functionality
-		wp_dequeue_script( 'magnific-popup' ); // OceanWP theme
-		wp_dequeue_script( 'oceanwp-lightbox' ); // OceanWP theme
+		// Scripts that we need to remove for proper plugin functionality.
+		wp_dequeue_script( 'magnific-popup' ); // OceanWP theme.
+		wp_dequeue_script( 'oceanwp-lightbox' ); // OceanWP theme.
 
 		switch ( $lightbox ) {
 			case 'prettyphoto':
 				wp_enqueue_style( 'pretty-photo' );
 				wp_enqueue_script( 'pretty-photo' );
-			break;
+				break;
 
 			case 'fancybox':
 				wp_enqueue_style( 'fancybox' );
 				wp_enqueue_script( 'fancybox' );
-			break;
+				break;
 
 			case 'luminous':
 				wp_enqueue_script( 'luminous' );
-			break;
+				break;
 
 			case 'lightgallery':
 				wp_enqueue_style( 'lightgallery' );
@@ -88,13 +88,13 @@ function easy_image_gallery_scripts() {
 				wp_enqueue_script( 'lg-share' );
 				wp_enqueue_script( 'lg-zoom' );
 				wp_enqueue_script( 'lg-fullscreen' );
-			break;
+				break;
 
 			default:
-			break;
+				break;
 		}
 
-		// allow developers to load their own scripts here
+		// allow developers to load their own scripts here.
 		do_action( 'easy_image_gallery_scripts' );
 
 	}
@@ -199,11 +199,11 @@ function easy_image_gallery_js() {
 				break;
 		}
 
-			// allow developers to add/modify JS
+			// allow developers to add/modify JS.
 			do_action( 'easy_image_gallery_js', $lightbox );
 		?>
 
-	<?php  //endif; ?>
+	<?php // endif; ?>
 
 	<?php
 }
@@ -213,7 +213,6 @@ add_action( 'wp_footer', 'easy_image_gallery_js', 20 );
 function easy_image_gallery_admin_scripts() {
 	wp_enqueue_script( 'repeatable-fields', EASY_IMAGE_GALLERY_URL . 'includes/lib/repeatable-fields.js', array( 'jquery', 'jquery-ui-core' ) );
 	wp_enqueue_style( 'easy_image_gallery_admin_css', EASY_IMAGE_GALLERY_URL . 'includes/css/easy-image-gallery-admin.css' );
-	
 }
 
 add_action( 'admin_head', 'easy_image_gallery_admin_scripts' );

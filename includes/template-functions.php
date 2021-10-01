@@ -13,9 +13,9 @@ function easy_image_gallery_db_version() {
 	$old_meta_structure = get_post_meta( get_the_ID(), '_easy_image_gallery', true );
 	$new_meta_structure = get_post_meta( get_the_ID(), '_easy_image_gallery_v2', true );
 
-	if ( isset( $new_meta_structure ) && $new_meta_structure != null ) {
+	if ( isset( $new_meta_structure ) && $new_meta_structure !== null ) {
 		return 'new';
-	} elseif ( isset( $old_meta_structure ) && $old_meta_structure != null ) {
+	} elseif ( isset( $old_meta_structure ) && $old_meta_structure !== null ) {
 		return 'old';
 	}
 
@@ -27,10 +27,10 @@ function easy_image_gallery_db_version() {
  */
 function easy_image_gallery_get_post_meta() {
 	$db_version = easy_image_gallery_db_version();
-	if ( $db_version == 'new' ) {
+	if ( $db_version === 'new' ) {
 		$gallery_ids = get_post_meta( get_the_ID(), '_easy_image_gallery_v2', true );
 		return $gallery_ids;
-	} elseif ( $db_version == 'old' ) {
+	} elseif ( $db_version === 'old' ) {
 		$get_gallery_attachments = get_post_meta( get_the_ID(), '_easy_image_gallery', true );
 		$get_gallery_old_data    = explode( ',', $get_gallery_attachments );
 
@@ -43,7 +43,7 @@ function easy_image_gallery_get_post_meta() {
 
 		$gallery_ids = array(
 			array(
-				'SHORTCODE'   => rand( 100, 999 ),
+				'SHORTCODE'   => wp_rand( 100, 999 ),
 				'DATA'        => $get_gallery_old_data,
 				'OPEN_IMAGES' => $get_open_images[0],
 			),
@@ -62,7 +62,7 @@ function easy_image_gallery_get_post_meta() {
  */
 function easy_image_gallery_is_gallery() {
 	$gallery_ids = easy_image_gallery_get_post_meta();
-	// Checking if we have EIG (Easy Image Gallery) Gutenberg Blocks in the post content
+	// Checking if we have EIG (Easy Image Gallery) Gutenberg Blocks in the post content.
 	$gutenberg_galleries = easy_image_gallery_if_gutenberg_block();
 
 	if ( ! empty( $gallery_ids ) || ! empty( $gutenberg_galleries ) ) {
@@ -81,19 +81,19 @@ function easy_image_gallery_is_gallery() {
 function easy_image_gallery_get_image_ids( $post_id = null, $all_galleries_images = true, $gallery_id = null ) {
 	global $post;
 
-	if ( $post_id == null ) {
+	if ( $post_id === null ) {
 		$post_id = $post->ID;
 	}
 
-	if ( ! isset( $post_id ) || $post_id == null ) {
+	if ( ! isset( $post_id ) || $post_id === null ) {
 		return;
 	}
 
 	$db_version = easy_image_gallery_db_version();
-	if ( $db_version == 'new' ) {
+	if ( $db_version === 'new' ) {
 
 		$new_db_structure = get_post_meta( get_the_ID(), '_easy_image_gallery_v2', true );
-		if ( $all_galleries_images == true ) {
+		if ( $all_galleries_images === true ) {
 
 			$images_ids = array();
 			if ( isset( $new_db_structure ) && ! empty( $new_db_structure ) ) {
@@ -106,7 +106,7 @@ function easy_image_gallery_get_image_ids( $post_id = null, $all_galleries_image
 
 			return $images_ids;
 
-		} elseif ( $all_galleries_images == false ) {
+		} elseif ( $all_galleries_images === false ) {
 
 			if ( isset( $gallery_id ) && ! empty( $gallery_id ) ) {
 
@@ -119,7 +119,7 @@ function easy_image_gallery_get_image_ids( $post_id = null, $all_galleries_image
 				}
 			}
 		}
-	} elseif ( $db_version == 'old' ) {
+	} elseif ( $db_version === 'old' ) {
 		$old_db_structure = get_post_meta( get_the_ID(), '_easy_image_gallery', true );
 		$attachment_ids   = explode( ',', $old_db_structure );
 
@@ -138,20 +138,20 @@ function easy_image_gallery_get_image_ids( $post_id = null, $all_galleries_image
 function easy_image_gallery_has_shortcode( $shortcode = '' ) {
 	global $post;
 
-	// false because we have to search through the post content first
+	// false because we have to search through the post content first.
 	$found = false;
 
-	// if no short code was provided, return false
+	// if no short code was provided, return false.
 	if ( ! $shortcode ) {
 		return $found;
 	}
 
 	if ( is_object( $post ) && stripos( $post->post_content, '[' . $shortcode ) !== false ) {
-		// we have found the short code
+		// we have found the short code.
 		$found = true;
 	}
 
-	// return our final results
+	// return our final results.
 	return $found;
 }
 /**
@@ -163,19 +163,19 @@ function easy_image_gallery_has_shortcode( $shortcode = '' ) {
 function easy_image_gallery_has_block( $block = '' ) {
 	global $post;
 
-	// false because we have to search through the post content first
+	// false because we have to search through the post content first.
 	$found = false;
 
-	// if no short code was provided, return false
+	// if no short code was provided, return false.
 	if ( ! $block ) {
 		return $found;
 	}
 	if ( is_object( $post ) && stripos( $post->post_content, '<ul class="' . $block ) !== false ) {
-		// we have found the short code
+		// we have found the short code.
 		$found = true;
 	}
 
-	// return our final results
+	// return our final results.
 	return $found;
 }
 
@@ -234,7 +234,7 @@ function easy_image_gallery_lightbox_rel( $gallery_id = null ) {
 	switch ( $lightbox ) {
 
 		case 'prettyphoto':
-			$rel = 'rel="prettyPhoto' . '[group-' . $gallery_id . ']"';
+			$rel = 'rel="prettyPhoto [group-' . $gallery_id . ']"';
 
 			break;
 
@@ -244,16 +244,16 @@ function easy_image_gallery_lightbox_rel( $gallery_id = null ) {
 			break;
 
 		case 'luminous':
-			$rel = 'rel="luminous' . '[group-' . $gallery_id . ']"';
+			$rel = 'rel="luminous [group-' . $gallery_id . ']"';
 
 			break;
-			case 'lightgallery':
-				$rel = 'rel="lightGallery' . '[group-' . $gallery_id . ']"';
-	
-				break;
+		case 'lightgallery':
+				$rel = 'rel="lightGallery [group-' . $gallery_id . ']"';
+
+			break;
 
 		default:
-			$rel = 'rel="prettyPhoto' . '[group-' . $gallery_id . ']"';
+			$rel = 'rel="prettyPhoto [group-' . $gallery_id . ']"';
 	}
 
 	return $rel;
@@ -273,7 +273,7 @@ function easy_image_gallery_get_post_types() {
 
 	$post_types = array_map( 'ucfirst', get_post_types( $args ) );
 
-	// remove attachment
+	// remove attachment.
 	unset( $post_types['attachment'] );
 
 	return apply_filters( 'easy_image_gallery_get_post_types', $post_types );
@@ -292,11 +292,11 @@ function easy_image_gallery_allowed_post_types() {
 	$defaults['post_types']['post'] = 'on';
 	$defaults['post_types']['page'] = 'on';
 
-	// get the allowed post type from the DB
+	// get the allowed post type from the DB.
 	$settings   = (array) get_option( 'easy-image-gallery', $defaults );
 	$post_types = isset( $settings['post_types'] ) ? $settings['post_types'] : '';
 
-	// post types don't exist, bail
+	// post types don't exist, bail.
 	if ( ! $post_types ) {
 		return;
 	}
@@ -315,25 +315,25 @@ function easy_image_gallery_allowed_post_types() {
  */
 function easy_image_gallery_allowed_post_type() {
 
-	// post and page defaults
+	// post and page defaults.
 	$defaults['post_types']['post'] = 'on';
 	$defaults['post_types']['page'] = 'on';
 
-	// get currently viewed post type
+	// get currently viewed post type.
 	$post_type = (string) get_post_type();
 
 	// echo $post_type; exit; // download
 
-	// get the allowed post type from the DB
+	// get the allowed post type from the DB.
 	$settings   = (array) get_option( 'easy-image-gallery', $defaults );
 	$post_types = isset( $settings['post_types'] ) ? $settings['post_types'] : '';
 
-	// post types don't exist, bail
+	// post types don't exist, bail.
 	if ( ! $post_types ) {
 		return;
 	}
 
-	// check the two against each other
+	// check the two against each other.
 	if ( array_key_exists( $post_type, $post_types ) ) {
 		return true;
 	}
@@ -348,7 +348,7 @@ function easy_image_gallery_allowed_post_type() {
  */
 function easy_image_gallery_grid_view() {
 
-	// get the allowed post type from the DB
+	// get the allowed post type from the DB.
 	$settings  = (array) get_option( 'easy-image-gallery' );
 	$grid_view = isset( $settings['grid_view'] ) ? $settings['grid_view'] : '';
 
@@ -387,7 +387,7 @@ function easy_image_gallery_get_galleries() {
 
 function easy_image_gallery_shortcode( $atts ) {
 
-	// return early if the post type is not allowed to have a gallery
+	// return early if the post type is not allowed to have a gallery.
 	if ( ! easy_image_gallery_allowed_post_type() ) {
 		return;
 	} else {
@@ -413,7 +413,7 @@ function easy_image_gallery_count_images( $gallery_shortcode ) {
 
 	if ( isset( $galleries ) && ! empty( $galleries ) ) {
 		foreach ( $galleries as $gallery ) {
-			if ( $gallery['SHORTCODE'] == $gallery_shortcode ) {
+			if ( $gallery['SHORTCODE'] === $gallery_shortcode ) {
 				$number = count( $gallery['DATA'] );
 				return $number;
 			}
@@ -438,11 +438,11 @@ function easy_image_gallery( $gallery_id = 'old_db' ) {
 		ob_start();
 		foreach ( $galleries as $gallery ) {
 
-			if ( $gallery_id == 'old_db' ) {
+			if ( $gallery_id === 'old_db' ) {
 				$gallery_id = $gallery['SHORTCODE'];
 			}
 
-			if ( $gallery['SHORTCODE'] == $gallery_id ) {
+			if ( $gallery['SHORTCODE'] === $gallery_id ) {
 				$gallery_exist = true;
 
 				$has_gallery_images = $gallery['DATA'];
@@ -451,16 +451,16 @@ function easy_image_gallery( $gallery_id = 'old_db' ) {
 					return;
 				}
 
-				// clean the array (remove empty values)
+				// clean the array (remove empty values).
 				$has_gallery_images = array_filter( $has_gallery_images );
 
-				// css classes array
+				// css classes array.
 				$classes = array();
 
-				// thumbnail count
+				// thumbnail count.
 				$classes[] = $has_gallery_images ? 'thumbnails-' . easy_image_gallery_count_images( $gallery['SHORTCODE'], $gallery ) : '';
 
-				// linked images
+				// linked images.
 				if ( isset( $gallery['OPEN_IMAGES'] ) && $gallery['OPEN_IMAGES'] == 'on' ) {
 					$classes[] = 'linked';
 				}
@@ -470,14 +470,13 @@ function easy_image_gallery( $gallery_id = 'old_db' ) {
 					$lightbox  = easy_image_gallery_get_lightbox();
 					$rel       = easy_image_gallery_lightbox_rel( $gallery_id );
 					$grid_view = easy_image_gallery_grid_view();
-					// echo $gallery_id;
-					// echo $rel;
-					// echo $grid_view;
-					// echo $lightbox;
-					// echo $classes;
+					// echo $gallery_id; .
+					// echo $rel; .
+					// echo $grid_view; .
+					// echo $lightbox; .
+					// echo $classes; .
 					?>
-					<div class="easy-image-gallery <?php echo $classes; ?> <?php echo $lightbox; ?> <?php echo $grid_view; ?>">
-					
+					<div class="easy-image-gallery <?php echo esc_attr( $classes ); ?> <?php echo esc_attr( $lightbox ); ?> <?php echo esc_attr( $grid_view ); ?>">	
 					<?php
 
 					foreach ( $has_gallery_images as $attachment_id ) {
@@ -491,11 +490,11 @@ function easy_image_gallery( $gallery_id = 'old_db' ) {
 						$image_caption = get_post( $attachment_id )->post_excerpt ? esc_attr( get_post( $attachment_id )->post_excerpt ) : '';
 
 						$image_class = esc_attr( implode( ' ', $classes ) );
-						
+
 						if ( isset( $gallery['OPEN_IMAGES'] ) && $gallery['OPEN_IMAGES'] == 'on' ) {
 							$html = sprintf( '<a %s href="%s" class="%s" title="%s" data-caption="%s" target="_blank"><i class="icon-view"></i><span class="overlay"></span>%s</a>', $rel, $image_link, $image_class, $image_caption, $image_caption, $image );
 						} else {
-							
+
 							$html = sprintf( '%s', $image );
 						}
 
@@ -503,7 +502,7 @@ function easy_image_gallery( $gallery_id = 'old_db' ) {
 					}
 					echo '</div>';
 
-					// echo '<script>jQuery(".easy-image-gallery-mosaic-master").Mosaic({maxRowHeight: 320});</script>';
+					// echo '<script>jQuery(".easy-image-gallery-mosaic-master").Mosaic({maxRowHeight: 320});</script>'; .
 					if ( 'luminous' === easy_image_gallery_get_lightbox() ) {
 						echo '<script>new LuminousGallery(document.querySelectorAll("a[rel=\'luminous[group-' . $gallery_id . ']\']"));</script>';
 					}
