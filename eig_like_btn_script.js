@@ -6,8 +6,6 @@ jQuery( document ).ready(function() {
 			lgLikeBtn = document.querySelector('button.lg-like-btn')
 			tackleLgHoverLike(lgLikeBtn);
 			likeLgPhoto(lgLikeBtn)
-			let images = Array.from(document.querySelectorAll('.lg-thumb.lg-group img'))
-			images.forEach(img => img.addEventListener('click',()=> {document.querySelector('.lg-likes-span').innerHTML=''}))
 	
 		})
 	}
@@ -17,14 +15,32 @@ jQuery( document ).ready(function() {
 			lgLikeBtn = document.querySelector('button.lg-like-btn')
 			tackleLgHoverLike(lgLikeBtn);
 			likeLgPhoto(lgLikeBtn)
-			let images = Array.from(document.querySelectorAll('.lg-thumb.lg-group img'))
-			images.forEach(img => img.addEventListener('click',()=> {document.querySelector('.lg-likes-span').innerHTML=''}))
+			document.querySelector('.lg-thumb-outer').addEventListener('click', (e)=> {
+				if (e.target.tagName=='IMG') {
+					//console.log('img')
+					if (document.querySelector('.lg-likes-span')) {
+						document.querySelector('.lg-likes-span').remove();
+					}
+				}
+			})
+			document.querySelector('.lg-next').addEventListener('click', (e)=> {
+				if (document.querySelector('.lg-likes-span')) {
+					document.querySelector('.lg-likes-span').remove();
+				}
+			})
+			document.querySelector('.lg-prev').addEventListener('click', (e)=> {
+				if (document.querySelector('.lg-likes-span')) {
+					document.querySelector('.lg-likes-span').remove();
+				}
+			})
 		 }, 20);
-
 	}
+
+	
 
 
  })
+ 
 
  function tackleLgHoverLike(element) {
 	if (element!==null) {
@@ -56,18 +72,22 @@ jQuery( document ).ready(function() {
 				url: ajax_object.ajax_url,
 				data: data,
 				success: function (response) {
-					//console.log(response.data)
+					console.log(response.data)
 					for (const key in response.data) {
 						if (key==isActivePhoto) {
+							if (document.querySelector('.lg-likes-span')) {
+								document.querySelector('.lg-likes-span').remove();
+							}
 							console.log(response.data[key]['likes']);
 							let likesSpan = document.createElement('span');
 							likesSpan.classList.add("lg-likes-span")
-							likesSpan.style.cssText ="font-size: 21px;color: #999;line-height: 27px;position: absolute;right: 25px;text-align: center;top: -33px;width: 210px;z-index: 35;"
-							likesSpan.innerHTML=`${response.data[key]['likes']} likes`
 							element.before(likesSpan);
+							likesSpan.style.cssText ="font-size: 21px;color: #999;line-height: 27px;position: absolute;right: 90px;text-align: center;top: -33px;width: 75px;z-index: 35;"
+							likesSpan.innerHTML=`${response.data[key]['likes']} likes`
+							
 						}
-						console.log(key);
-					}
+					// 	console.log(key);
+					 }
 				},
 				error: function (response) {
 					console.log(response)
@@ -77,6 +97,5 @@ jQuery( document ).ready(function() {
 		}
 	 })
  }
-
 
 
