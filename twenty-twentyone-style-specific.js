@@ -16,13 +16,10 @@ jQuery( document ).ready(function() {
 			Array.from(singleGallery.children).forEach( galItem => {
 				let [groupName, groupNum] = galItem.rel.split("-");
 				let length = Number(groupNum.length) - 1;
-				console.log(groupNum)
-				console.log(length)
 				groupNum= groupNum.substring(0,length);
 				groupNum = Number(groupNum) + i
-				// groupNum+=1
 				galItem.rel = `${groupName}-${groupNum}]`;
-				//console.log(currentRel)
+
 			})
 		}
 
@@ -36,7 +33,6 @@ jQuery( document ).ready(function() {
 				 let [groupName, groupNum] = galItem.dataset.fancybox.split("gallery");
 				 groupNum = Number(groupNum) + i
 				 galItem.dataset.fancybox = `gallery-${groupNum}`;
-				// //console.log(currentRel)
 				console.log(groupNum)
 				console.log(galItem.dataset.fancybox)
 			})
