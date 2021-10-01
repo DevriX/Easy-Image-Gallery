@@ -76,9 +76,9 @@ function easy_image_gallery_metabox() {
 						</div>
 					</div>
 					<?php
-					// START GALLERIES LOOP
+					// START GALLERIES LOOP.
 
-					// CHECK FOR OLD DB
+					// CHECK FOR OLD DB.
 
 					if ( isset( $new_meta_structure ) && $new_meta_structure != null ) {
 						$get_galleries = $new_meta_structure;
@@ -114,7 +114,7 @@ function easy_image_gallery_metabox() {
 							$gallery_count   = $gallery_count + 1;
 							$get_attachments = $gallery['DATA'];
 
-							// Convert attachements to string
+							// Convert attachements to string.
 							$attachments_string = '';
 							$attachemnnts_count = 0;
 							if ( isset( $get_attachments ) && $get_attachments != null ) {
@@ -144,7 +144,7 @@ function easy_image_gallery_metabox() {
 									<div class="link-image-to-l">
 										<label for="easy_image_gallery_link_images_<?php echo $gallery_count; ?>">
 											<?php
-											if ( isset( $gallery['OPEN_IMAGES'] ) && $gallery['OPEN_IMAGES'] == 'on' ) {
+											if ( isset( $gallery['OPEN_IMAGES'] ) && $gallery['OPEN_IMAGES'] === 'on' ) {
 												$checked = ' checked="checked"';
 											} else {
 												$checked = null;
@@ -157,7 +157,7 @@ function easy_image_gallery_metabox() {
 								</div>
 								<div class="dx-eig-gallery-row-content" id="gallery-<?php echo $gallery_count; ?>">
 									<?php
-									if ( isset( $get_attachments ) && $get_attachments != null ) {
+									if ( isset( $get_attachments ) && $get_attachments !== null ) {
 										?>
 									<p class="no-images-message" style="display: none;"><?php echo __( 'Please add images in this gallery', 'easy-image-gallery' ); ?></p>
 									<ul class="gallery_images">
@@ -185,7 +185,7 @@ function easy_image_gallery_metabox() {
 								</div>
 							</div>
 							<?php
-						} // END GALLERIES LOOP
+						} // END GALLERIES LOOP.
 					}
 					?>
 				</div>
@@ -282,7 +282,7 @@ function easy_image_gallery_metabox() {
 								<div class="thumbnail">\
 									<img src="' + attachment_url + '" />\
 								</div>\
-							   <a href="#" class="delete_dx_image check" title="<?php _e( 'Remove image', 'easy-image-gallery' ); ?>"><div class="media-modal-icon"></div></a>\
+								<a href="#" class="delete_dx_image check" title="<?php _e( 'Remove image', 'easy-image-gallery' ); ?>"><div class="media-modal-icon"></div></a>\
 							</div>\
 						</li>');
 					}
@@ -299,15 +299,15 @@ function easy_image_gallery_metabox() {
 		});
 
 		jQuery(document).on( 'click', '.delete_dx_image', function(e) {
-			//Get info
+			//Get info.
 			var info = jQuery(this).parent().parent();
 			var gallery = info.attr('data-gallery');
 			var gallery_selector = jQuery('#gallery-'+gallery+'');
 
-			//Remove the item
+			//Remove the item.
 			info.remove();
 
-			//Save new items
+			//Save new items.
 			var items = gallery_selector.find('.gallery_images').find('.dx-eig-images').children();
 			var attachments_ids = [];
 			for (i = 0; i < items.length; i++) {
@@ -367,7 +367,7 @@ function easy_image_gallery_save_post( $post_id ) {
 
 	$post_types = easy_image_gallery_allowed_post_types();
 
-	// check user permissions
+	// check user permissions.
 	if ( isset( $_POST['post_type'] ) && ! array_key_exists( $_POST['post_type'], $post_types ) ) {
 		if ( ! current_user_can( 'edit_page', $post_id ) ) {
 			return;
@@ -404,7 +404,7 @@ function easy_image_gallery_save_post( $post_id ) {
 		delete_post_meta( $post_id, '_easy_image_gallery_v2' );
 	}
 
-	// link to larger images
+	// link to larger images.
 	if ( isset( $_POST['easy_image_gallery_link_images'] ) ) {
 		update_post_meta( $post_id, '_easy_image_gallery_link_images', $_POST['easy_image_gallery_link_images'] );
 	} else {
