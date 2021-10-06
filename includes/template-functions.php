@@ -287,6 +287,8 @@ function easy_image_gallery_allowed_post_types() {
 
 	$defaults['post_types']['post'] = 'on';
 	$defaults['post_types']['page'] = 'on';
+	$defaults['post_types']['topic'] = 'on';
+	$defaults['post_types']['forum'] = 'on';
 
 	// get the allowed post type from the DB
 	$settings   = (array) get_option( 'easy-image-gallery', $defaults );
@@ -314,6 +316,8 @@ function easy_image_gallery_allowed_post_type() {
 	// post and page defaults
 	$defaults['post_types']['post'] = 'on';
 	$defaults['post_types']['page'] = 'on';
+	$defaults['post_types']['topic'] = 'on';
+	$defaults['post_types']['forum'] = 'on';
 
 	// get currently viewed post type
 	$post_type = (string) get_post_type();

@@ -21,6 +21,8 @@ $defaults['lightbox'] = 'prettyphoto';
 // Post and page defaults.
 $defaults['post_types']['post'] = 'on';
 $defaults['post_types']['page'] = 'on';
+$defaults['post_types']['topic'] = 'on';
+$defaults['post_types']['forum'] = 'on';
 
 $defaults['grid_view'] = 'easy-image-gallery';
 
