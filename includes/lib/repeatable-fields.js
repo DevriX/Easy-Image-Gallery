@@ -98,6 +98,13 @@
 			});
 		}
 
+		function uuid() {
+			return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+			  var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+			  return v.toString(16);
+			});
+		  }
+
 		function after_add(container, new_row) {
 			var row_count = $(container).attr('data-rf-row-count');
 
@@ -112,7 +119,7 @@
 			$(container).attr('data-rf-row-count', row_count);
 
 			var get_last_child = $('.eig_repeat_body .dx-eig-gallery-row').last();
-			var generate_rand_number = Math.floor(Math.random()*(999-100+1)+100);
+			var generate_rand_number = uuid();
 			get_last_child.find('.dx-eig-shortcode-show').attr('value', '[easy_image_gallery gallery="'+generate_rand_number+'"]');
 			get_last_child.find('.dx-eig-shortcode').attr('value', generate_rand_number);
 		}
