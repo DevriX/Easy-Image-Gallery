@@ -557,3 +557,26 @@ function easy_image_gallery_template_redirect() {
 	}
 }
 add_action( 'template_redirect', 'easy_image_gallery_template_redirect' );
+
+// start of bbpress forum description integration.
+add_action( 'bbp_template_before_single_forum', 'dx_bbp_display_forum_description' );
+
+/**
+ * Adds shortcode to forum description.
+ *
+ * @since 1.0
+ */
+function dx_singleforum_description() {
+	echo '<div class="bbp-forum-content"</div>';
+	echo esc_attr( bbp_forum_content() );
+	echo '</div>';
+}
+
+add_action( 'bbp_template_before_single_forum', 'dx_singleforum_description' );
+add_filter( 'bbp_get_forum_content', 'do_shortcode' );
+
+// end of bbpress forum description integration.
+
+
+
+

@@ -130,3 +130,9 @@
 .easy-image-gallery-mosaic-master a {
    position: relative;
 }
+
+#bbpress-forums div.bbp-forum-content {
+	clear: both !important;
+	margin-left: 0 !important;
+	padding: 0  !important;
+  }
