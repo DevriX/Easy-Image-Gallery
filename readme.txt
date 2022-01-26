@@ -118,6 +118,9 @@ The plugin ownership was transferred to DevriX. There are no functionality chang
 
 == Changelog ==
 
+= 1.4.3 =
+* Fix error on 404 pages about Trying to get property ‘ID’ of non-object
+
 = 1.4.2 =
 * Release date - May 14, 2020
 * Fixed PHP warning about array_key_exists()

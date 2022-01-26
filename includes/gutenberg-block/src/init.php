@@ -37,7 +37,11 @@ function eig_hide( $post_id ) {
 function eig_block_cgb_block_assets() { // phpcs:ignore
 	global $post;
 
-	if ( true === eig_hide( $post->ID) ) {
+	if ( empty( $post->ID ) ) {
+		return;
+	}
+
+	if ( true === eig_hide( $post->ID ) ) {
 		return;
 	}
 
