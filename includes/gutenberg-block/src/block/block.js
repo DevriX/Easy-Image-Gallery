@@ -84,7 +84,7 @@ registerBlockType( 'devrix/easy-image-gallery-block', {
 		},
 		link_images : {
 			type: 'boolean',
-			default: false
+			default: true
 		},
 		lightbox_option : {
 			type: 'string',
