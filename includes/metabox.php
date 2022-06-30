@@ -408,7 +408,7 @@ function easy_image_gallery_save_post( $post_id ) {
 	if ( isset( $_POST['easy_image_gallery_link_images'] ) ) {
 		update_post_meta( $post_id, '_easy_image_gallery_link_images', $_POST['easy_image_gallery_link_images'] );
 	} else {
-		update_post_meta( $post_id, '_easy_image_gallery_link_images', 'off' );
+		update_post_meta( $post_id, '_easy_image_gallery_link_images', 'on' );
 	}
 
 	do_action( 'easy_image_gallery_save_post', $post_id );
