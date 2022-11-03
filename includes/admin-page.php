@@ -15,7 +15,7 @@ function add_eig_plugin_page() {
 		'manage_options',
 		EASY_IMAGE_GALLERY_DIR . 'includes/view/admin-page-view.php',
 		'',
-		'dashicons-images-alt2',
+		'dashicons-images-alt2'
 	);
 }
 add_action( 'admin_menu', 'add_eig_plugin_page' );
