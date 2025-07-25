@@ -165,7 +165,7 @@ function easy_image_gallery_js() {
 
 					<?php
 					$js = ob_get_clean();
-					echo apply_filters( 'easy_image_gallery_prettyphoto_js', $js );
+					echo wp_kses_post( apply_filters( 'easy_image_gallery_prettyphoto_js', $js ) );
 					?>
 
 				<?php
@@ -191,7 +191,7 @@ function easy_image_gallery_js() {
 
 					<?php
 					$js = ob_get_clean();
-					echo apply_filters( 'easy_image_gallery_fancybox_js', $js );
+						echo wp_kses_post( apply_filters( 'easy_image_gallery_fancybox_js', $js ) );
 					?>
 
 				<?php

@@ -42,7 +42,7 @@ function easy_image_gallery_metabox() {
 		<div class="repeat">
 			<div class="eig_repeat_container">
 				<div class="buttons">
-					<span class="button button-primary button-large eig-add"><?php echo __( 'Add new gallery', 'easy-image-gallery' ); ?></span>
+					<span class="button button-primary button-large eig-add"><?php echo esc_html__( 'Add new gallery', 'easy-image-gallery' ); ?></span>
 				</div>
 				<div class="eig_repeat_body">
 					<?php
@@ -59,20 +59,20 @@ function easy_image_gallery_metabox() {
 							<input type="text" hidden="" class="row_count" data-count="{{row-count-placeholder}}">
 							<input type="text" hidden="" id="attachment_ids_{{row-count-placeholder}}" name="image_gallery[{{row-count-placeholder}}][DATA]" value="">
 							<span class="name">Gallery</span>
-							<a href="#" class="dx-eig-gallery-add-images button" data-count="{{row-count-placeholder}}"><?php _e( 'Add images to the gallery', 'easy-image-gallery' ); ?></a>
-							<span class="eig-remove"><img src="<?php echo EASY_IMAGE_GALLERY_URL . 'includes/fonts/close.png'; ?>"></span>
+							<a href="#" class="dx-eig-gallery-add-images button" data-count="{{row-count-placeholder}}"><?php esc_html_e( 'Add images to the gallery', 'easy-image-gallery' ); ?></a>
+							<span class="eig-remove"><img src="<?php echo esc_url( EASY_IMAGE_GALLERY_URL . 'includes/fonts/close.png' ); ?>"></span>
 							<a href="#" class="button button-primary button-small dx-eig-insert-shortcode">Insert this shortcode in the content</a>
 							<input type="text" class="dx-eig-shortcode" name="image_gallery[{{row-count-placeholder}}][SHORTCODE]" value="" hidden>
 							<input type="text" class="dx-eig-shortcode-show" readonly="" value="">
 							<div class="link-image-to-l">
 								<label for="easy_image_gallery_link_images_{{row-count-placeholder}}">
-									<input type="checkbox" id="easy_image_gallery_link_images_{{row-count-placeholder}}" value="on" name="image_gallery[{{row-count-placeholder}}][OPEN_IMAGES]" checked="checked"/> <?php _e( 'Link images to larger sizes', 'easy-image-gallery' ); ?>
+									<input type="checkbox" id="easy_image_gallery_link_images_{{row-count-placeholder}}" value="on" name="image_gallery[{{row-count-placeholder}}][OPEN_IMAGES]" checked="checked"/> <?php esc_html_e( 'Link images to larger sizes', 'easy-image-gallery' ); ?>
 								</label>
 							</div>
 							<div class="dx-eig-clear"></div>
 						</div>
 						<div class="dx-eig-gallery-row-content" id="gallery-{{row-count-placeholder}}">
-							<p class="no-images-message"><?php echo __( 'Please add images in this gallery', 'easy-image-gallery' ); ?></p>
+							<p class="no-images-message"><?php echo esc_html__( 'Please add images in this gallery', 'easy-image-gallery' ); ?></p>
 						</div>
 					</div>
 					<?php
@@ -100,7 +100,7 @@ function easy_image_gallery_metabox() {
 						$get_galleries = array(
 							array(
 								array(
-									'SHORTCODE'   => rand( 100, 999 ),
+									'SHORTCODE'   => wp_rand( 100, 999 ),
 									'DATA'        => $get_gallery_old_data,
 									'OPEN_IMAGES' => $get_open_images[0],
 								),
@@ -133,16 +133,16 @@ function easy_image_gallery_metabox() {
 							?>
 							<div class="dx-eig-gallery-row row">
 								<div class="dx-eig-gallery-row-heading move">
-									<input type="text" hidden="" class="row_count" data-count="<?php echo $gallery_count; ?>">
-									<input type="text" hidden="" id="attachment_ids_<?php echo $gallery_count; ?>" name="image_gallery[<?php echo $gallery_count; ?>][DATA]" value="<?php echo $attachments_string; ?>">
+									<input type="text" hidden="" class="row_count" data-count="<?php echo esc_attr($gallery_count); ?>">
+									<input type="text" hidden="" id="attachment_ids_<?php echo esc_attr($gallery_count); ?>" name="image_gallery[<?php echo esc_attr($gallery_count); ?>][DATA]" value="<?php echo esc_attr($attachments_string); ?>">
 									<span class="name">Gallery</span>
-									<a href="#" class="dx-eig-gallery-add-images button" data-count="<?php echo $gallery_count; ?>"><?php _e( 'Add images to the gallery', 'easy-image-gallery' ); ?></a>
-									<span class="eig-remove"><img src="<?php echo EASY_IMAGE_GALLERY_URL . 'includes/fonts/close.png'; ?>"></span>
+									<a href="#" class="dx-eig-gallery-add-images button" data-count="<?php echo esc_attr($gallery_count); ?>"><?php esc_html_e( 'Add images to the gallery', 'easy-image-gallery' ); ?></a>
+									<span class="eig-remove"><img src="<?php echo esc_url( EASY_IMAGE_GALLERY_URL . 'includes/fonts/close.png' ); ?>"></span>
 									<a href="#" class="button button-primary button-small dx-eig-insert-shortcode">Insert this shortcode in the content</a>
-									<input type="text" class="dx-eig-shortcode" name="image_gallery[<?php echo $gallery_count; ?>][SHORTCODE]" value="<?php echo $gallery['SHORTCODE']; ?>" hidden>
-									<input type="text" class="dx-eig-shortcode-show" readonly="" value='[easy_image_gallery gallery="<?php echo $gallery['SHORTCODE']; ?>"]'>
+									<input type="text" class="dx-eig-shortcode" name="image_gallery[<?php echo esc_attr($gallery_count); ?>][SHORTCODE]" value="<?php echo esc_attr($gallery['SHORTCODE']); ?>" hidden>
+									<input type="text" class="dx-eig-shortcode-show" readonly="" value='[easy_image_gallery gallery="<?php echo esc_attr($gallery['SHORTCODE']); ?>"]'>
 									<div class="link-image-to-l">
-										<label for="easy_image_gallery_link_images_<?php echo $gallery_count; ?>">
+										<label for="easy_image_gallery_link_images_<?php echo esc_attr($gallery_count); ?>">
 											<?php
 											if ( isset( $gallery['OPEN_IMAGES'] ) && $gallery['OPEN_IMAGES'] == 'on' ) {
 												$checked = ' checked="checked"';
@@ -150,21 +150,21 @@ function easy_image_gallery_metabox() {
 												$checked = null;
 											}
 											?>
-											<input type="checkbox" id="easy_image_gallery_link_images_<?php echo $gallery_count; ?>" value="on" name="image_gallery[<?php echo $gallery_count; ?>][OPEN_IMAGES]"<?php echo $checked; ?> /> <?php _e( 'Link images to larger sizes', 'easy-image-gallery' ); ?>
+											<input type="checkbox" id="easy_image_gallery_link_images_<?php echo esc_attr($gallery_count); ?>" value="on" name="image_gallery[<?php echo esc_attr($gallery_count); ?>][OPEN_IMAGES]"<?php echo esc_attr($checked); ?> /> <?php esc_html_e( 'Link images to larger sizes', 'easy-image-gallery' ); ?>
 										</label>
 									</div>
 									<div class="dx-eig-clear"></div>
 								</div>
-								<div class="dx-eig-gallery-row-content" id="gallery-<?php echo $gallery_count; ?>">
+								<div class="dx-eig-gallery-row-content" id="gallery-<?php echo esc_attr($gallery_count); ?>">
 									<?php
 									if ( isset( $get_attachments ) && $get_attachments != null ) {
 										?>
-									<p class="no-images-message" style="display: none;"><?php echo __( 'Please add images in this gallery', 'easy-image-gallery' ); ?></p>
+									<p class="no-images-message" style="display: none;"><?php echo esc_html__( 'Please add images in this gallery', 'easy-image-gallery' ); ?></p>
 									<ul class="gallery_images">
 										<div class="dx-eig-images sortable">
 										<?php
 										foreach ( $get_attachments as $attachemnt ) {
-											echo '<li class="image attachment details" data-attachment_id="' . $attachemnt . '" data-gallery="' . $gallery_count . '">
+												echo '<li class="image attachment details" data-attachment_id="' . esc_attr($attachemnt) . '" data-gallery="' . esc_attr($gallery_count) . '">
                                                 <div class="attachment-preview">
                                                     <div class="thumbnail">
                                                         ' . wp_get_attachment_image( $attachemnt, 'thumbnail' ) . '
@@ -179,7 +179,7 @@ function easy_image_gallery_metabox() {
 									</ul>
 										<?php
 									} else {
-										echo '<p class="no-images-message">' . __( 'Please add images in this gallery', 'easy-image-gallery' ) . '</p>';
+										echo '<p class="no-images-message">' . esc_html__( 'Please add images in this gallery', 'easy-image-gallery' ) . '</p>';
 									}
 									?>
 								</div>
@@ -282,7 +282,7 @@ function easy_image_gallery_metabox() {
 								<div class="thumbnail">\
 									<img src="' + attachment_url + '" />\
 								</div>\
-							   <a href="#" class="delete_dx_image check" title="<?php _e( 'Remove image', 'easy-image-gallery' ); ?>"><div class="media-modal-icon"></div></a>\
+							   <a href="#" class="delete_dx_image check" title="<?php esc_html_e( 'Remove image', 'easy-image-gallery' ); ?>"><div class="media-modal-icon"></div></a>\
 							</div>\
 						</li>');
 					}

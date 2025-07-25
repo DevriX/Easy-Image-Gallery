@@ -40,7 +40,7 @@ function easy_image_gallery_get_post_meta(){
 		}
 
 		$gallery_ids = array(array(
-			"SHORTCODE" => rand(100, 999),
+			"SHORTCODE" => wp_rand(100, 999),
 			"DATA" => $get_gallery_old_data,
 			"OPEN_IMAGES" => $get_open_images[0],
 		));
@@ -441,7 +441,7 @@ function easy_image_gallery( $gallery_id = 'old_db' ) {
                 $classes = implode( ' ', $classes );
     			if ( isset($has_gallery_images) && !empty($has_gallery_images) ) {
 					?>
-	                <ul class="easy-image-gallery <?php echo $classes; ?>">
+	                <ul class="easy-image-gallery <?php echo esc_attr($classes); ?>">
                     <?php
                     	foreach ( $has_gallery_images as $attachment_id ) {
 	                        $classes = array( 'eig-popup' );
@@ -450,7 +450,7 @@ function easy_image_gallery( $gallery_id = 'old_db' ) {
 	                        $image_link	= wp_get_attachment_image_src( $attachment_id, apply_filters( 'easy_image_gallery_linked_image_size', 'large' ) );
 	                        $image_link	= $image_link[0];
 
-	                        $image = wp_get_attachment_image( $attachment_id, apply_filters( 'easy_image_gallery_thumbnail_image_size', 'thumbnail' ), '', array( 'alt' => trim( strip_tags( get_post_meta( $attachment_id, '_wp_attachment_image_alt', true ) ) ) ) );
+	                        $image = wp_get_attachment_image( $attachment_id, apply_filters( 'easy_image_gallery_thumbnail_image_size', 'thumbnail' ), '', array( 'alt' => trim( wp_strip_all_tags( get_post_meta( $attachment_id, '_wp_attachment_image_alt', true ) ) ) ) );
 
 	                        $image_caption = get_post( $attachment_id )->post_excerpt ? esc_attr( get_post( $attachment_id )->post_excerpt ) : '';
 
@@ -465,13 +465,14 @@ function easy_image_gallery( $gallery_id = 'old_db' ) {
 	                        else
 	                            $html = sprintf( '<li>%s</li>', $image );
 
-	                        echo apply_filters( 'easy_image_gallery_html', $html, $rel, $image_link, $image_class, $image_caption, $image, $attachment_id, $post->ID );
-	                    }
+        $eig_gallery = ob_get_clean();
+        return wp_kses_post(apply_filters( 'easy_image_gallery', $eig_gallery ));
+    	                    }
                 	echo '</ul>';
 
-                	if ( easy_image_gallery_get_lightbox() === 'luminous' ) {
-                		echo '<script>new LuminousGallery(document.querySelectorAll("a[rel=\'luminous[group-'.$gallery_id.']\']"));</script>';
-                	}
+if ( easy_image_gallery_get_lightbox() === 'luminous' ) {
+                        echo '<script>new LuminousGallery(document.querySelectorAll("a[rel=\'luminous[group-' . esc_js($gallery_id) . ']\']"));</script>';
+                    }
             	}
             }
         }
