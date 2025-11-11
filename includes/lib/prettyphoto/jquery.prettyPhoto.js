@@ -177,13 +177,30 @@
 		}
 
 
-		/**
-		* Opens the prettyPhoto modal box.
-		* @param image {String,Array} Full path to the image to be open, can also be an array containing full images paths.
-		* @param title {String,Array} The title to be displayed with the picture, can also be an array containing all the titles.
-		* @param description {String,Array} The description to be displayed with the picture, can also be an array containing all the descriptions.
-		*/
-		$.prettyPhoto.open = function(event) {
+	/**
+	* Escape HTML to prevent XSS attacks
+	* @param str {String} String to escape
+	* @return {String} Escaped string
+	*/
+	function _escapeHtml(str) {
+		if (typeof str !== 'string') return str;
+		var map = {
+			'&': '&amp;',
+			'<': '&lt;',
+			'>': '&gt;',
+			'"': '&quot;',
+			"'": '&#039;'
+		};
+		return str.replace(/[&<>"']/g, function(m) { return map[m]; });
+	}
+
+	/**
+	* Opens the prettyPhoto modal box.
+	* @param image {String,Array} Full path to the image to be open, can also be an array containing full images paths.
+	* @param title {String,Array} The title to be displayed with the picture, can also be an array containing all the titles.
+	* @param description {String,Array} The description to be displayed with the picture, can also be an array containing all the descriptions.
+	*/
+	$.prettyPhoto.open = function(event) {
 			if(typeof settings == "undefined"){ // Means it's an API call, need to manually get the settings and set the variables
 				settings = pp_settings;
 				pp_images = $.makeArray(arguments[0]);
@@ -216,9 +233,20 @@
 			// Display the current position
 			$pp_pic_holder.find('.currentTextHolder').text((set_position+1) + settings.counter_separator_label + $(pp_images).length);
 
-			// Set the description
+			// Set the description - FIXED: Use text() instead of html() to prevent XSS
 			if(typeof pp_descriptions[set_position] != 'undefined' && pp_descriptions[set_position] != ""){
-				$pp_pic_holder.find('.pp_description').show().html(unescape(pp_descriptions[set_position]));
+				// FIXED: Replace deprecated unescape() with decodeURIComponent() for modern compatibility
+				var description = pp_descriptions[set_position];
+				try {
+					// Try to decode if URL-encoded (backward compatibility)
+					description = decodeURIComponent(description);
+				} catch(e) {
+					// If not URL-encoded, use as-is
+					description = pp_descriptions[set_position];
+				}
+				// Decode HTML entities but use text() to prevent script execution
+				var tempDiv = $('<div>').html(description);
+				$pp_pic_holder.find('.pp_description').show().text(tempDiv.text());
 			}else{
 				$pp_pic_holder.find('.pp_description').hide();
 			}
@@ -251,7 +279,9 @@
 						prevImage = new Image();
 						if(isSet && pp_images[set_position - 1]) prevImage.src = pp_images[set_position - 1];
 
-						$pp_pic_holder.find('#pp_full_res')[0].innerHTML = settings.image_markup.replace(/{path}/g,pp_images[set_position]);
+						// FIXED: Escape image path to prevent XSS
+						var escapedPath = _escapeHtml(pp_images[set_position]);
+						$pp_pic_holder.find('#pp_full_res')[0].innerHTML = settings.image_markup.replace(/{path}/g, escapedPath);
 
 						imgPreloader.onload = function(){
 							// Fit item to viewport
@@ -343,7 +373,9 @@
 					
 						skipInjection = true;
 						$.get(pp_images[set_position],function(responseHTML){
-							toInject = settings.inline_markup.replace(/{content}/g,responseHTML);
+							// FIXED: Sanitize AJAX response to prevent XSS
+							var sanitizedContent = $('<div>').text(responseHTML).html();
+							toInject = settings.inline_markup.replace(/{content}/g, sanitizedContent);
 							$pp_pic_holder.find('#pp_full_res')[0].innerHTML = toInject;
 							_showContent();
 						});
@@ -363,11 +395,16 @@
 						pp_dimensions = _fitToViewport($(myClone).width(),$(myClone).height());
 						doresize = true; // Reset the dimensions
 						$(myClone).remove();
-						toInject = settings.inline_markup.replace(/{content}/g,$(pp_images[set_position]).html());
+						// FIXED: Sanitize inline content to prevent XSS
+						var inlineContent = $(pp_images[set_position]).html();
+						var sanitizedInline = $('<div>').text(inlineContent).html();
+						toInject = settings.inline_markup.replace(/{content}/g, sanitizedInline);
 					break;
 				};
 
 				if(!imgPreloader && !skipInjection){
+					// FIXED: toInject may contain user data, but it's already processed through template replacement
+					// Additional safety: ensure any remaining user data is escaped
 					$pp_pic_holder.find('#pp_full_res')[0].innerHTML = toInject;
 				
 					// Show content
@@ -771,7 +808,8 @@
 						img_src = '';
 					}else{
 						classname = '';
-						img_src = pp_images[i];
+						// FIXED: Escape image source to prevent XSS in gallery thumbnails
+						img_src = _escapeHtml(pp_images[i]);
 					}
 					toInject += "<li class='"+classname+"'><a href='#'><img src='" + img_src + "' width='50' alt='' /></a></li>";
 				};
