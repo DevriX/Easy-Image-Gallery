@@ -441,7 +441,7 @@ function easy_image_gallery( $gallery_id = 'old_db' ) {
                 $classes = implode( ' ', $classes );
     			if ( isset($has_gallery_images) && !empty($has_gallery_images) ) {
 					?>
-	                <ul class="easy-image-gallery <?php echo $classes; ?>">
+	                <ul class="easy-image-gallery <?php echo esc_attr( $classes ); ?>">
                     <?php
                     	foreach ( $has_gallery_images as $attachment_id ) {
 	                        $classes = array( 'eig-popup' );
@@ -465,12 +465,16 @@ function easy_image_gallery( $gallery_id = 'old_db' ) {
 	                        else
 	                            $html = sprintf( '<li>%s</li>', $image );
 
-	                        echo apply_filters( 'easy_image_gallery_html', $html, $rel, $image_link, $image_class, $image_caption, $image, $attachment_id, $post->ID );
+	                        echo wp_kses_post( apply_filters( 'easy_image_gallery_html', $html, $rel, $image_link, $image_class, $image_caption, $image, $attachment_id, $post->ID ) );
 	                    }
                 	echo '</ul>';
 
                 	if ( easy_image_gallery_get_lightbox() === 'luminous' ) {
-                		echo '<script>new LuminousGallery(document.querySelectorAll("a[rel=\'luminous[group-'.$gallery_id.']\']"));</script>';
+						$luminous_selector = sprintf( "a[rel='luminous[group-%s]']", $gallery_id );
+						printf(
+							'<script>new LuminousGallery(document.querySelectorAll(%s));</script>',
+							wp_json_encode( $luminous_selector )
+						);
                 	}
             	}
             }

@@ -153,7 +153,6 @@ function easy_image_gallery_js() {
 			case 'prettyphoto':
 					ob_start();
 				?>
-
 					<script>
 						jQuery(document).ready(function() {
 							jQuery("a[rel^='prettyPhoto']").prettyPhoto({
@@ -162,10 +161,13 @@ function easy_image_gallery_js() {
 							});
 						});
 					</script>
-
 					<?php
 					$js = ob_get_clean();
-					echo apply_filters( 'easy_image_gallery_prettyphoto_js', $js );
+					$js = apply_filters( 'easy_image_gallery_prettyphoto_js', $js );
+					if ( preg_match( '/<script\b[^>]*>(.*)<\/script>/is', $js, $matches ) ) {
+						$js = $matches[1];
+					}
+					wp_print_inline_script_tag( trim( $js ) );
 					?>
 
 				<?php
@@ -174,7 +176,6 @@ function easy_image_gallery_js() {
 			case 'fancybox':
 					ob_start();
 				?>
-
 					<script>
 						jQuery(document).ready(function() {
 
@@ -188,10 +189,13 @@ function easy_image_gallery_js() {
 
 						});
 					</script>
-
 					<?php
 					$js = ob_get_clean();
-					echo apply_filters( 'easy_image_gallery_fancybox_js', $js );
+					$js = apply_filters( 'easy_image_gallery_fancybox_js', $js );
+					if ( preg_match( '/<script\b[^>]*>(.*)<\/script>/is', $js, $matches ) ) {
+						$js = $matches[1];
+					}
+					wp_print_inline_script_tag( trim( $js ) );
 					?>
 
 				<?php
