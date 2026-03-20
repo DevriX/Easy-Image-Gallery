@@ -49,11 +49,23 @@ function easy_image_gallery_scripts() {
 
 	if ( ! empty( $gutenberg_galleries ) ) {
 		foreach ( $gutenberg_galleries as $value ) {
-			// CSS
-			wp_enqueue_style( $value );
+			// CSS (empty src: use handle registered in easy_image_gallery_scripts()).
+			wp_enqueue_style(
+				$value,
+				'',
+				array(),
+				EASY_IMAGE_GALLERY_VERSION,
+				'screen'
+			);
 
-			// JS
-			wp_enqueue_script( $value );
+			// JS — explicit version so caches bust when the plugin updates.
+			wp_enqueue_script(
+				$value,
+				'',
+				array(),
+				EASY_IMAGE_GALLERY_VERSION,
+				true
+			);
 		}
 	}
 
@@ -217,8 +229,8 @@ add_action( 'wp_footer', 'easy_image_gallery_js', 20 );
 
 
 function easy_image_gallery_admin_scripts() {
-	wp_enqueue_script( 'repeatable-fields', EASY_IMAGE_GALLERY_URL . 'includes/lib/repeatable-fields.js', array( 'jquery', 'jquery-ui-core' ) );
-	wp_enqueue_style( 'easy_image_gallery_admin_css', EASY_IMAGE_GALLERY_URL . 'includes/css/easy-image-gallery-admin.css' );
+	wp_enqueue_script('repeatable-fields',EASY_IMAGE_GALLERY_URL . 'includes/lib/repeatable-fields.js',array( 'jquery', 'jquery-ui-core' ),EASY_IMAGE_GALLERY_VERSION,false);
+	wp_enqueue_style('easy_image_gallery_admin_css',EASY_IMAGE_GALLERY_URL . 'includes/css/easy-image-gallery-admin.css',array(),EASY_IMAGE_GALLERY_VERSION);
 }
 
 add_action( 'admin_head', 'easy_image_gallery_admin_scripts' );

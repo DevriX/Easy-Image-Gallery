@@ -100,7 +100,7 @@ function easy_image_gallery_metabox() {
 						$get_galleries = array(
 							array(
 								array(
-									'SHORTCODE'   => rand( 100, 999 ),
+									'SHORTCODE'   => wp_rand( 100, 999 ),
 									'DATA'        => $get_gallery_old_data,
 									'OPEN_IMAGES' => $get_open_images[0],
 								),
@@ -360,31 +360,53 @@ function easy_image_gallery_save_post( $post_id ) {
 		return;
 	}
 
-	$post_types = easy_image_gallery_allowed_post_types();
+	if ( wp_is_post_revision( $post_id ) ) {
+		return;
+	}
 
-	// check user permissions
-	if ( isset( $_POST['post_type'] ) && ! array_key_exists( $_POST['post_type'], $post_types ) ) {
+	$post_id = (int) $post_id;
+	if ( $post_id <= 0 ) {
+		return;
+	}
+
+	$post_types = easy_image_gallery_allowed_post_types();
+	if ( empty( $post_types ) || ! is_array( $post_types ) ) {
+		return;
+	}
+
+	// Check user permissions (use stored post type, not $_POST — avoids unverified POST reads).
+	$easy_image_gallery_current_post_type = get_post_type( $post_id );
+	if ( $easy_image_gallery_current_post_type && ! array_key_exists( $easy_image_gallery_current_post_type, $post_types ) ) {
 		if ( ! current_user_can( 'edit_page', $post_id ) ) {
 			return;
 		}
-	} else {
-		if ( ! current_user_can( 'edit_post', $post_id ) ) {
-			return;
-		}
+	} elseif ( ! current_user_can( 'edit_post', $post_id ) ) {
+		return;
 	}
 
-	if ( isset( $_POST['action'] ) && $_POST['action'] === 'inline-save' ) {
+	// Require core post update nonce before any $_POST reads (incl. action / gallery fields).
+	if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) ), 'update-post_' . $post_id ) ) {
+		return;
+	}
+
+	if ( isset( $_POST['action'] ) && 'inline-save' === $_POST['action'] ) {
 		return;
 	}
 
 	if ( isset( $_POST['image_gallery'] ) && ! empty( $_POST['image_gallery'] ) ) {
 		$galleries = array();
 
-		foreach ( $_POST['image_gallery'] as $gallery ) {
-			$gallery['DATA'] = sanitize_text_field( $gallery['DATA'] );
+		$easy_image_gallery_post = map_deep( wp_unslash( $_POST['image_gallery'] ), 'sanitize_text_field' );
 
-			if ( $gallery['DATA'] != null ) {
-				$convert_to_arr = explode( ',', $gallery['DATA'] );
+		foreach ( $easy_image_gallery_post as $gallery ) {
+			if ( ! is_array( $gallery ) ) {
+				continue;
+			}
+
+			$gallery_data = isset( $gallery['DATA'] ) ? $gallery['DATA'] : '';
+
+			if ( '' !== $gallery_data ) {
+				$convert_to_arr = explode( ',', $gallery_data );
 			} else {
 				$convert_to_arr = null;
 			}
@@ -395,13 +417,17 @@ function easy_image_gallery_save_post( $post_id ) {
 
 		update_post_meta( $post_id, '_easy_image_gallery_v2', $galleries );
 		delete_post_meta( $post_id, '_easy_image_gallery' );
-	} elseif ( isset( $_POST['action'] ) && 'editpost' == $_POST['action'] ) {
+	} elseif ( isset( $_POST['action'] ) && 'editpost' === $_POST['action'] ) {
 		delete_post_meta( $post_id, '_easy_image_gallery_v2' );
 	}
 
-	// link to larger images
+	// Link to larger images (legacy POST key).
 	if ( isset( $_POST['easy_image_gallery_link_images'] ) ) {
-		update_post_meta( $post_id, '_easy_image_gallery_link_images', $_POST['easy_image_gallery_link_images'] );
+		update_post_meta(
+			$post_id,
+			'_easy_image_gallery_link_images',
+			sanitize_text_field( wp_unslash( $_POST['easy_image_gallery_link_images'] ) )
+		);
 	} else {
 		update_post_meta( $post_id, '_easy_image_gallery_link_images', 'on' );
 	}
