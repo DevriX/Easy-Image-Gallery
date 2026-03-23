@@ -120,7 +120,7 @@ The plugin ownership was transferred to DevriX. There are no functionality chang
 
 = 1.5.4 = 
 * Fixed vulnerability report
-* Tested up with WordPress 6.9.4
+* Tested up to WordPress 6.9.4
 
 = 1.5.3 =
 * Fixed XSS report about prettyPhoto library
