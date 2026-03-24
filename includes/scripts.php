@@ -46,26 +46,19 @@ function easy_image_gallery_scripts() {
 
 	$linked_images       = true;
 	$gutenberg_galleries = easy_image_gallery_if_gutenberg_block();
+	$known_lightboxes    = array( 'pretty-photo', 'fancybox', 'luminous' );
 
 	if ( ! empty( $gutenberg_galleries ) ) {
 		foreach ( $gutenberg_galleries as $value ) {
-			// CSS (empty src: use handle registered in easy_image_gallery_scripts()).
-			wp_enqueue_style(
-				$value,
-				'',
-				array(),
-				EASY_IMAGE_GALLERY_VERSION,
-				'screen'
-			);
+			if ( ! in_array( $value, $known_lightboxes, true ) ) {
+				continue;
+			}
 
-			// JS — explicit version so caches bust when the plugin updates.
-			wp_enqueue_script(
-				$value,
-				'',
-				array(),
-				EASY_IMAGE_GALLERY_VERSION,
-				true
-			);
+			if ( 'luminous' !== $value ) {
+				wp_enqueue_style( $value );
+			}
+
+			wp_enqueue_script( $value );
 		}
 	}
 
@@ -229,8 +222,20 @@ add_action( 'wp_footer', 'easy_image_gallery_js', 20 );
 
 
 function easy_image_gallery_admin_scripts() {
-	wp_enqueue_script('repeatable-fields',EASY_IMAGE_GALLERY_URL . 'includes/lib/repeatable-fields.js',array( 'jquery', 'jquery-ui-core' ),EASY_IMAGE_GALLERY_VERSION,false);
-	wp_enqueue_style('easy_image_gallery_admin_css',EASY_IMAGE_GALLERY_URL . 'includes/css/easy-image-gallery-admin.css',array(),EASY_IMAGE_GALLERY_VERSION);
+	wp_enqueue_script(
+		'repeatable-fields',
+		EASY_IMAGE_GALLERY_URL . 'includes/lib/repeatable-fields.js',
+		array( 'jquery', 'jquery-ui-core' ),
+		EASY_IMAGE_GALLERY_VERSION,
+		false
+	);
+
+	wp_enqueue_style(
+		'easy_image_gallery_admin_css',
+		EASY_IMAGE_GALLERY_URL . 'includes/css/easy-image-gallery-admin.css',
+		array(),
+		EASY_IMAGE_GALLERY_VERSION
+	);
 }
 
-add_action( 'admin_head', 'easy_image_gallery_admin_scripts' );
+add_action( 'admin_enqueue_scripts', 'easy_image_gallery_admin_scripts' );
