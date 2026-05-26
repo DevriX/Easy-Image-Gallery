@@ -100,7 +100,7 @@ function easy_image_gallery_metabox() {
 						$get_galleries = array(
 							array(
 								array(
-									'SHORTCODE'   => wp_rand( 100, 999 ),
+									'SHORTCODE'   => (string) wp_rand( 100000, 999999999 ),
 									'DATA'        => $get_gallery_old_data,
 									'OPEN_IMAGES' => $get_open_images[0],
 								),
@@ -110,12 +110,21 @@ function easy_image_gallery_metabox() {
 
 					$gallery_count = -1;
 					if ( isset( $get_galleries ) && ! empty( $get_galleries ) ) {
+						$existing_shortcodes = array();
+
 						foreach ( $get_galleries[0] as $gallery ) {
 							$gallery_count   = $gallery_count + 1;
+
 							$gallery_shortcode = easy_image_gallery_sanitize_gallery_id( $gallery['SHORTCODE'] );
-							if ( '' === $gallery_shortcode ) {
-								$gallery_shortcode = (string) wp_rand( 100, 999 );
+							if ( '' === $gallery_shortcode || in_array( $gallery_shortcode, $existing_shortcodes, true ) ) {
+								do {
+									$candidate = (string) wp_rand( 100000, 999999999 );
+								} while ( in_array( $candidate, $existing_shortcodes, true ) );
+
+								$gallery_shortcode = $candidate;
 							}
+
+							$existing_shortcodes[] = $gallery_shortcode;
 							$get_attachments = $gallery['DATA'];
 
 							// Convert attachements to string
@@ -402,6 +411,8 @@ function easy_image_gallery_save_post( $post_id ) {
 
 		$easy_image_gallery_post = map_deep( wp_unslash( $_POST['image_gallery'] ), 'sanitize_text_field' );
 
+		$existing_shortcodes = array();
+
 		foreach ( $easy_image_gallery_post as $gallery ) {
 			if ( ! is_array( $gallery ) ) {
 				continue;
@@ -419,9 +430,16 @@ function easy_image_gallery_save_post( $post_id ) {
 
 			if ( isset( $gallery['SHORTCODE'] ) ) {
 				$gallery['SHORTCODE'] = easy_image_gallery_sanitize_gallery_id( $gallery['SHORTCODE'] );
-				if ( '' === $gallery['SHORTCODE'] ) {
-					$gallery['SHORTCODE'] = (string) wp_rand( 100, 999 );
+
+				if ( '' === $gallery['SHORTCODE'] || in_array( $gallery['SHORTCODE'], $existing_shortcodes, true ) ) {
+					do {
+						$candidate = (string) wp_rand( 100000, 999999999 );
+					} while ( in_array( $candidate, $existing_shortcodes, true ) );
+
+					$gallery['SHORTCODE'] = $candidate;
 				}
+
+				$existing_shortcodes[] = $gallery['SHORTCODE'];
 			}
 
 			$galleries[] = $gallery;

@@ -440,17 +440,24 @@ function easy_image_gallery( $gallery_id = 'old_db' ) {
         ob_start();
         foreach ($galleries as $gallery){
 
-            if ( $gallery_id == 'old_db' ) {
-                $gallery_id = easy_image_gallery_sanitize_gallery_id( $gallery['SHORTCODE'] );
-            } else {
-                $gallery_id = easy_image_gallery_sanitize_gallery_id( $gallery_id );
-            }
+			$current_gallery_id = $gallery_id;
 
-            if ( '' === $gallery_id ) {
-                continue;
-            }
+			if ( 'old_db' === $current_gallery_id ) {
+				$candidate = easy_image_gallery_sanitize_gallery_id( $gallery['SHORTCODE'] );
+				if ( '' === $candidate ) {
+					// Couldn't derive a valid numeric ID from this gallery; try the next one.
+					continue;
+				}
 
-            if ( (string) easy_image_gallery_sanitize_gallery_id( $gallery['SHORTCODE'] ) === (string) $gallery_id ) {
+				$current_gallery_id = $candidate;
+			} else {
+				$current_gallery_id = easy_image_gallery_sanitize_gallery_id( $current_gallery_id );
+				if ( '' === $current_gallery_id ) {
+					continue;
+				}
+			}
+
+			if ( (string) easy_image_gallery_sanitize_gallery_id( $gallery['SHORTCODE'] ) === (string) $current_gallery_id ) {
                 $gallery_exist = true;
 
                 $has_gallery_images = $gallery['DATA'];
@@ -492,7 +499,7 @@ function easy_image_gallery( $gallery_id = 'old_db' ) {
 
 	                        $lightbox = easy_image_gallery_get_lightbox();
 
-	                        $rel =  easy_image_gallery_lightbox_rel( $gallery_id );
+							$rel =  easy_image_gallery_lightbox_rel( $current_gallery_id );
 
 	                        if ( isset($gallery['OPEN_IMAGES']) && $gallery['OPEN_IMAGES'] == 'on' )
 	                            $html = sprintf( '<li><a %s href="%s" class="%s" title="%s" data-caption="%s" target="_blank"><i class="icon-view"></i><span class="overlay"></span>%s</a></li>', $rel, esc_url( $image_link ), $image_class, $image_caption, $image_caption, $image );
@@ -504,7 +511,7 @@ function easy_image_gallery( $gallery_id = 'old_db' ) {
                 	echo '</ul>';
 
                 	if ( easy_image_gallery_get_lightbox() === 'luminous' ) {
-						$luminous_selector = sprintf( "a[rel='luminous[group-%s]']", easy_image_gallery_sanitize_gallery_id( $gallery_id ) );
+						$luminous_selector = sprintf( "a[rel='luminous[group-%s]']", easy_image_gallery_sanitize_gallery_id( $current_gallery_id ) );
 						printf(
 							'<script>new LuminousGallery(document.querySelectorAll(%s));</script>',
 							wp_json_encode( $luminous_selector )
