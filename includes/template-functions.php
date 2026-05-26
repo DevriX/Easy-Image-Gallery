@@ -385,7 +385,7 @@ function easy_image_gallery_shortcode( $atts ) {
 
 	// return early if the post type is not allowed to have a gallery
 	if ( ! easy_image_gallery_allowed_post_type() ) {
-		return;
+		return '';
 	}
 
 	$atts = shortcode_atts(
@@ -401,7 +401,7 @@ function easy_image_gallery_shortcode( $atts ) {
 		if ( '' !== $gallery_id ) {
 			return easy_image_gallery( $gallery_id );
 		}
-		return;
+		return '';
 	}
 
 	return easy_image_gallery( 'old_db' );
