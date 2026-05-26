@@ -230,7 +230,13 @@ function easy_image_gallery_sanitize_gallery_id( $gallery_id ) {
 		return '';
 	}
 
-	return preg_replace( '/[^0-9]/', '', (string) $gallery_id );
+	$sanitized_gallery_id = preg_replace( '/[^0-9]/', '', (string) $gallery_id );
+
+	if ( '' === $sanitized_gallery_id ) {
+		return '';
+	}
+
+	return $sanitized_gallery_id;
 }
 
 /**
