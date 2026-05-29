@@ -100,7 +100,7 @@ function easy_image_gallery_metabox() {
 						$get_galleries = array(
 							array(
 								array(
-									'SHORTCODE'   => wp_rand( 100, 999 ),
+									'SHORTCODE'   => (string) wp_rand( 100000, 999999999 ),
 									'DATA'        => $get_gallery_old_data,
 									'OPEN_IMAGES' => $get_open_images[0],
 								),
@@ -110,8 +110,21 @@ function easy_image_gallery_metabox() {
 
 					$gallery_count = -1;
 					if ( isset( $get_galleries ) && ! empty( $get_galleries ) ) {
+						$existing_shortcodes = array();
+
 						foreach ( $get_galleries[0] as $gallery ) {
 							$gallery_count   = $gallery_count + 1;
+
+							$gallery_shortcode = easy_image_gallery_sanitize_gallery_id( $gallery['SHORTCODE'] );
+							if ( '' === $gallery_shortcode || in_array( $gallery_shortcode, $existing_shortcodes, true ) ) {
+								do {
+									$candidate = (string) wp_rand( 100000, 999999999 );
+								} while ( in_array( $candidate, $existing_shortcodes, true ) );
+
+								$gallery_shortcode = $candidate;
+							}
+
+							$existing_shortcodes[] = $gallery_shortcode;
 							$get_attachments = $gallery['DATA'];
 
 							// Convert attachements to string
@@ -139,8 +152,8 @@ function easy_image_gallery_metabox() {
 									<a href="#" class="dx-eig-gallery-add-images button" data-count="<?php echo esc_attr( (string) $gallery_count ); ?>"><?php esc_html_e( 'Add images to the gallery', 'easy-image-gallery' ); ?></a>
 									<span class="eig-remove"><img src="<?php echo esc_url( EASY_IMAGE_GALLERY_URL . 'includes/fonts/close.png' ); ?>" alt=""></span>
 									<a href="#" class="button button-primary button-small dx-eig-insert-shortcode">Insert this shortcode in the content</a>
-									<input type="text" class="dx-eig-shortcode" name="image_gallery[<?php echo esc_attr( (string) $gallery_count ); ?>][SHORTCODE]" value="<?php echo esc_attr( (string) $gallery['SHORTCODE'] ); ?>" hidden>
-									<input type="text" class="dx-eig-shortcode-show" readonly="" value="<?php echo esc_attr( '[easy_image_gallery gallery="' . $gallery['SHORTCODE'] . '"]' ); ?>">
+									<input type="text" class="dx-eig-shortcode" name="image_gallery[<?php echo esc_attr( (string) $gallery_count ); ?>][SHORTCODE]" value="<?php echo esc_attr( $gallery_shortcode ); ?>" hidden>
+									<input type="text" class="dx-eig-shortcode-show" readonly="" value="<?php echo esc_attr( '[easy_image_gallery gallery="' . $gallery_shortcode . '"]' ); ?>">
 									<div class="link-image-to-l">
 										<label for="easy_image_gallery_link_images_<?php echo esc_attr( (string) $gallery_count ); ?>">
 											<input type="checkbox" id="easy_image_gallery_link_images_<?php echo esc_attr( (string) $gallery_count ); ?>" value="on" name="image_gallery[<?php echo esc_attr( (string) $gallery_count ); ?>][OPEN_IMAGES]" <?php checked( isset( $gallery['OPEN_IMAGES'] ) ? $gallery['OPEN_IMAGES'] : '', 'on' ); ?> /> <?php esc_html_e( 'Link images to larger sizes', 'easy-image-gallery' ); ?>
@@ -398,6 +411,8 @@ function easy_image_gallery_save_post( $post_id ) {
 
 		$easy_image_gallery_post = map_deep( wp_unslash( $_POST['image_gallery'] ), 'sanitize_text_field' );
 
+		$existing_shortcodes = array();
+
 		foreach ( $easy_image_gallery_post as $gallery ) {
 			if ( ! is_array( $gallery ) ) {
 				continue;
@@ -412,7 +427,22 @@ function easy_image_gallery_save_post( $post_id ) {
 			}
 
 			$gallery['DATA'] = $convert_to_arr;
-			$galleries[]     = $gallery;
+
+			if ( isset( $gallery['SHORTCODE'] ) ) {
+				$gallery['SHORTCODE'] = easy_image_gallery_sanitize_gallery_id( $gallery['SHORTCODE'] );
+
+				if ( '' === $gallery['SHORTCODE'] || in_array( $gallery['SHORTCODE'], $existing_shortcodes, true ) ) {
+					do {
+						$candidate = (string) wp_rand( 100000, 999999999 );
+					} while ( in_array( $candidate, $existing_shortcodes, true ) );
+
+					$gallery['SHORTCODE'] = $candidate;
+				}
+
+				$existing_shortcodes[] = $gallery['SHORTCODE'];
+			}
+
+			$galleries[] = $gallery;
 		}
 
 		update_post_meta( $post_id, '_easy_image_gallery_v2', $galleries );
