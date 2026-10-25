@@ -348,11 +348,13 @@ function easy_image_gallery_allowed_post_type() {
 
 	// post types don't exist, bail
 	if ( ! $post_types )
-		return;
+		return false;
 
 	// check the two against each other
 	if ( array_key_exists( $post_type, $post_types ) )
 		return true;
+
+	return false;
 }
 
 

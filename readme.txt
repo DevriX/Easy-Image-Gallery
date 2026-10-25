@@ -1,9 +1,9 @@
 === Easy Image Gallery ===
 Contributors: devrix, nofearinc
-Tags: image gallery, image, galleries, simple, easy, devrix
-Requires at least: 3.5
-Tested up to: 6.9.4
-Stable tag: 1.5.5
+Tags: image gallery, gallery, lightbox, images, photo gallery
+Requires at least: 5.7
+Tested up to: 7.1
+Stable tag: 1.5.7
 Requires PHP: 7.4.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -117,6 +117,16 @@ In your WordPress admin under Settings -> Media
 The plugin ownership was transferred to DevriX. There are no functionality changes. We are going to work on a few version, adding some nice feature in the near feature, stay tuned! :)
 
 == Changelog ==
+
+= 1.5.7 =
+* Fixed: a PHP warning ("Attempt to read property ID on null") in the Site Editor, the widgets screen and the Customizer, which could break those screens when errors are displayed.
+
+= 1.5.6 =
+* Security: the block editor now loads the maintained prettyPhoto build instead of an older bundled copy; unused older library copies (fancyBox 1.3.4, prettyPhoto 3.1.6) are removed.
+* Fixed: browsers kept cached scripts and styles across updates (the asset version was stuck at 1.2).
+* Fixed: a PHP warning in the gallery metabox.
+* The plugin no longer ships development files. Requires WordPress 5.7, which it already needed.
+* Tested with WordPress 7.1, PHP 7.4 to 8.5.
 
 = 1.5.5 =
 * Security: Escape gallery IDs in lightbox HTML attributes (fancybox, prettyPhoto, luminous) to prevent stored XSS via shortcode or post meta.

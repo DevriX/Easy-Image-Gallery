@@ -64,8 +64,8 @@ function easy_image_gallery_block_cgb_block_assets() { // phpcs:ignore
 	);
 
 	if ( is_admin() ) {
-		wp_register_script( 'pretty-photo-js', EASY_IMAGE_BLOCK_GALLERY_URL . 'dist/lib/prettyphoto/jquery.prettyPhoto.js', array( 'jquery' ), 1, true );
-		wp_register_script( 'fancybox-js', EASY_IMAGE_BLOCK_GALLERY_URL . 'dist/lib/fancybox/jquery.fancybox-1.3.4.pack.js', array( 'jquery' ), 1, true );
+		// The editor previews galleries with the same maintained prettyPhoto build the front end uses.
+		wp_register_script( 'pretty-photo-js', EASY_IMAGE_GALLERY_URL . 'includes/lib/prettyphoto/jquery.prettyPhoto.js', array( 'jquery' ), easy_image_gallery_block_asset_version(), true );
 	}
 
 	// CSS
@@ -91,7 +91,8 @@ add_action( 'enqueue_block_assets', 'easy_image_gallery_block_cgb_block_assets' 
 function easy_image_gallery_block_cgb_editor_assets() { // phpcs:ignore
 	global $post;
 
-	if ( true === easy_image_gallery_hide( $post->ID) ) {
+	// No post in the Site Editor, widgets screen or Customizer: still register the block, skip the per-post check.
+	if ( ! empty( $post->ID ) && true === easy_image_gallery_hide( $post->ID ) ) {
 		return;
 	}
 

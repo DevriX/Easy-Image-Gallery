@@ -102,7 +102,7 @@ function easy_image_gallery_metabox() {
 								array(
 									'SHORTCODE'   => (string) wp_rand( 100000, 999999999 ),
 									'DATA'        => $get_gallery_old_data,
-									'OPEN_IMAGES' => $get_open_images[0],
+									'OPEN_IMAGES' => isset( $get_open_images[0] ) ? $get_open_images[0] : null,
 								),
 							),
 						);
